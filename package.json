@@ -33,7 +33,7 @@
     "format": "prettier . --write"
   },
   "lint-staged": {
-    "*.{ts, tsx}": ["npm run lint:fix"]
+    "*.{ts,tsx}": "eslint --fix"
   },
   "eslintConfig": {
     "extends": [
