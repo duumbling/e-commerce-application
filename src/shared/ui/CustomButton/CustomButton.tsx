@@ -6,18 +6,16 @@ import { style } from "./style";
 type Props = Pick<ButtonProps, "variant" | "children" | "onClick" | "sx">;
 
 export const CustomButton = ({
-  variant,
+  variant = "contained",
   children,
   sx,
   onClick,
 }: Props): JSX.Element => {
-  const currentVariant = variant ?? "contained";
-
   return (
     <Button
-      variant={currentVariant}
+      variant={variant}
       onClick={onClick}
-      sx={{ ...style[currentVariant], ...sx }}
+      sx={{ ...style[variant], ...sx }}
     >
       {children}
     </Button>
