@@ -1,5 +1,5 @@
 import {
-  CONTAINED_BUTTON_BG_COLOR,
+  PRIMARY_COLOR,
   CONTAINED_BUTTON_BG_HOVER_COLOR,
   OUTLINED_BUTTON_BORDER_COLOR,
   OUTLINED_BUTTON_COLOR,
@@ -8,7 +8,7 @@ import {
 
 export const style = {
   contained: {
-    backgroundColor: CONTAINED_BUTTON_BG_COLOR,
+    backgroundColor: PRIMARY_COLOR,
     fontWeight: 800,
     "&:hover": {
       backgroundColor: CONTAINED_BUTTON_BG_HOVER_COLOR,
