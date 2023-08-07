@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Button } from "@mui/material";
 
-function App(): JSX.Element {
+function App() {
   return (
     <div className="App">
       <header className="App-header">
