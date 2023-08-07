@@ -25,5 +25,7 @@ module.exports = {
     project: "./tsconfig.json",
   },
   ignorePatterns: [".eslintrc.js", "*.html"],
-  rules: {},
+  rules: {
+    "@typescript-eslint/explicit-function-return-type": "off"
+  },
 };
