@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, type ButtonProps } from "@mui/material";
-
 import { style } from "./style";
 
 type Props = Pick<ButtonProps, "variant" | "children" | "onClick" | "sx">;

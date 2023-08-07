@@ -1,30 +1,24 @@
-import {
-  PRIMARY_COLOR,
-  CONTAINED_BUTTON_BG_HOVER_COLOR,
-  OUTLINED_BUTTON_BORDER_COLOR,
-  OUTLINED_BUTTON_COLOR,
-  TEXT_BUTTON_COLOR,
-} from "../../constants/colors";
+import { PRIMARY_COLOR, ButtonColors } from "../../constants/colors";
 
 export const style = {
   contained: {
     backgroundColor: PRIMARY_COLOR,
     fontWeight: 800,
     "&:hover": {
-      backgroundColor: CONTAINED_BUTTON_BG_HOVER_COLOR,
+      backgroundColor: ButtonColors.CONTAINED_BUTTON_BG_HOVER,
     },
   },
   text: {
-    color: TEXT_BUTTON_COLOR,
+    color: ButtonColors.TEXT_BUTTON,
     fontWeight: 700,
   },
   outlined: {
-    color: OUTLINED_BUTTON_COLOR,
+    color: ButtonColors.OUTLINED_BUTTON,
     fontWeight: 700,
-    borderColor: OUTLINED_BUTTON_BORDER_COLOR,
+    borderColor: ButtonColors.OUTLINED_BUTTON_BORDER,
     borderWidth: 2,
     "&:hover": {
-      borderColor: OUTLINED_BUTTON_COLOR,
+      borderColor: ButtonColors.OUTLINED_BUTTON,
     },
   },
 } as const;
