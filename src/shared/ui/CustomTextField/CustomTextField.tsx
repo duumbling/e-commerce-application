@@ -8,9 +8,9 @@ import {
   textFieldStyle,
 } from "./style";
 
-type CustomInputProps = Omit<TextFieldProps, "variant" | "size">;
+type CustomTextFieldProps = Omit<TextFieldProps, "variant" | "size">;
 
-export const CustomTextField = (props: CustomInputProps) => {
+export const CustomTextField = (props: CustomTextFieldProps) => {
   return (
     <TextField
       {...props}
