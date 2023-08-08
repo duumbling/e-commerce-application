@@ -4,9 +4,10 @@ import {
   inputLabelClasses,
   formHelperTextClasses,
 } from "@mui/material";
-
-const INPUT_BORDER_WIDTH = 1.5;
-const INPUT_HOVER_BORDER_WIDTH = INPUT_BORDER_WIDTH + 0.5;
+import {
+  INPUT_BORDER_WIDTH,
+  INPUT_HOVER_BORDER_WIDTH,
+} from "../../constants/sizes";
 
 const classes = {
   root: `&.${inputBaseClasses.root} fieldset`,
