@@ -1,0 +1,8 @@
+export const PRIMARY_COLOR = "#F7D22D";
+
+export const enum ButtonColors {
+  CONTAINED_BUTTON_BG_HOVER = "#EFCC00",
+  TEXT_BUTTON = "#696F7A",
+  OUTLINED_BUTTON = "#0E0C0D",
+  OUTLINED_BUTTON_BORDER = "#E3ECF5",
+}
