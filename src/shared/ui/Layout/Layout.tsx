@@ -1,18 +1,14 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Header from "../Header";
 
 const Layout = () => {
   return (
-    <>
-      {/* TODO Заменить это нормальным хедером. */}
-      <header>
-        <Link to="/">Main</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-      </header>
+    <div className="wrapper">
+      <Header />
       <Outlet />
       <footer>--Footer--</footer>
-    </>
+    </div>
   );
 };
 
