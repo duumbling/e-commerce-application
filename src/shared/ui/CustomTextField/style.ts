@@ -10,7 +10,8 @@ import {
 } from "../../constants/sizes";
 
 const classes = {
-  root: `&.${inputBaseClasses.root} fieldset`,
+  inputRoot: `&.${inputBaseClasses.root} input`,
+  fieldsetRoot: `&.${inputBaseClasses.root} fieldset`,
   hover: `&.${inputBaseClasses.root}&:hover fieldset`,
   focus: `&.${inputBaseClasses.focused} fieldset`,
   error: `&.${inputBaseClasses.error} fieldset`,
@@ -23,15 +24,16 @@ const classes = {
   helperText: `&.${formHelperTextClasses.error}`,
 };
 
-export const textFieldStyle = {
-  color: InputColors.TEXT,
-  fontSize: 15,
-  fontWeight: 700,
-  lineHeight: 28,
-};
-
 export const inputStyle = {
-  [classes.root]: {
+  [classes.inputRoot]: {
+    color: InputColors.TEXT,
+    fontSize: 15,
+    fontWeight: 700,
+    lineHeight: 28,
+    paddingTop: 1.25,
+    paddingBottom: 1.25,
+  },
+  [classes.fieldsetRoot]: {
     borderWidth: INPUT_BORDER_WIDTH,
     borderRadius: 2,
   },
