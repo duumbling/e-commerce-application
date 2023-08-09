@@ -13,13 +13,13 @@ interface CustomSwitchProps {
   sx?: SxProps;
   name: string;
   checked?: boolean;
-  customSize?: string;
+  customSize?: CustomSize;
   handleChange?: () => void;
 }
 
 const enum CustomSize {
-  Big = "big",
-  Small = "small",
+  BIG = "big",
+  SMALL = "small",
 }
 
 function CustomSwitch({
@@ -27,11 +27,11 @@ function CustomSwitch({
   sx,
   name,
   checked,
-  customSize = CustomSize.Small,
+  customSize = CustomSize.SMALL,
   handleChange,
 }: CustomSwitchProps): JSX.Element {
   const style =
-    customSize === CustomSize.Big ? { ...bigSizeStyle } : { ...smallSizeStyle };
+    customSize === CustomSize.BIG ? { ...bigSizeStyle } : { ...smallSizeStyle };
   return (
     <FormControlLabel
       control={<Switch name={name} checked={checked} onChange={handleChange} />}
