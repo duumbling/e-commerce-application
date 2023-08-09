@@ -17,16 +17,21 @@ interface CustomSwitchProps {
   handleChange?: () => void;
 }
 
+const enum CustomSize {
+  Big = "big",
+  Small = "small",
+}
+
 function CustomSwitch({
   label,
   sx,
   name,
   checked,
-  customSize = "small",
+  customSize = CustomSize.Small,
   handleChange,
 }: CustomSwitchProps): JSX.Element {
   const style =
-    customSize === "big" ? { ...bigSizeStyle } : { ...smallSizeStyle };
+    customSize === CustomSize.Big ? { ...bigSizeStyle } : { ...smallSizeStyle };
   return (
     <FormControlLabel
       control={<Switch name={name} checked={checked} onChange={handleChange} />}
