@@ -1,12 +1,7 @@
 import React from "react";
 import { TextField, type TextFieldProps } from "@mui/material";
 
-import {
-  helperTextStyle,
-  inputStyle,
-  labelStyle,
-  textFieldStyle,
-} from "./style";
+import { helperTextStyle, inputStyle, labelStyle } from "./style";
 
 type CustomTextFieldProps = Omit<TextFieldProps, "variant" | "size">;
 
@@ -28,7 +23,7 @@ export const CustomTextField = (props: CustomTextFieldProps) => {
         ...props.FormHelperTextProps,
         sx: { ...helperTextStyle, ...props.FormHelperTextProps?.sx },
       }}
-      sx={{ input: textFieldStyle, ...props.sx }}
+      sx={{ ...props.sx }}
       label={props.label}
     />
   );
