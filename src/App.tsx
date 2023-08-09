@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { Layout } from "./shared/ui/layout";
+import Layout from "./shared/ui/Layout";
 import MainPage from "./pages/main";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
