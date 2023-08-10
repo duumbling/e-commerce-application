@@ -9,7 +9,7 @@ export function Header() {
     <AppBar>
       <Link to={Paths.Main}>Main</Link>
       <Link to={Paths.Login}>Login</Link>
-      <Link to={Paths.Login}>Register</Link>
+      <Link to={Paths.Register}>Register</Link>
     </AppBar>
   );
 }
