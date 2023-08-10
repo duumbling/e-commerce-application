@@ -9,7 +9,7 @@ import {
   type SwitchProps,
   type FormLabelProps,
 } from "@mui/material";
-import { CustomTextField } from "../../../shared/ui/CustomTextField/CustomTextField";
+import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import {
   numberFieldStyle,
   formControlStyle,
