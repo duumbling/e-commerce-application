@@ -17,7 +17,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["./src/**/*.{ts,tsx}"],
+      files: ["*.{ts,tsx}"],
     },
   ],
   plugins: ["react", "prettier"],

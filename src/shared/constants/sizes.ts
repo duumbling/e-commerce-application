@@ -1,0 +1,2 @@
+export const INPUT_BORDER_WIDTH = 1.5;
+export const INPUT_HOVER_BORDER_WIDTH = INPUT_BORDER_WIDTH + 0.5;
