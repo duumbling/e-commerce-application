@@ -8,7 +8,6 @@ import {
   gridContainerProps,
   gridItemProps,
   rootStyle,
-  buttonBoxStyle,
 } from "./style";
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
@@ -16,7 +15,7 @@ import { PasswordField } from "../../../shared/ui/PasswordField/PasswordField";
 
 export const LoginForm = () => {
   return (
-    <form id="registration-form">
+    <form id="login-form">
       <Box sx={rootStyle}>
         <Grid {...gridContainerProps}>
           <Grid {...gridItemProps}>
@@ -29,7 +28,7 @@ export const LoginForm = () => {
               <PasswordField label="Пароль" sx={textFieldStyle} />
             </Box>
           </Grid>
-          <Grid {...gridItemProps} sx={buttonBoxStyle}>
+          <Grid {...gridItemProps}>
             <Box
               display="flex"
               flexDirection="column"
