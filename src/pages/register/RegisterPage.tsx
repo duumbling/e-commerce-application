@@ -1,5 +1,10 @@
 import React from "react";
+import { Header } from "../../shared/ui/Header";
 
 export function RegisterPage() {
-  return <div>Register page</div>;
+  return (
+    <div>
+      <Header>Register page</Header>
+    </div>
+  );
 }

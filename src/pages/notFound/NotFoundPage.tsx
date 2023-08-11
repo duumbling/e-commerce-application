@@ -1,5 +1,10 @@
 import React from "react";
+import { Header } from "../../shared/ui/Header";
 
 export function NotFoundPage() {
-  return <div>404</div>;
+  return (
+    <div>
+      <Header>404</Header>
+    </div>
+  );
 }

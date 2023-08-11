@@ -1,15 +1,18 @@
 import React from "react";
-import { AppBar } from "@mui/material";
-import { Link } from "react-router-dom";
-import { Paths } from "../../constants/paths";
+import { Box, type BoxProps } from "@mui/material";
+import { Logo } from "../Logo";
 
-// TODO Сделать хедер
-export function Header() {
+type HeaderProps = Pick<BoxProps, "children">;
+
+export function Header({ children }: HeaderProps) {
   return (
-    <AppBar>
-      <Link to={Paths.Main}>Main</Link>
-      <Link to={Paths.Login}>Login</Link>
-      <Link to={Paths.Register}>Register</Link>
-    </AppBar>
+    <Box component="header" sx={{ display: "flex", p: ".5rem" }}>
+      <Box>
+        <Logo />
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "row-reverse", flex: "1" }}>
+        {children}
+      </Box>
+    </Box>
   );
 }
