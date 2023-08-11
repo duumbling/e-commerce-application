@@ -1,4 +1,5 @@
 import React from "react";
-export const RegisterPage = () => {
+
+export function RegisterPage() {
   return <div>Register page</div>;
-};
+}
