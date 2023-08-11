@@ -26,6 +26,6 @@ module.exports = {
   },
   ignorePatterns: [".eslintrc.js", "*.html"],
   rules: {
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
   },
 };
