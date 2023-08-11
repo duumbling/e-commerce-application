@@ -74,7 +74,7 @@ export const RegistrationForm = () => {
               indexFieldProps={{ sx: textFieldStyle }}
             />
           </Grid>
-          <Grid item sm={6} md={6} sx={buttonBoxStyle}>
+          <Grid {...gridItemProps} sx={buttonBoxStyle}>
             <Box
               display="flex"
               flexDirection="column"

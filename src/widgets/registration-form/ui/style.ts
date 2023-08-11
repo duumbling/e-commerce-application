@@ -55,7 +55,7 @@ export const firstTextFieldStyle = {
 };
 
 export const buttonBoxStyle = {
-  marginLeft: 18,
+  marginLeft: 3,
   [MOBILE_MEDIA]: {
     margin: 0,
   },
