@@ -12,31 +12,39 @@ type CustomTextFieldProps = Omit<TextFieldProps, "variant" | "size"> & {
   labelPosition?: "outside" | "inside";
 };
 
-export const CustomTextField = (props: CustomTextFieldProps) => {
-  const isLabelOutside = props.labelPosition === "outside";
+export const CustomTextField = ({
+  InputProps,
+  InputLabelProps,
+  FormHelperTextProps,
+  sx,
+  label,
+  labelPosition,
+  ...otherProps
+}: CustomTextFieldProps) => {
+  const isLabelOutside = labelPosition === "outside";
   return (
     <React.Fragment>
       {isLabelOutside ? (
-        <FormLabel sx={outsideLabelStyle}>{props.label}</FormLabel>
+        <FormLabel sx={outsideLabelStyle}>{label}</FormLabel>
       ) : null}
       <TextField
-        {...props}
+        {...otherProps}
         variant="outlined"
         size="small"
         InputProps={{
-          ...props.InputProps,
-          sx: { ...inputStyle, ...props.InputProps?.sx },
+          ...InputProps,
+          sx: { ...inputStyle, ...InputProps?.sx },
         }}
         InputLabelProps={{
-          ...props.InputLabelProps,
-          sx: { ...insideLabelStyle, ...props.InputLabelProps?.sx },
+          ...InputLabelProps,
+          sx: { ...insideLabelStyle, ...InputLabelProps?.sx },
         }}
         FormHelperTextProps={{
-          ...props.FormHelperTextProps,
-          sx: { ...helperTextStyle, ...props.FormHelperTextProps?.sx },
+          ...FormHelperTextProps,
+          sx: { ...helperTextStyle, ...FormHelperTextProps?.sx },
         }}
-        sx={{ ...props.sx }}
-        label={isLabelOutside ? "" : props.label}
+        sx={sx}
+        label={isLabelOutside ? "" : label}
       />
     </React.Fragment>
   );
