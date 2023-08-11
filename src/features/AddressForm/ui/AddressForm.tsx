@@ -2,10 +2,11 @@ import React from "react";
 import {
   Box,
   FormLabel,
-  type BoxProps,
-  type TextFieldProps,
   Switch,
   FormControlLabel,
+  Autocomplete,
+  type TextFieldProps,
+  type BoxProps,
   type SwitchProps,
   type FormLabelProps,
 } from "@mui/material";
@@ -15,10 +16,20 @@ import {
   formControlStyle,
   titleStyle,
   rootStyle,
+  autocompleteStyle,
 } from "./style";
+import { countries } from "../model/countries";
+import { Controller, type Control } from "react-hook-form";
+import { type FormInput } from "../../../shared/form";
+
+interface CountryControllerProps {
+  name: "shippingAddress.country" | "billingAddress.country";
+  control: Control<FormInput, string>;
+}
 
 type AddressFormProps = Pick<BoxProps, "sx"> & {
   title: string;
+  countryControllerProps: CountryControllerProps;
   fieldLabelPosition?: "outside" | "inside";
   titleProps?: FormLabelProps;
   countryFieldProps?: TextFieldProps;
@@ -33,6 +44,7 @@ export const AddressForm = ({
   title,
   fieldLabelPosition,
   titleProps,
+  countryControllerProps,
   countryFieldProps,
   cityFieldProps,
   streetFieldProps,
@@ -44,12 +56,35 @@ export const AddressForm = ({
       <FormLabel {...titleProps} sx={{ ...titleStyle, ...titleProps?.sx }}>
         {title}
       </FormLabel>
-      <CustomTextField
-        type="text"
-        label="Страна"
-        labelPosition={fieldLabelPosition}
-        {...countryFieldProps}
+      <Controller
+        {...countryControllerProps}
+        render={({ field: { ref, onChange, ...field } }) => (
+          <Autocomplete
+            options={countries}
+            sx={autocompleteStyle}
+            getOptionLabel={(option) => option.name}
+            onChange={(_, data) => {
+              onChange(data?.code);
+            }}
+            renderInput={(params) => (
+              <CustomTextField
+                type="text"
+                label="Страна"
+                labelPosition={fieldLabelPosition}
+                {...countryFieldProps}
+                {...params}
+                {...field}
+                inputProps={{
+                  ...params.inputProps,
+                  autoComplete: "new-password",
+                }}
+                sx={countryFieldProps?.sx}
+              />
+            )}
+          />
+        )}
       />
+
       <CustomTextField
         type="text"
         label="Город"
