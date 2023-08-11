@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { IconButton, InputAdornment, type TextFieldProps } from "@mui/material";
 import { CustomTextField } from "../CustomTextField";
-import { CustomVisibilityOffIcon } from "../CustomVisibilityOffIcon";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 export const PasswordField = ({
   label,
@@ -31,7 +31,7 @@ export const PasswordField = ({
               {isPasswordVisible ? (
                 <VisibilityOutlinedIcon />
               ) : (
-                <CustomVisibilityOffIcon />
+                <VisibilityOffOutlinedIcon />
               )}
             </IconButton>
           </InputAdornment>
