@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, Controller, type SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 
 import {
   Box,
@@ -28,20 +28,26 @@ import { AddressForm } from "../../../features";
 import { AboutForm } from "../../../features/AboutForm";
 import { PasswordField } from "../../../shared/ui/PasswordField";
 
+interface AddressFormInputs {
+  country: string;
+  city: string;
+  street: string;
+  postalCode: string;
+}
+
 interface FormInput {
   email: string;
   password: string;
   passwordConfirm: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  shippingAddress: AddressFormInputs;
+  billingAddress: AddressFormInputs;
 }
 
 export const RegistrationForm = () => {
-  const { control, handleSubmit } = useForm<FormInput>({
-    defaultValues: {
-      email: "",
-      password: "",
-      passwordConfirm: "",
-    },
-  });
+  const { register, handleSubmit } = useForm<FormInput>();
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
     console.log(data);
@@ -57,50 +63,86 @@ export const RegistrationForm = () => {
               <FormLabel sx={{ display: "block", ...titleStyle }}>
                 Аккаунт
               </FormLabel>
-              <Controller
-                name="email"
-                control={control}
-                render={({ field }) => (
-                  <CustomTextField
-                    type="email"
-                    label="Email"
-                    sx={firstTextFieldStyle}
-                    {...field}
-                  />
-                )}
+              <CustomTextField
+                type="email"
+                label="Email"
+                sx={firstTextFieldStyle}
+                {...register("email")}
               />
 
-              <PasswordField label="Пароль" sx={textFieldStyle} />
-              <PasswordField label="Повторите пароль" sx={textFieldStyle} />
+              <PasswordField
+                label="Пароль"
+                sx={textFieldStyle}
+                {...register("password")}
+              />
+
+              <PasswordField
+                label="Подтвердите пароль"
+                sx={textFieldStyle}
+                {...register("passwordConfirm")}
+              />
             </Box>
           </Grid>
           <Grid {...gridItemProps}>
             <AboutForm
               title="О себе"
               titleProps={{ sx: titleStyle }}
-              firstNameFieldProps={{ sx: firstTextFieldStyle }}
-              lastNameFieldProps={{ sx: textFieldStyle }}
-              birthDateFieldProps={{ sx: textFieldStyle }}
+              firstNameFieldProps={{
+                sx: firstTextFieldStyle,
+                ...register("firstName"),
+              }}
+              lastNameFieldProps={{
+                sx: textFieldStyle,
+                ...register("lastName"),
+              }}
+              birthDateFieldProps={{
+                sx: textFieldStyle,
+                ...register("birthDate"),
+              }}
             />
           </Grid>
           <Grid {...gridItemProps}>
             <AddressForm
               title="Адрес доставки"
               titleProps={{ sx: titleStyle }}
-              countryFieldProps={{ sx: firstTextFieldStyle }}
-              cityFieldProps={{ sx: textFieldStyle }}
-              streetFieldProps={{ sx: textFieldStyle }}
-              indexFieldProps={{ sx: textFieldStyle }}
+              countryFieldProps={{
+                sx: firstTextFieldStyle,
+                ...register("shippingAddress.country"),
+              }}
+              cityFieldProps={{
+                sx: textFieldStyle,
+                ...register("shippingAddress.city"),
+              }}
+              streetFieldProps={{
+                sx: textFieldStyle,
+                ...register("shippingAddress.street"),
+              }}
+              postalCodeFieldProps={{
+                sx: textFieldStyle,
+                ...register("shippingAddress.postalCode"),
+              }}
             />
           </Grid>
           <Grid {...gridItemProps}>
             <AddressForm
               title="Адрес выставления счетов"
               titleProps={{ sx: titleStyle }}
-              countryFieldProps={{ sx: firstTextFieldStyle }}
-              cityFieldProps={{ sx: textFieldStyle }}
-              streetFieldProps={{ sx: textFieldStyle }}
-              indexFieldProps={{ sx: textFieldStyle }}
+              countryFieldProps={{
+                sx: firstTextFieldStyle,
+                ...register("billingAddress.country"),
+              }}
+              cityFieldProps={{
+                sx: textFieldStyle,
+                ...register("billingAddress.city"),
+              }}
+              streetFieldProps={{
+                sx: textFieldStyle,
+                ...register("billingAddress.street"),
+              }}
+              postalCodeFieldProps={{
+                sx: textFieldStyle,
+                ...register("billingAddress.postalCode"),
+              }}
             />
           </Grid>
           <Grid item sm={6} md={6} sx={buttonBoxStyle}>
