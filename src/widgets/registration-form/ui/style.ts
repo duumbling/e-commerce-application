@@ -11,24 +11,20 @@ export const rootStyle = {
 
 export const gridContainerProps = {
   container: true,
-  columnSpacing: { xs: 0, sm: 4, md: 8 },
+  columnSpacing: { xs: 12, sm: 3, md: 12 },
   rowSpacing: { xs: 4, sm: 6, md: 8 },
-  justifyContent: "space-around",
+  justifyContent: {
+    xs: "center",
+    sm: "space-around",
+    md: "space-around",
+  },
 };
 
 export const gridItemProps = {
   item: true,
   xs: false,
   sm: 5,
-  md: 4,
-};
-
-export const addressBoxStyle = {
-  marginTop: 11.5,
-
-  [MOBILE_MEDIA]: {
-    marginTop: 4.5,
-  },
+  md: 5,
 };
 
 export const titleStyle = {
@@ -56,8 +52,14 @@ export const firstTextFieldStyle = {
   marginTop: 0,
 };
 
+export const buttonBoxStyle = {
+  marginLeft: 12,
+  [MOBILE_MEDIA]: {
+    margin: 0,
+  },
+};
+
 export const commonAddressSwitchLabelStyle = {
-  display: "block",
   textAlign: "center",
   fontWeight: 600,
   color: PRIMARY_COLOR,
@@ -67,11 +69,11 @@ export const commonAddressSwitchLabelStyle = {
 };
 
 export const registerButtonStyle = {
-  display: "block",
   marginTop: 3.12,
   padding: "14px 26px",
   textAlign: "center",
   fontSize: 15,
+  textTransform: "none",
 
   [MOBILE_MEDIA]: {
     fontSize: 11,
@@ -83,7 +85,6 @@ export const linkStyle = {
   marginTop: 1.6,
   fontWeight: 600,
   fontSize: 11,
-  textAlign: "center",
   color: InputColors.TEXT,
 
   [MOBILE_MEDIA]: {

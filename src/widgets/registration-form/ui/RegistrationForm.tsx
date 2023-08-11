@@ -15,9 +15,9 @@ import {
   linkStyle,
   gridContainerProps,
   gridItemProps,
-  addressBoxStyle,
   commonAddressSwitchLabelStyle,
   rootStyle,
+  buttonBoxStyle,
 } from "./style";
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
@@ -54,56 +54,49 @@ export const RegistrationForm = () => {
               birthDateFieldProps={{ sx: textFieldStyle }}
             />
           </Grid>
-        </Grid>
-        <Box sx={addressBoxStyle}>
-          <Grid {...gridContainerProps}>
-            <Grid {...gridItemProps}>
-              <AddressForm
-                title="Адрес доставки"
-                titleProps={{ sx: titleStyle }}
-                countryFieldProps={{ sx: firstTextFieldStyle }}
-                cityFieldProps={{ sx: textFieldStyle }}
-                streetFieldProps={{ sx: textFieldStyle }}
-                indexFieldProps={{ sx: textFieldStyle }}
-              />
-            </Grid>
-            <Grid {...gridItemProps}>
-              <AddressForm
-                title="Адрес выставления счетов"
-                titleProps={{ sx: titleStyle }}
-                countryFieldProps={{ sx: firstTextFieldStyle }}
-                cityFieldProps={{ sx: textFieldStyle }}
-                streetFieldProps={{ sx: textFieldStyle }}
-                indexFieldProps={{ sx: textFieldStyle }}
-              />
-            </Grid>
-          </Grid>
-        </Box>
-
-        <Grid
-          container
-          columnSpacing={{ xs: 0, sm: 4, md: 10 }}
-          justifyContent={{
-            xs: "center",
-            md: "space-around",
-          }}
-        >
-          <Grid item justifyContent="center">
-            <FormControlLabel
-              control={<Switch />}
-              label="Указать общий адрес"
-              sx={commonAddressSwitchLabelStyle}
+          <Grid {...gridItemProps}>
+            <AddressForm
+              title="Адрес доставки"
+              titleProps={{ sx: titleStyle }}
+              countryFieldProps={{ sx: firstTextFieldStyle }}
+              cityFieldProps={{ sx: textFieldStyle }}
+              streetFieldProps={{ sx: textFieldStyle }}
+              indexFieldProps={{ sx: textFieldStyle }}
             />
-            <CustomButton
-              type="submit"
-              form="registration-form"
-              sx={registerButtonStyle}
+          </Grid>
+          <Grid {...gridItemProps}>
+            <AddressForm
+              title="Адрес выставления счетов"
+              titleProps={{ sx: titleStyle }}
+              countryFieldProps={{ sx: firstTextFieldStyle }}
+              cityFieldProps={{ sx: textFieldStyle }}
+              streetFieldProps={{ sx: textFieldStyle }}
+              indexFieldProps={{ sx: textFieldStyle }}
+            />
+          </Grid>
+          <Grid item sm={6} md={6} sx={buttonBoxStyle}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              maxWidth={235}
+              textAlign="center"
             >
-              Зарегистрироваться
-            </CustomButton>
-            <Link href="#" variant="body2" color="inherit" sx={linkStyle}>
-              Есть аккаунт? Войти
-            </Link>
+              <FormControlLabel
+                control={<Switch />}
+                label="Указать общий адрес"
+                sx={commonAddressSwitchLabelStyle}
+              />
+              <CustomButton
+                type="submit"
+                form="registration-form"
+                sx={registerButtonStyle}
+              >
+                Зарегистрироваться
+              </CustomButton>
+              <Link href="#" variant="body2" color="inherit" sx={linkStyle}>
+                Есть аккаунт? Войти
+              </Link>
+            </Box>
           </Grid>
         </Grid>
       </Box>
