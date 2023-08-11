@@ -24,7 +24,7 @@ type AddressFormProps = Pick<BoxProps, "sx"> & {
   countryFieldProps?: TextFieldProps;
   cityFieldProps?: TextFieldProps;
   streetFieldProps?: TextFieldProps;
-  indexFieldProps?: TextFieldProps;
+  postalCodeFieldProps?: TextFieldProps;
   switchProps?: SwitchProps;
 };
 
@@ -36,7 +36,7 @@ export const AddressForm = ({
   countryFieldProps,
   cityFieldProps,
   streetFieldProps,
-  indexFieldProps,
+  postalCodeFieldProps,
   switchProps,
 }: AddressFormProps) => {
   return (
@@ -66,10 +66,10 @@ export const AddressForm = ({
         type="number"
         label="Индекс"
         labelPosition={fieldLabelPosition}
-        {...streetFieldProps}
+        {...postalCodeFieldProps}
         sx={{
           ...numberFieldStyle,
-          ...indexFieldProps?.sx,
+          ...postalCodeFieldProps?.sx,
         }}
       />
       <FormControlLabel
