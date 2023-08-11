@@ -10,8 +10,8 @@ import {
 } from "../../constants/sizes";
 
 const classes = {
-  inputRoot: `&.${inputBaseClasses.root} input`,
-  fieldsetRoot: `&.${inputBaseClasses.root} fieldset`,
+  rootInput: `&.${inputBaseClasses.root} input`,
+  rootFieldset: `&.${inputBaseClasses.root} fieldset`,
   hover: `&.${inputBaseClasses.root}&:hover fieldset`,
   focus: `&.${inputBaseClasses.focused} fieldset`,
   error: `&.${inputBaseClasses.error} fieldset`,
@@ -20,20 +20,21 @@ const classes = {
   disabledFieldset: `&.${inputBaseClasses.disabled} fieldset`,
   disabledInput: `&.${inputBaseClasses.disabled} input`,
   labelShrink: `&.${inputLabelClasses.shrink}`,
+  labelRoot: `&.${inputLabelClasses.root}`,
   labelError: `&.${inputLabelClasses.root}&.${inputLabelClasses.error}`,
   helperText: `&.${formHelperTextClasses.error}`,
 };
 
 export const inputStyle = {
-  [classes.inputRoot]: {
+  [classes.rootInput]: {
     color: InputColors.TEXT,
     fontSize: 15,
     fontWeight: 700,
-    lineHeight: 28,
+    lineHeight: "28px",
     paddingTop: 1.25,
     paddingBottom: 1.25,
   },
-  [classes.fieldsetRoot]: {
+  [classes.rootFieldset]: {
     borderWidth: INPUT_BORDER_WIDTH,
     borderRadius: 2,
   },
@@ -58,14 +59,14 @@ export const inputStyle = {
   },
   [classes.disabledInput]: {
     color: `${InputColors.TEXT} !important`,
-    "-webkit-text-fill-color": `${InputColors.TEXT} !important`,
+    WebkitTextFillColor: `${InputColors.TEXT} !important`,
   },
   [classes.helperText]: {
     color: ERROR_COLOR,
   },
 };
 
-export const labelStyle = {
+export const insideLabelStyle = {
   [classes.labelShrink]: {
     color: InputColors.LABEL_SHRINK,
   },
@@ -78,4 +79,11 @@ export const helperTextStyle = {
   [classes.helperText]: {
     color: ERROR_COLOR,
   },
+};
+
+export const outsideLabelStyle = {
+  fontSize: 14,
+  fontWeight: 700,
+  lineHeight: "28px",
+  color: InputColors.TEXT,
 };
