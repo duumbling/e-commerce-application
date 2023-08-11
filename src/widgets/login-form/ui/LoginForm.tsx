@@ -11,7 +11,7 @@ import {
 } from "./style";
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
-import { PasswordField } from "../../../shared/ui/PasswordField/PasswordField";
+import { PasswordField } from "../../../shared/ui/PasswordField";
 
 export const LoginForm = () => {
   return (
@@ -37,7 +37,6 @@ export const LoginForm = () => {
             >
               <CustomButton
                 type="submit"
-                form="registration-form"
                 sx={loginButtonStyle}
               >
                 Войти
