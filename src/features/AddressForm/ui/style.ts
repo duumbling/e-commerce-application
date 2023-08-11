@@ -1,4 +1,5 @@
 import { PRIMARY_COLOR } from "../../../shared/constants/colors";
+import { TABLET_MEDIA } from "../../../shared/constants/mediaQuery";
 
 export const rootStyle = {
   display: "flex",
@@ -29,5 +30,9 @@ export const numberFieldStyle = {
 export const formControlStyle = {
   "& .MuiFormControlLabel-label": {
     fontSize: 12,
+
+    [TABLET_MEDIA]: {
+      fontSize: 8,
+    },
   },
 };
