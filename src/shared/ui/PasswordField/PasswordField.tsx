@@ -14,7 +14,7 @@ export const PasswordField = forwardRef<HTMLDivElement, TextFieldProps>(
         type={isPasswordVisible ? "text" : "password"}
         label={label}
         sx={sx}
-        inputRef={ref}
+        ref={ref}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
