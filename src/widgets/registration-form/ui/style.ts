@@ -5,8 +5,10 @@ import {
 } from "../../../shared/constants/mediaQuery";
 
 export const rootStyle = {
-  maxWidth: 922,
-  margin: "auto",
+  marginLeft: "12vw",
+  [TABLET_MEDIA]: {
+    marginLeft: 0,
+  },
 };
 
 export const gridContainerProps = {
@@ -15,8 +17,8 @@ export const gridContainerProps = {
   rowSpacing: { xs: 4, sm: 6, md: 8 },
   justifyContent: {
     xs: "center",
-    sm: "space-around",
-    md: "space-around",
+    sm: "space-evenly",
+    md: "center",
   },
 };
 
@@ -53,7 +55,7 @@ export const firstTextFieldStyle = {
 };
 
 export const buttonBoxStyle = {
-  marginLeft: 12,
+  marginLeft: 18,
   [MOBILE_MEDIA]: {
     margin: 0,
   },
