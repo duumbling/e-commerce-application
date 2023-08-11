@@ -4,6 +4,7 @@ export const style = {
   contained: {
     backgroundColor: PRIMARY_COLOR,
     fontWeight: 800,
+    borderRadius: 2,
     "&:hover": {
       backgroundColor: ButtonColors.CONTAINED_BUTTON_BG_HOVER,
     },

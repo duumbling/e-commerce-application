@@ -8,6 +8,7 @@ import {
   INPUT_BORDER_WIDTH,
   INPUT_HOVER_BORDER_WIDTH,
 } from "../../constants/sizes";
+import { TABLET_MEDIA } from "../../constants/mediaQuery";
 
 const classes = {
   rootInput: `&.${inputBaseClasses.root} input`,
@@ -33,6 +34,10 @@ export const inputStyle = {
     lineHeight: "28px",
     paddingTop: 1.25,
     paddingBottom: 1.25,
+
+    [TABLET_MEDIA]: {
+      fontSize: 13,
+    },
   },
   [classes.rootFieldset]: {
     borderWidth: INPUT_BORDER_WIDTH,
