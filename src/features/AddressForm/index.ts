@@ -1,1 +1,1 @@
-export { AddressForm } from "./ui/AddressForm";
+export { AddressForm, type AddressFormControl } from "./ui/AddressForm";

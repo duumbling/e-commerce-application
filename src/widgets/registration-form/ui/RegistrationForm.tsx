@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler, type Control } from "react-hook-form";
 import {
   Box,
   FormControlLabel,
@@ -22,16 +22,29 @@ import {
 } from "./style";
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
-import { AddressForm, AboutForm } from "../../../features";
+import {
+  AddressForm,
+  type AddressFormControl,
+} from "../../../features/AddressForm";
+import { AboutForm } from "../../../features/AboutForm";
 import { PasswordField } from "../../../shared/ui/PasswordField";
-import { type FormInput } from "../../../shared/form";
 import { createCustomer } from "../../../shared/api";
 import { AddressType } from "../model/model";
 
-export const RegistrationForm = () => {
-  const { register, control, handleSubmit } = useForm<FormInput>();
+interface RegistrationFormControl extends AddressFormControl {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+}
 
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+export const RegistrationForm = () => {
+  const { register, control, handleSubmit } =
+    useForm<RegistrationFormControl>();
+
+  const onSubmit: SubmitHandler<RegistrationFormControl> = async (data) => {
     try {
       const res = await createCustomer({
         email: data.email,
@@ -48,6 +61,8 @@ export const RegistrationForm = () => {
       console.log(err);
     }
   };
+
+  const addressFormControl = control as unknown as Control<AddressFormControl>;
 
   return (
     <form
@@ -106,7 +121,7 @@ export const RegistrationForm = () => {
               title="Адрес доставки"
               titleProps={{ sx: titleStyle }}
               countryControllerProps={{
-                control,
+                control: addressFormControl,
                 name: "shippingAddress.country",
               }}
               countryFieldProps={{
@@ -137,7 +152,7 @@ export const RegistrationForm = () => {
               title="Адрес выставления счетов"
               titleProps={{ sx: titleStyle }}
               countryControllerProps={{
-                control,
+                control: addressFormControl,
                 name: "billingAddress.country",
               }}
               countryFieldProps={{
