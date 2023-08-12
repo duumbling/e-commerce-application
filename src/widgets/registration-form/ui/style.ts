@@ -6,6 +6,9 @@ import {
 
 export const rootStyle = {
   marginLeft: "15%",
+  "@media (max-width: 950px)": {
+    marginLeft: "5%",
+  },
   [TABLET_MEDIA]: {
     marginLeft: 0,
   },
@@ -15,11 +18,7 @@ export const gridContainerProps = {
   container: true,
   columnSpacing: { xs: 12, sm: 6, md: 12 },
   rowSpacing: { xs: 4, sm: 6, md: 8 },
-  justifyContent: {
-    xs: "center",
-    sm: "center",
-    md: "space-around",
-  },
+  justifyContent: "center",
 };
 
 export const gridItemProps = {
@@ -55,7 +54,7 @@ export const firstTextFieldStyle = {
 };
 
 export const buttonBoxStyle = {
-  marginLeft: 18,
+  marginLeft: "10%",
   [TABLET_MEDIA]: {
     marginLeft: 10,
   },
