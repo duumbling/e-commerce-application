@@ -97,12 +97,14 @@ export const RegistrationForm = () => {
 
               <PasswordField
                 label="Пароль"
+                autoComplete="on"
                 sx={textFieldStyle}
                 {...register("password")}
               />
 
               <PasswordField
                 label="Подтвердите пароль"
+                autoComplete="on"
                 sx={textFieldStyle}
                 {...register("passwordConfirm")}
               />
