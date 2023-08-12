@@ -87,7 +87,7 @@ export const AddressForm = ({
                 {...field}
                 inputProps={{
                   ...params.inputProps,
-                  // autoComplete: "new-password",
+                  autoComplete: "new-password",
                 }}
                 sx={countryFieldProps?.sx}
               />
