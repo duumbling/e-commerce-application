@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-
 import {
   Box,
   FormControlLabel,
@@ -23,39 +22,40 @@ import {
 } from "./style";
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
-
-import { AddressForm } from "../../../features";
-import { AboutForm } from "../../../features/AboutForm";
+import { AddressForm, AboutForm } from "../../../features";
 import { PasswordField } from "../../../shared/ui/PasswordField";
-
-interface AddressFormInputs {
-  country: string;
-  city: string;
-  street: string;
-  postalCode: string;
-}
-
-interface FormInput {
-  email: string;
-  password: string;
-  passwordConfirm: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  shippingAddress: AddressFormInputs;
-  billingAddress: AddressFormInputs;
-}
+import { type FormInput } from "../../../shared/form";
+import { createCustomer } from "../../../shared/api";
+import { AddressType } from "../model/model";
 
 export const RegistrationForm = () => {
-  const { register, handleSubmit } = useForm<FormInput>();
+  const { register, control, handleSubmit } = useForm<FormInput>();
 
-  const onSubmit: SubmitHandler<FormInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+    try {
+      const res = await createCustomer({
+        email: data.email,
+        password: data.password,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        dateOfBirth: data.dateOfBirth,
+        addresses: [data.shippingAddress, data.billingAddress],
+        shippingAddresses: [AddressType.SHIPPING],
+        billingAddresses: [AddressType.BILLING],
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    <form id="registration-form" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      id="registration-form"
+      onSubmit={(...args) => {
+        void handleSubmit(onSubmit)(...args);
+      }}
+    >
       <Box sx={rootStyle}>
         <Grid {...gridContainerProps}>
           <Grid {...gridItemProps}>
@@ -97,7 +97,7 @@ export const RegistrationForm = () => {
               }}
               birthDateFieldProps={{
                 sx: textFieldStyle,
-                ...register("birthDate"),
+                ...register("dateOfBirth"),
               }}
             />
           </Grid>
@@ -105,9 +105,18 @@ export const RegistrationForm = () => {
             <AddressForm
               title="Адрес доставки"
               titleProps={{ sx: titleStyle }}
+              countryControllerProps={{
+                control,
+                name: "shippingAddress.country",
+              }}
               countryFieldProps={{
-                sx: firstTextFieldStyle,
-                ...register("shippingAddress.country"),
+                sx: {
+                  ...firstTextFieldStyle,
+                  input: {
+                    paddingTop: 1.25,
+                    paddingBottom: 1.25,
+                  },
+                },
               }}
               cityFieldProps={{
                 sx: textFieldStyle,
@@ -115,7 +124,7 @@ export const RegistrationForm = () => {
               }}
               streetFieldProps={{
                 sx: textFieldStyle,
-                ...register("shippingAddress.street"),
+                ...register("shippingAddress.streetName"),
               }}
               postalCodeFieldProps={{
                 sx: textFieldStyle,
@@ -127,9 +136,12 @@ export const RegistrationForm = () => {
             <AddressForm
               title="Адрес выставления счетов"
               titleProps={{ sx: titleStyle }}
+              countryControllerProps={{
+                control,
+                name: "billingAddress.country",
+              }}
               countryFieldProps={{
                 sx: firstTextFieldStyle,
-                ...register("billingAddress.country"),
               }}
               cityFieldProps={{
                 sx: textFieldStyle,
@@ -137,7 +149,7 @@ export const RegistrationForm = () => {
               }}
               streetFieldProps={{
                 sx: textFieldStyle,
-                ...register("billingAddress.street"),
+                ...register("billingAddress.streetName"),
               }}
               postalCodeFieldProps={{
                 sx: textFieldStyle,
