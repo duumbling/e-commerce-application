@@ -7,6 +7,8 @@ import {
   Grid,
   Link,
   Switch,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import {
   titleStyle,
@@ -29,16 +31,11 @@ import {
 import { AboutForm } from "../../../features/AboutForm";
 import { PasswordField } from "../../../shared/ui/PasswordField";
 import { createCustomer } from "../../../shared/api";
-import { AddressType } from "../model/model";
-
-interface RegistrationFormValues extends AddressFormValues {
-  email: string;
-  password: string;
-  passwordConfirm: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-}
+import { PRIMARY_COLOR } from "../../../shared/constants/colors";
+import { type RegistrationFormValues } from "../lib/types";
+import { AddressType } from "../lib/types";
+import { isRegistrationError } from "../lib/helpers";
+import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar/";
 
 export const RegistrationForm = () => {
   const { register, control, handleSubmit } = useForm<RegistrationFormValues>();
@@ -48,17 +45,20 @@ export const RegistrationForm = () => {
   const [isDefaultBillingAddressChecked, setDefaultBillingAddressChecked] =
     useState(false);
 
+  const [isLoading, setLoading] = useState(false);
+  const [isRegistrationSuccess, setSuccess] = useState(false);
+  const [isMessageVisible, setMessageVisible] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
   const onSubmit: SubmitHandler<RegistrationFormValues> = async (data) => {
+    setLoading(true);
+
     try {
-      const res = await createCustomer({
-        email: data.email,
-        password: data.password,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        dateOfBirth: data.dateOfBirth,
+      await createCustomer({
+        ...data,
+        dateOfBirth: data.userBirthday,
         addresses: [data.shippingAddress, data.billingAddress],
-        shippingAddresses: [AddressType.SHIPPING],
-        billingAddresses: [AddressType.BILLING],
         defaultShippingAddress: isDefaultShippingAddressChecked
           ? AddressType.SHIPPING
           : undefined,
@@ -66,10 +66,23 @@ export const RegistrationForm = () => {
           ? AddressType.BILLING
           : undefined,
       });
-      console.log(res);
-    } catch (err) {
-      console.log(err);
+      setSuccess(true);
+    } catch (error) {
+      setSuccess(false);
+      if (error instanceof Error && isRegistrationError(error)) {
+        const { errors } = error.body;
+        if (
+          errors[0].code === "DuplicateField" &&
+          errors[0].field === "email"
+        ) {
+          setErrorMessage("Пользователь с таким email уже зарегистрирован");
+        } else {
+          setErrorMessage("Упс, что-то пошло не так");
+        }
+      }
     }
+    setLoading(false);
+    setMessageVisible(true);
   };
 
   const addressFormControl = control as unknown as Control<AddressFormValues>;
@@ -124,7 +137,7 @@ export const RegistrationForm = () => {
               }}
               birthDateFieldProps={{
                 sx: textFieldStyle,
-                ...register("dateOfBirth"),
+                ...register("userBirthday"),
               }}
             />
           </Grid>
@@ -220,6 +233,22 @@ export const RegistrationForm = () => {
           </Grid>
         </Grid>
       </Box>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress sx={{ color: PRIMARY_COLOR }} />
+      </Backdrop>
+      <CustomSnackBar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        severity={isRegistrationSuccess ? "success" : "error"}
+        autoHideDuration={2000}
+        open={isMessageVisible}
+        onClose={() => {
+          setMessageVisible(false);
+        }}
+        message={isRegistrationSuccess ? "Регистрация завершена" : errorMessage}
+      />
     </form>
   );
 };
