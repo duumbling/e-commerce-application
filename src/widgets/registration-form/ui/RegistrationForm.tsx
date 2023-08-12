@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, type SubmitHandler, type Control } from "react-hook-form";
 import {
   Box,
@@ -44,6 +44,11 @@ export const RegistrationForm = () => {
   const { register, control, handleSubmit } =
     useForm<RegistrationFormControl>();
 
+  const [isDefaultShippingAddressChecked, setDefaultShippingAddressChecked] =
+    useState(false);
+  const [isDefaultBillingAddressChecked, setDefaultBillingAddressChecked] =
+    useState(false);
+
   const onSubmit: SubmitHandler<RegistrationFormControl> = async (data) => {
     try {
       const res = await createCustomer({
@@ -55,6 +60,12 @@ export const RegistrationForm = () => {
         addresses: [data.shippingAddress, data.billingAddress],
         shippingAddresses: [AddressType.SHIPPING],
         billingAddresses: [AddressType.BILLING],
+        defaultShippingAddress: isDefaultShippingAddressChecked
+          ? AddressType.SHIPPING
+          : undefined,
+        defaultBillingAddress: isDefaultBillingAddressChecked
+          ? AddressType.BILLING
+          : undefined,
       });
       console.log(res);
     } catch (err) {
@@ -145,6 +156,11 @@ export const RegistrationForm = () => {
                 sx: textFieldStyle,
                 ...register("shippingAddress.postalCode"),
               }}
+              switchProps={{
+                onChange: (_, checked) => {
+                  setDefaultShippingAddressChecked(checked);
+                },
+              }}
             />
           </Grid>
           <Grid {...gridItemProps}>
@@ -169,6 +185,11 @@ export const RegistrationForm = () => {
               postalCodeFieldProps={{
                 sx: textFieldStyle,
                 ...register("billingAddress.postalCode"),
+              }}
+              switchProps={{
+                onChange: (_, checked) => {
+                  setDefaultBillingAddressChecked(checked);
+                },
               }}
             />
           </Grid>
