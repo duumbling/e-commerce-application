@@ -24,14 +24,14 @@ import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
 import {
   AddressForm,
-  type AddressFormControl,
+  type AddressFormValues,
 } from "../../../features/AddressForm";
 import { AboutForm } from "../../../features/AboutForm";
 import { PasswordField } from "../../../shared/ui/PasswordField";
 import { createCustomer } from "../../../shared/api";
 import { AddressType } from "../model/model";
 
-interface RegistrationFormControl extends AddressFormControl {
+interface RegistrationFormValues extends AddressFormValues {
   email: string;
   password: string;
   passwordConfirm: string;
@@ -41,15 +41,14 @@ interface RegistrationFormControl extends AddressFormControl {
 }
 
 export const RegistrationForm = () => {
-  const { register, control, handleSubmit } =
-    useForm<RegistrationFormControl>();
+  const { register, control, handleSubmit } = useForm<RegistrationFormValues>();
 
   const [isDefaultShippingAddressChecked, setDefaultShippingAddressChecked] =
     useState(false);
   const [isDefaultBillingAddressChecked, setDefaultBillingAddressChecked] =
     useState(false);
 
-  const onSubmit: SubmitHandler<RegistrationFormControl> = async (data) => {
+  const onSubmit: SubmitHandler<RegistrationFormValues> = async (data) => {
     try {
       const res = await createCustomer({
         email: data.email,
@@ -73,7 +72,7 @@ export const RegistrationForm = () => {
     }
   };
 
-  const addressFormControl = control as unknown as Control<AddressFormControl>;
+  const addressFormControl = control as unknown as Control<AddressFormValues>;
 
   return (
     <form

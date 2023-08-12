@@ -21,21 +21,21 @@ import {
 import { countries } from "../model/countries";
 import { Controller, type Control } from "react-hook-form";
 
-interface AddressFormInputs {
+interface AddressFormInputValues {
   country: string;
   city: string;
   streetName: string;
   postalCode: string;
 }
 
-export interface AddressFormControl {
-  shippingAddress: AddressFormInputs;
-  billingAddress: AddressFormInputs;
+export interface AddressFormValues {
+  shippingAddress: AddressFormInputValues;
+  billingAddress: AddressFormInputValues;
 }
 
 interface CountryControllerProps {
   name: "shippingAddress.country" | "billingAddress.country";
-  control: Control<AddressFormControl>;
+  control: Control<AddressFormValues>;
 }
 
 type AddressFormProps = Pick<BoxProps, "sx"> & {
