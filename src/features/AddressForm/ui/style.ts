@@ -39,8 +39,8 @@ export const formControlStyle = {
 };
 
 export const autocompleteStyle = {
-  [`& .${autocompleteClasses.root}${autocompleteClasses.input}`]: {
+  [`&.${autocompleteClasses.root} .${autocompleteClasses.inputRoot}`]: {
     paddingTop: 1.25,
-    paddingBottom: 1.25,
+    paddingBottom: 1,
   },
 };
