@@ -3,31 +3,41 @@ import {
   ClientBuilder,
   type AuthMiddlewareOptions,
   type HttpMiddlewareOptions,
+  type Client,
 } from "@commercetools/sdk-client-v2";
 import { createApiBuilderFromCtpClient } from "@commercetools/platform-sdk";
+import { type ByProjectKeyRequestBuilder } from "@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder";
 
 const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: process.env.REACT_APP_CTP_AUTH_URL ?? "",
   projectKey: process.env.REACT_APP_CTP_PROJECT_KEY ?? "",
   credentials: {
-    clientId: process.env.REACT_APP_CTP_CLIENT_ID ?? "",
-    clientSecret: process.env.REACT_APP_CTP_CLIENT_SECRET ?? "",
+    clientId: process.env.REACT_APP_CTP_CUSTOMER_CLIENT_ID ?? "",
+    clientSecret: process.env.REACT_APP_CTP_CUSTOMER_CLIENT_SECRET ?? "",
   },
-  scopes: [process.env.REACT_APP_CTP_SCOPES ?? ""],
+  scopes: process.env.REACT_APP_CTP_CUSTOMER_SCOPES?.split(" ") ?? [""],
   fetch,
 };
 
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
-  host: process.env.REACT_APP_CTP_API_URL ?? "",
+  host: "https://api.europe-west1.gcp.commercetools.com",
   fetch,
 };
 
-const ctpClient = new ClientBuilder()
-  .withClientCredentialsFlow(authMiddlewareOptions)
-  .withHttpMiddleware(httpMiddlewareOptions)
-  .withLoggerMiddleware()
-  .build();
+const createApiBuilderWithProjectKey = (
+  client: Client,
+): ByProjectKeyRequestBuilder => {
+  return createApiBuilderFromCtpClient(client).withProjectKey({
+    projectKey: process.env.REACT_APP_CTP_PROJECT_KEY ?? "",
+  });
+};
 
-export const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
-  projectKey: process.env.REACT_APP_CTP_PROJECT_KEY ?? "",
-});
+export const anonymousApiRoot = (): ByProjectKeyRequestBuilder => {
+  const client = new ClientBuilder()
+    .withAnonymousSessionFlow({
+      ...authMiddlewareOptions,
+    })
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .build();
+  return createApiBuilderWithProjectKey(client);
+};

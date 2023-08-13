@@ -1,3 +1,4 @@
+import { autocompleteClasses } from "@mui/material";
 import { PRIMARY_COLOR } from "../../../shared/constants/colors";
 import { TABLET_MEDIA } from "../../../shared/constants/mediaQuery";
 
@@ -34,5 +35,12 @@ export const formControlStyle = {
     [TABLET_MEDIA]: {
       fontSize: 8,
     },
+  },
+};
+
+export const autocompleteStyle = {
+  [`&.${autocompleteClasses.root} .${autocompleteClasses.inputRoot}`]: {
+    paddingTop: 1.25,
+    paddingBottom: 1,
   },
 };

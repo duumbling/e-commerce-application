@@ -5,21 +5,17 @@ import {
 } from "../../../shared/constants/mediaQuery";
 
 export const rootStyle = {
-  marginLeft: "12vw",
-  [TABLET_MEDIA]: {
-    marginLeft: 0,
+  marginLeft: "15%",
+  "@media (max-width: 950px)": {
+    marginLeft: "5%",
   },
 };
 
 export const gridContainerProps = {
   container: true,
-  columnSpacing: { xs: 12, sm: 3, md: 12 },
+  columnSpacing: { xs: 12, sm: 6, md: 12 },
   rowSpacing: { xs: 4, sm: 6, md: 8 },
-  justifyContent: {
-    xs: "center",
-    sm: "space-evenly",
-    md: "center",
-  },
+  justifyContent: "center",
 };
 
 export const gridItemProps = {
@@ -55,9 +51,12 @@ export const firstTextFieldStyle = {
 };
 
 export const buttonBoxStyle = {
-  marginLeft: 3,
+  marginLeft: "10%",
+  [TABLET_MEDIA]: {
+    marginLeft: 10,
+  },
   [MOBILE_MEDIA]: {
-    margin: 0,
+    marginLeft: 0,
   },
 };
 
