@@ -1,4 +1,4 @@
-import { object } from "yup";
+import { boolean, object, string } from "yup";
 import {
   validateBirthday,
   validateEmail,
@@ -9,5 +9,9 @@ export const aboutValidationSchema = object({
   firstName: validateName("Введите имя"),
   lastName: validateName("Введите фамилию"),
   userBirthday: validateBirthday(),
-  userEmail: validateEmail(),
+  showEmail: boolean(),
+  userEmail: string().when("showEmail", {
+    is: true,
+    then: () => validateEmail(),
+  }),
 });

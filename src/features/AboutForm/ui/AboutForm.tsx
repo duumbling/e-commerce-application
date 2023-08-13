@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   FormLabel,
@@ -30,10 +30,18 @@ export const AboutForm = ({
   emailFieldProps,
   isContainEmail,
 }: AboutFormProps) => {
+  const isEmailFieldVisible = isContainEmail ?? false;
+
   const {
     register,
+    setValue,
     formState: { errors },
-  } = useFormContext<AboutFormValues>();
+  } = useFormContext<AboutFormValues & { showEmail: boolean }>();
+
+  useEffect(() => {
+    setValue("showEmail", isEmailFieldVisible);
+  }, []);
+
   return (
     <Box>
       <FormLabel {...titleProps} sx={{ display: "block", ...titleProps?.sx }}>
@@ -65,7 +73,7 @@ export const AboutForm = ({
           helperText={errors.userBirthday?.message}
           {...register("userBirthday")}
         />
-        {isContainEmail ?? false ? (
+        {isEmailFieldVisible && (
           <CustomTextField
             label="Email"
             type="email"
@@ -74,7 +82,7 @@ export const AboutForm = ({
             helperText={errors.userBirthday?.message}
             {...register("userEmail")}
           />
-        ) : null}
+        )}
       </Box>
     </Box>
   );
