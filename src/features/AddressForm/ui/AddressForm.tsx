@@ -19,28 +19,11 @@ import {
   autocompleteStyle,
 } from "./style";
 import { countries } from "../model/countries";
-import { Controller, type Control } from "react-hook-form";
-
-interface AddressFormInputValues {
-  country: string;
-  city: string;
-  streetName: string;
-  postalCode: string;
-}
-
-export interface AddressFormValues {
-  shippingAddress: AddressFormInputValues;
-  billingAddress: AddressFormInputValues;
-}
-
-interface CountryControllerProps {
-  name: "shippingAddress.country" | "billingAddress.country";
-  control: Control<AddressFormValues>;
-}
+import { Controller, useFormContext } from "react-hook-form";
 
 type AddressFormProps = Pick<BoxProps, "sx"> & {
   title: string;
-  countryControllerProps: CountryControllerProps;
+  addressType: "shippingAddress" | "billingAddress";
   fieldLabelPosition?: "outside" | "inside";
   titleProps?: FormLabelProps;
   countryFieldProps?: TextFieldProps;
@@ -55,20 +38,23 @@ export const AddressForm = ({
   title,
   fieldLabelPosition,
   titleProps,
-  countryControllerProps,
+  addressType,
   countryFieldProps,
   cityFieldProps,
   streetFieldProps,
   postalCodeFieldProps,
   switchProps,
 }: AddressFormProps) => {
+  const { control, register } = useFormContext();
+
   return (
     <Box sx={{ ...rootStyle, ...sx }}>
       <FormLabel {...titleProps} sx={{ ...titleStyle, ...titleProps?.sx }}>
         {title}
       </FormLabel>
       <Controller
-        {...countryControllerProps}
+        control={control}
+        name={`${addressType}.country`}
         render={({ field: { ref, onChange, ...field } }) => (
           <Autocomplete
             options={countries}
@@ -101,18 +87,21 @@ export const AddressForm = ({
         label="Город"
         labelPosition={fieldLabelPosition}
         {...cityFieldProps}
+        {...register(`${addressType}.city`)}
       />
       <CustomTextField
         type="text"
         label="Улица"
         labelPosition={fieldLabelPosition}
         {...streetFieldProps}
+        {...register(`${addressType}.streetName`)}
       />
       <CustomTextField
         type="number"
         label="Индекс"
         labelPosition={fieldLabelPosition}
         {...postalCodeFieldProps}
+        {...register(`${addressType}.postalCode`)}
         sx={{
           ...numberFieldStyle,
           ...postalCodeFieldProps?.sx,

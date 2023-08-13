@@ -1,1 +1,2 @@
-export { AddressForm, type AddressFormValues } from "./ui/AddressForm";
+export { AddressForm } from "./ui/AddressForm";
+export { type AddressFormValues } from "./model/types";
