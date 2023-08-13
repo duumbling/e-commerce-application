@@ -6,7 +6,7 @@ import {
   validatePasswordConfirm,
 } from "../../../shared/lib/validation";
 import { aboutFormValidationSchema } from "../../../features/AboutForm";
-import { addressValidationSchema } from "../../../features/AddressForm";
+import { addressFormValidationSchema } from "../../../features/AddressForm";
 
 export const formSchema: ObjectSchema<RegistrationFormValues> =
   aboutFormValidationSchema.concat(
@@ -14,7 +14,7 @@ export const formSchema: ObjectSchema<RegistrationFormValues> =
       email: validateEmail(),
       password: validatePassword(),
       passwordConfirm: validatePasswordConfirm(),
-      shippingAddress: addressValidationSchema,
-      billingAddress: addressValidationSchema,
+      shippingAddress: addressFormValidationSchema,
+      billingAddress: addressFormValidationSchema,
     }),
   );

@@ -3,7 +3,7 @@ import { matchOnlyAlphabeticCharacters } from "../../../shared/lib/validation";
 
 const POSTAL_CODE_LENGTH = 6;
 
-export const addressValidationSchema = object({
+export const addressFormValidationSchema = object({
   country: string().required("Выберите страну"),
   city: matchOnlyAlphabeticCharacters(string().required("Введите город")),
   streetName: string().required("Введите название улицы"),
