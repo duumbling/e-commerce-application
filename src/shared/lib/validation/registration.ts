@@ -72,6 +72,7 @@ export const validateBirthday = (): DateSchema<
     .required()
     .nullable()
     .typeError("Введите дату рождения")
+    .max(new Date(), "Введите правильную дату")
     .test(
       "birthday",
       `Регистрация доступна только с ${USER_MIN_YEARS} лет`,
