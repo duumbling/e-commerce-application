@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm, type SubmitHandler, FormProvider } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Box,
   FormControlLabel,
@@ -31,13 +32,24 @@ import { createCustomer } from "../../../shared/api";
 import { PRIMARY_COLOR } from "../../../shared/constants/colors";
 import { type RegistrationFormValues } from "../model/types";
 import { AddressType } from "../model/types";
-import { isRegistrationError } from "../lib/helpers";
+import {
+  getUserBirthdayFormattedString,
+  isRegistrationError,
+} from "../lib/helpers";
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar/";
+import { formSchema } from "../model/model";
 
 export const RegistrationForm = () => {
-  const methods = useForm<RegistrationFormValues>();
+  const methods = useForm<RegistrationFormValues>({
+    resolver: yupResolver(formSchema),
+    mode: "onChange",
+  });
 
-  const { register, handleSubmit } = methods;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
   const [isDefaultShippingAddressChecked, setDefaultShippingAddressChecked] =
     useState(false);
@@ -56,7 +68,7 @@ export const RegistrationForm = () => {
     try {
       await createCustomer({
         ...data,
-        dateOfBirth: data.userBirthday,
+        dateOfBirth: getUserBirthdayFormattedString(data.userBirthday),
         addresses: [data.shippingAddress, data.billingAddress],
         defaultShippingAddress: isDefaultShippingAddressChecked
           ? AddressType.SHIPPING
@@ -102,6 +114,8 @@ export const RegistrationForm = () => {
                 <CustomTextField
                   type="email"
                   label="Email"
+                  error={errors.email !== undefined}
+                  helperText={errors.email?.message}
                   sx={firstTextFieldStyle}
                   {...register("email")}
                 />
@@ -109,12 +123,16 @@ export const RegistrationForm = () => {
                 <PasswordField
                   label="Пароль"
                   autoComplete="on"
+                  error={errors.password !== undefined}
+                  helperText={errors.password?.message}
                   sx={textFieldStyle}
                   {...register("password")}
                 />
 
                 <PasswordField
                   label="Подтвердите пароль"
+                  error={errors.passwordConfirm !== undefined}
+                  helperText={errors.passwordConfirm?.message}
                   autoComplete="on"
                   sx={textFieldStyle}
                   {...register("passwordConfirm")}
