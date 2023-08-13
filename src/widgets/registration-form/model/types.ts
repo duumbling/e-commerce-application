@@ -11,7 +11,7 @@ export interface RegistrationFormValues {
   passwordConfirm: string;
   firstName: string;
   lastName: string;
-  userBirthday: string;
+  userBirthday: Date | null;
   shippingAddress: AddressFormValues;
   billingAddress: AddressFormValues;
 }
