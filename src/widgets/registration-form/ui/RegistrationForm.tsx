@@ -43,6 +43,7 @@ export const RegistrationForm = () => {
   const methods = useForm<RegistrationFormValues>({
     resolver: yupResolver(formSchema),
     mode: "onChange",
+    shouldUnregister: true,
   });
 
   const {
