@@ -37,7 +37,7 @@ import {
   isRegistrationError,
 } from "../lib/helpers";
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar/";
-import { formSchema } from "../model/model";
+import { formSchema } from "../model/schema";
 
 export const RegistrationForm = () => {
   const methods = useForm<RegistrationFormValues>({
