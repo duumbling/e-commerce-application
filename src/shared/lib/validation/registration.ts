@@ -40,7 +40,10 @@ export const validatePassword = (): StringSchema<
 > =>
   string()
     .required("Введите пароль")
-    .min(PASSWORD_MIN_LENGTH, "Пароль должен содержать минимум 8 символов")
+    .min(
+      PASSWORD_MIN_LENGTH,
+      `Пароль должен содержать минимум ${PASSWORD_MIN_LENGTH} символов`,
+    )
     .matches(/[0-9]/, getPasswordCharacterValidationError("цифру"))
     .matches(/[a-zа-яё]/, getPasswordCharacterValidationError("строчную букву"))
     .matches(
