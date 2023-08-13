@@ -5,7 +5,7 @@ import {
   validateName,
 } from "../../../shared/lib/validation";
 
-export const aboutValidationSchema = object({
+export const aboutFormValidationSchema = object({
   firstName: validateName("Введите имя"),
   lastName: validateName("Введите фамилию"),
   userBirthday: validateBirthday(),

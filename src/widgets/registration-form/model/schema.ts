@@ -5,11 +5,11 @@ import {
   validatePassword,
   validatePasswordConfirm,
 } from "../../../shared/lib/validation";
-import { aboutValidationSchema } from "../../../features/AboutForm";
+import { aboutFormValidationSchema } from "../../../features/AboutForm";
 import { addressValidationSchema } from "../../../features/AddressForm";
 
 export const formSchema: ObjectSchema<RegistrationFormValues> =
-  aboutValidationSchema.concat(
+  aboutFormValidationSchema.concat(
     object().shape({
       email: validateEmail(),
       password: validatePassword(),
