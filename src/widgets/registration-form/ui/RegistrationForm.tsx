@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm, type SubmitHandler, type Control } from "react-hook-form";
+import { useForm, type SubmitHandler, FormProvider } from "react-hook-form";
 import {
   Box,
   FormControlLabel,
@@ -24,21 +24,20 @@ import {
 } from "./style";
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
-import {
-  AddressForm,
-  type AddressFormValues,
-} from "../../../features/AddressForm";
+import { AddressForm } from "../../../features/AddressForm";
 import { AboutForm } from "../../../features/AboutForm";
 import { PasswordField } from "../../../shared/ui/PasswordField";
 import { createCustomer } from "../../../shared/api";
 import { PRIMARY_COLOR } from "../../../shared/constants/colors";
-import { type RegistrationFormValues } from "../lib/types";
-import { AddressType } from "../lib/types";
+import { type RegistrationFormValues } from "../model/types";
+import { AddressType } from "../model/types";
 import { isRegistrationError } from "../lib/helpers";
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar/";
 
 export const RegistrationForm = () => {
-  const { register, control, handleSubmit } = useForm<RegistrationFormValues>();
+  const methods = useForm<RegistrationFormValues>();
+
+  const { register, handleSubmit } = methods;
 
   const [isDefaultShippingAddressChecked, setDefaultShippingAddressChecked] =
     useState(false);
@@ -85,170 +84,153 @@ export const RegistrationForm = () => {
     setMessageVisible(true);
   };
 
-  const addressFormControl = control as unknown as Control<AddressFormValues>;
-
   return (
-    <form
-      id="registration-form"
-      onSubmit={(...args) => {
-        void handleSubmit(onSubmit)(...args);
-      }}
-    >
-      <Box sx={rootStyle}>
-        <Grid {...gridContainerProps}>
-          <Grid {...gridItemProps}>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <FormLabel sx={{ display: "block", ...titleStyle }}>
-                Аккаунт
-              </FormLabel>
-              <CustomTextField
-                type="email"
-                label="Email"
-                sx={firstTextFieldStyle}
-                {...register("email")}
-              />
-
-              <PasswordField
-                label="Пароль"
-                autoComplete="on"
-                sx={textFieldStyle}
-                {...register("password")}
-              />
-
-              <PasswordField
-                label="Подтвердите пароль"
-                autoComplete="on"
-                sx={textFieldStyle}
-                {...register("passwordConfirm")}
-              />
-            </Box>
-          </Grid>
-          <Grid {...gridItemProps}>
-            <AboutForm
-              title="О себе"
-              titleProps={{ sx: titleStyle }}
-              firstNameFieldProps={{
-                sx: firstTextFieldStyle,
-                ...register("firstName"),
-              }}
-              lastNameFieldProps={{
-                sx: textFieldStyle,
-                ...register("lastName"),
-              }}
-              birthDateFieldProps={{
-                sx: textFieldStyle,
-                ...register("userBirthday"),
-              }}
-            />
-          </Grid>
-          <Grid {...gridItemProps}>
-            <AddressForm
-              title="Адрес доставки"
-              titleProps={{ sx: titleStyle }}
-              countryControllerProps={{
-                control: addressFormControl,
-                name: "shippingAddress.country",
-              }}
-              countryFieldProps={{
-                sx: {
-                  ...firstTextFieldStyle,
-                  input: {
-                    paddingTop: 1.25,
-                    paddingBottom: 1.25,
-                  },
-                },
-              }}
-              cityFieldProps={{
-                sx: textFieldStyle,
-                ...register("shippingAddress.city"),
-              }}
-              streetFieldProps={{
-                sx: textFieldStyle,
-                ...register("shippingAddress.streetName"),
-              }}
-              postalCodeFieldProps={{
-                sx: textFieldStyle,
-                ...register("shippingAddress.postalCode"),
-              }}
-              switchProps={{
-                onChange: (_, checked) => {
-                  setDefaultShippingAddressChecked(checked);
-                },
-              }}
-            />
-          </Grid>
-          <Grid {...gridItemProps}>
-            <AddressForm
-              title="Адрес выставления счетов"
-              titleProps={{ sx: titleStyle }}
-              countryControllerProps={{
-                control: addressFormControl,
-                name: "billingAddress.country",
-              }}
-              countryFieldProps={{
-                sx: firstTextFieldStyle,
-              }}
-              cityFieldProps={{
-                sx: textFieldStyle,
-                ...register("billingAddress.city"),
-              }}
-              streetFieldProps={{
-                sx: textFieldStyle,
-                ...register("billingAddress.streetName"),
-              }}
-              postalCodeFieldProps={{
-                sx: textFieldStyle,
-                ...register("billingAddress.postalCode"),
-              }}
-              switchProps={{
-                onChange: (_, checked) => {
-                  setDefaultBillingAddressChecked(checked);
-                },
-              }}
-            />
-          </Grid>
-          <Grid item sm={6} md={6} sx={buttonBoxStyle}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              maxWidth={235}
-              textAlign="center"
-            >
-              <FormControlLabel
-                control={<Switch />}
-                label="Указать общий адрес"
-                sx={commonAddressSwitchLabelStyle}
-              />
-              <CustomButton
-                type="submit"
-                form="registration-form"
-                sx={registerButtonStyle}
-              >
-                Зарегистрироваться
-              </CustomButton>
-              <Link href="#" variant="body2" color="inherit" sx={linkStyle}>
-                Есть аккаунт? Войти
-              </Link>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
-      <Backdrop
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isLoading}
-      >
-        <CircularProgress sx={{ color: PRIMARY_COLOR }} />
-      </Backdrop>
-      <CustomSnackBar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        severity={isRegistrationSuccess ? "success" : "error"}
-        autoHideDuration={2000}
-        open={isMessageVisible}
-        onClose={() => {
-          setMessageVisible(false);
+    <FormProvider {...methods}>
+      <form
+        id="registration-form"
+        onSubmit={(...args) => {
+          void handleSubmit(onSubmit)(...args);
         }}
-        message={isRegistrationSuccess ? "Регистрация завершена" : errorMessage}
-      />
-    </form>
+      >
+        <Box sx={rootStyle}>
+          <Grid {...gridContainerProps}>
+            <Grid {...gridItemProps}>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <FormLabel sx={{ display: "block", ...titleStyle }}>
+                  Аккаунт
+                </FormLabel>
+                <CustomTextField
+                  type="email"
+                  label="Email"
+                  sx={firstTextFieldStyle}
+                  {...register("email")}
+                />
+
+                <PasswordField
+                  label="Пароль"
+                  autoComplete="on"
+                  sx={textFieldStyle}
+                  {...register("password")}
+                />
+
+                <PasswordField
+                  label="Подтвердите пароль"
+                  autoComplete="on"
+                  sx={textFieldStyle}
+                  {...register("passwordConfirm")}
+                />
+              </Box>
+            </Grid>
+            <Grid {...gridItemProps}>
+              <AboutForm
+                title="О себе"
+                titleProps={{ sx: titleStyle }}
+                firstNameFieldProps={{
+                  sx: firstTextFieldStyle,
+                }}
+                lastNameFieldProps={{
+                  sx: textFieldStyle,
+                }}
+                userBirthDayProps={{
+                  sx: textFieldStyle,
+                }}
+              />
+            </Grid>
+            <Grid {...gridItemProps}>
+              <AddressForm
+                title="Адрес доставки"
+                addressType="shippingAddress"
+                titleProps={{ sx: titleStyle }}
+                countryFieldProps={{
+                  sx: {
+                    ...firstTextFieldStyle,
+                  },
+                }}
+                cityFieldProps={{
+                  sx: textFieldStyle,
+                }}
+                streetFieldProps={{
+                  sx: textFieldStyle,
+                }}
+                postalCodeFieldProps={{
+                  sx: textFieldStyle,
+                }}
+                switchProps={{
+                  onChange: (_, checked) => {
+                    setDefaultShippingAddressChecked(checked);
+                  },
+                }}
+              />
+            </Grid>
+            <Grid {...gridItemProps}>
+              <AddressForm
+                title="Адрес выставления счетов"
+                addressType="billingAddress"
+                titleProps={{ sx: titleStyle }}
+                countryFieldProps={{
+                  sx: firstTextFieldStyle,
+                }}
+                cityFieldProps={{
+                  sx: textFieldStyle,
+                }}
+                streetFieldProps={{
+                  sx: textFieldStyle,
+                }}
+                postalCodeFieldProps={{
+                  sx: textFieldStyle,
+                }}
+                switchProps={{
+                  onChange: (_, checked) => {
+                    setDefaultBillingAddressChecked(checked);
+                  },
+                }}
+              />
+            </Grid>
+            <Grid item sm={6} md={6} sx={buttonBoxStyle}>
+              <Box
+                display="flex"
+                flexDirection="column"
+                maxWidth={235}
+                textAlign="center"
+              >
+                <FormControlLabel
+                  control={<Switch />}
+                  label="Указать общий адрес"
+                  sx={commonAddressSwitchLabelStyle}
+                />
+                <CustomButton
+                  type="submit"
+                  form="registration-form"
+                  sx={registerButtonStyle}
+                >
+                  Зарегистрироваться
+                </CustomButton>
+                <Link href="#" variant="body2" color="inherit" sx={linkStyle}>
+                  Есть аккаунт? Войти
+                </Link>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+        <Backdrop
+          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+        >
+          <CircularProgress sx={{ color: PRIMARY_COLOR }} />
+        </Backdrop>
+        <CustomSnackBar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          severity={isRegistrationSuccess ? "success" : "error"}
+          autoHideDuration={2000}
+          open={isMessageVisible}
+          onClose={() => {
+            setMessageVisible(false);
+          }}
+          message={
+            isRegistrationSuccess ? "Регистрация завершена" : errorMessage
+          }
+        />
+      </form>
+    </FormProvider>
   );
 };
