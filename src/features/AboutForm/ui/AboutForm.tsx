@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { useFormContext } from "react-hook-form";
+import { type AboutFormValues } from "../model/types";
 
 type AboutFormProps = Pick<BoxProps, "sx"> & {
   title: string;
@@ -29,7 +30,10 @@ export const AboutForm = ({
   emailFieldProps,
   isContainEmail,
 }: AboutFormProps) => {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<AboutFormValues>();
   return (
     <Box>
       <FormLabel {...titleProps} sx={{ display: "block", ...titleProps?.sx }}>
@@ -40,12 +44,16 @@ export const AboutForm = ({
           label="Имя"
           type="text"
           {...firstNameFieldProps}
+          error={errors.firstName !== undefined}
+          helperText={errors.firstName?.message}
           {...register("firstName")}
         />
         <CustomTextField
           label="Фамилия"
           type="text"
           {...lastNameFieldProps}
+          error={errors.lastName !== undefined}
+          helperText={errors.lastName?.message}
           {...register("lastName")}
         />
         <CustomTextField
@@ -53,6 +61,8 @@ export const AboutForm = ({
           type="date"
           InputLabelProps={{ shrink: true }}
           {...userBirthDayProps}
+          error={errors.userBirthday !== undefined}
+          helperText={errors.userBirthday?.message}
           {...register("userBirthday")}
         />
         {isContainEmail ?? false ? (
@@ -60,7 +70,9 @@ export const AboutForm = ({
             label="Email"
             type="email"
             {...emailFieldProps}
-            {...register("email")}
+            error={errors.userEmail !== undefined}
+            helperText={errors.userBirthday?.message}
+            {...register("userEmail")}
           />
         ) : null}
       </Box>
