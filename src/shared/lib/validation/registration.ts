@@ -8,6 +8,7 @@ import {
 } from "yup";
 
 const PASSWORD_MIN_LENGTH = 8;
+const USER_MIN_YEARS = 13;
 
 const getPasswordCharacterValidationError = (
   characterMessage: string,
@@ -67,5 +68,28 @@ export const validateBirthday = (): DateSchema<
   undefined,
   ""
 > => {
-  return date().required().nullable().typeError("Введите дату рождения");
+  return date()
+    .required()
+    .nullable()
+    .typeError("Введите дату рождения")
+    .test(
+      "birthday",
+      `Регистрация доступна только с ${USER_MIN_YEARS} лет`,
+      (date) => {
+        if (date === null) {
+          return false;
+        }
+        const currentDate = new Date();
+        const userDate = new Date(date);
+        const month = currentDate.getMonth() - userDate.getMonth();
+        let age = currentDate.getFullYear() - userDate.getFullYear();
+        if (
+          month < 0 ||
+          (month === 0 && currentDate.getDate() < userDate.getDate())
+        ) {
+          age -= 1;
+        }
+        return age >= USER_MIN_YEARS;
+      },
+    );
 };
