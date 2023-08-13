@@ -16,11 +16,6 @@ export function Link({
   ...otherProps
 }: LinkProps) {
   return (
-    <MuiLink
-      component={RouterLink}
-      to={href}
-      color={color}
-      {...otherProps}
-    ></MuiLink>
+    <MuiLink component={RouterLink} to={href} color={color} {...otherProps} />
   );
 }
