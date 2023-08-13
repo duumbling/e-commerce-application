@@ -2,12 +2,12 @@ import React, { useState, forwardRef } from "react";
 import { IconButton, InputAdornment, type TextFieldProps } from "@mui/material";
 import { CustomTextField } from "../CustomTextField";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 export const PasswordField = forwardRef<HTMLDivElement, TextFieldProps>(
   function PasswordField({ label, sx, InputProps, ...props }, ref) {
     const [isPasswordVisible, setPasswordVisibleState] = useState(false);
-
+    
     return (
       <CustomTextField
         {...props}
@@ -28,7 +28,7 @@ export const PasswordField = forwardRef<HTMLDivElement, TextFieldProps>(
                 {isPasswordVisible ? (
                   <VisibilityOutlinedIcon />
                 ) : (
-                  <VisibilityOffIcon />
+                  <VisibilityOffOutlinedIcon />
                 )}
               </IconButton>
             </InputAdornment>

@@ -9,9 +9,6 @@ export const rootStyle = {
   "@media (max-width: 950px)": {
     marginLeft: "5%",
   },
-  [TABLET_MEDIA]: {
-    marginLeft: 0,
-  },
 };
 
 export const gridContainerProps = {
