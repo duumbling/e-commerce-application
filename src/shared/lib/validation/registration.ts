@@ -6,7 +6,6 @@ import {
   type AnyObject,
   type DateSchema,
 } from "yup";
-import { matchOnlyAlphabeticCharacters } from "./helpers";
 
 const PASSWORD_MIN_LENGTH = 8;
 
@@ -14,13 +13,17 @@ const getPasswordCharacterValidationError = (
   characterMessage: string,
 ): string => `Пароль должен содержать хотя бы 1 ${characterMessage}`;
 
-export const validateName = (
-  requiredMessage: string,
-  minLengthMessage: string,
-) =>
-  matchOnlyAlphabeticCharacters(
-    string().required(requiredMessage).min(1, minLengthMessage),
+export const matchOnlyAlphabeticCharacters = (
+  schema: StringSchema<string, AnyObject, undefined, "">,
+): StringSchema<string, AnyObject, undefined, ""> => {
+  return schema.matches(
+    /^[a-zа-яё]/i,
+    "Поле должно содержать только символы алфавита",
   );
+};
+
+export const validateName = (requiredMessage: string) =>
+  matchOnlyAlphabeticCharacters(string().required(requiredMessage));
 
 export const validateEmail = (): StringSchema<
   string,
@@ -60,4 +63,6 @@ export const validateDate = (): DateSchema<
   AnyObject,
   undefined,
   ""
-> => date().required().nullable().typeError("Введите дату рождения");
+> => {
+  return date().required().nullable().typeError("Введите дату рождения");
+};
