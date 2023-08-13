@@ -15,3 +15,15 @@ export const enum InputColors {
   BORDER_HOVER = "#BEBEBE",
   BORDER_FOCUSED = "#505050",
 }
+
+export const enum ThemeColors {
+  PRIMARY = "primary",
+  SECONDARY = "secondary",
+  COMMON = "common",
+  ERROR = "error",
+  GREY_DARKER = "grey.900",
+  GREY_DARK = "grey.700",
+  GREY = "grey.600",
+  GREY_LIGHT = "grey.400",
+  GREY_LIGHTER = "grey.300",
+}
