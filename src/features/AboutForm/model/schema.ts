@@ -1,6 +1,6 @@
 import { object } from "yup";
 import {
-  validateDate,
+  validateBirthday,
   validateEmail,
   validateName,
 } from "../../../shared/lib/validation";
@@ -8,6 +8,6 @@ import {
 export const aboutValidationSchema = object({
   firstName: validateName("Введите имя"),
   lastName: validateName("Введите фамилию"),
-  userBirthday: validateDate(),
+  userBirthday: validateBirthday(),
   userEmail: validateEmail(),
 });

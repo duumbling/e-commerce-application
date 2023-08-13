@@ -4,5 +4,5 @@ export {
   validateEmail,
   validatePassword,
   validatePasswordConfirm,
-  validateDate,
+  validateBirthday,
 } from "./registration";

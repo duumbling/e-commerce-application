@@ -61,7 +61,7 @@ export const validatePasswordConfirm = (): StringSchema<
     .required("Подтвердите пароль")
     .oneOf([ref("password")], "Пароли не совпадают");
 
-export const validateDate = (): DateSchema<
+export const validateBirthday = (): DateSchema<
   Date | null,
   AnyObject,
   undefined,
