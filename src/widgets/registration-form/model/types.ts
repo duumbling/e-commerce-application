@@ -5,11 +5,13 @@ export enum AddressType {
   BILLING,
 }
 
-export interface RegistrationFormValues extends AddressFormValues {
+export interface RegistrationFormValues {
   email: string;
   password: string;
   passwordConfirm: string;
   firstName: string;
   lastName: string;
   userBirthday: string;
+  shippingAddress: AddressFormValues;
+  billingAddress: AddressFormValues;
 }
