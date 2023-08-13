@@ -31,7 +31,7 @@ export const validateEmail = (): StringSchema<
   AnyObject,
   undefined,
   ""
-> => string().required("Введите email").email();
+> => string().required("Введите email").email("Введите корректный email адрес");
 
 export const validatePassword = (): StringSchema<
   string,
