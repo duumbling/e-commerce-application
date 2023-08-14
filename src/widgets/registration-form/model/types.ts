@@ -1,3 +1,4 @@
+import { type AboutFormValues } from "../../../features/AboutForm";
 import { type AddressFormValues } from "../../../features/AddressForm";
 
 export enum AddressType {
@@ -5,13 +6,10 @@ export enum AddressType {
   BILLING,
 }
 
-export interface RegistrationFormValues {
+export type RegistrationFormValues = Omit<AboutFormValues, "userEmail"> & {
   email: string;
   password: string;
   passwordConfirm: string;
-  firstName: string;
-  lastName: string;
-  userBirthday: string;
   shippingAddress: AddressFormValues;
   billingAddress: AddressFormValues;
-}
+};

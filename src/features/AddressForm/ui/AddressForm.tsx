@@ -20,6 +20,7 @@ import {
 } from "./style";
 import { countries } from "../model/countries";
 import { Controller, useFormContext } from "react-hook-form";
+import { type AddressFormContext } from "../model/types";
 
 type AddressFormProps = Pick<BoxProps, "sx"> & {
   title: string;
@@ -45,7 +46,11 @@ export const AddressForm = ({
   postalCodeFieldProps,
   switchProps,
 }: AddressFormProps) => {
-  const { control, register } = useFormContext();
+  const {
+    control,
+    register,
+    formState: { errors },
+  } = useFormContext<AddressFormContext>();
 
   return (
     <Box sx={{ ...rootStyle, ...sx }}>
@@ -71,6 +76,8 @@ export const AddressForm = ({
                 {...countryFieldProps}
                 {...params}
                 {...field}
+                error={errors[addressType]?.country !== undefined}
+                helperText={errors[addressType]?.country?.message}
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: "new-password",
@@ -87,6 +94,8 @@ export const AddressForm = ({
         label="Город"
         labelPosition={fieldLabelPosition}
         {...cityFieldProps}
+        error={errors[addressType]?.city !== undefined}
+        helperText={errors[addressType]?.city?.message}
         {...register(`${addressType}.city`)}
       />
       <CustomTextField
@@ -94,6 +103,8 @@ export const AddressForm = ({
         label="Улица"
         labelPosition={fieldLabelPosition}
         {...streetFieldProps}
+        error={errors[addressType]?.streetName !== undefined}
+        helperText={errors[addressType]?.streetName?.message}
         {...register(`${addressType}.streetName`)}
       />
       <CustomTextField
@@ -101,6 +112,8 @@ export const AddressForm = ({
         label="Индекс"
         labelPosition={fieldLabelPosition}
         {...postalCodeFieldProps}
+        error={errors[addressType]?.postalCode !== undefined}
+        helperText={errors[addressType]?.postalCode?.message}
         {...register(`${addressType}.postalCode`)}
         sx={{
           ...numberFieldStyle,

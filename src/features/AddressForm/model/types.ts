@@ -4,3 +4,8 @@ export interface AddressFormValues {
   streetName: string;
   postalCode: string;
 }
+
+export interface AddressFormContext {
+  shippingAddress: AddressFormValues;
+  billingAddress: AddressFormValues;
+}
