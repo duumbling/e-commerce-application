@@ -21,9 +21,9 @@ export const enum ThemeColors {
   SECONDARY = "secondary",
   COMMON = "common",
   ERROR = "error",
-  GREY_DARKER = "grey.900",
+  BLACK = "grey.900",
   GREY_DARK = "grey.700",
   GREY = "grey.600",
   GREY_LIGHT = "grey.400",
-  GREY_LIGHTER = "grey.300",
+  LIGHT = "grey.300",
 }
