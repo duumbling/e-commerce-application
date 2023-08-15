@@ -62,13 +62,7 @@ export const AddressForm = ({
   } = useFormContext<AddressFormContext>();
 
   const addressState = useAppSelector((state) => state.addressReducer);
-  const {
-    setCountry,
-    setCity,
-    setStreetName,
-    setPostalCode,
-    setCommonAddressState,
-  } = addressSlice.actions;
+  const { setAddressDataValue, setCommonAddressState } = addressSlice.actions;
   const dispatch = useAppDispatch();
 
   const address = isCommonAddress
@@ -109,8 +103,9 @@ export const AddressForm = ({
             getOptionLabel={(option) => option.name}
             value={address.country}
             onChange={(_, data) => {
-              dispatch(setCountry({ data, field: addressType }));
-              setAddressValue("country", data?.code ?? "");
+              const field = "country";
+              dispatch(setAddressDataValue({ data, addressType, field }));
+              setAddressValue(field, data?.code ?? "");
             }}
             renderInput={(params) => (
               <CustomTextField
@@ -143,8 +138,11 @@ export const AddressForm = ({
         {...register(`${addressType}.city`)}
         value={address.city}
         onChange={({ target }) => {
-          dispatch(setCity({ data: target.value, field: addressType }));
-          setAddressValue("city", target.value);
+          const field = "city";
+          dispatch(
+            setAddressDataValue({ data: target.value, addressType, field }),
+          );
+          setAddressValue(field, target.value);
         }}
       />
       <CustomTextField
@@ -157,8 +155,15 @@ export const AddressForm = ({
         {...register(`${addressType}.streetName`)}
         value={address.streetName}
         onChange={({ target }) => {
-          dispatch(setStreetName({ data: target.value, field: addressType }));
-          setAddressValue("streetName", target.value);
+          const field = "streetName";
+          dispatch(
+            setAddressDataValue({
+              data: target.value,
+              addressType,
+              field,
+            }),
+          );
+          setAddressValue(field, target.value);
         }}
       />
       <CustomTextField
@@ -171,8 +176,15 @@ export const AddressForm = ({
         {...register(`${addressType}.postalCode`)}
         value={address.postalCode}
         onChange={({ target }) => {
-          dispatch(setPostalCode({ data: target.value, field: addressType }));
-          setAddressValue("postalCode", target.value);
+          const field = "postalCode";
+          dispatch(
+            setAddressDataValue({
+              data: target.value,
+              addressType,
+              field,
+            }),
+          );
+          setAddressValue(field, target.value);
         }}
         sx={{
           ...numberFieldStyle,

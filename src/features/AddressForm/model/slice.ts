@@ -12,25 +12,23 @@ interface AddressState {
   isCommonAddress: boolean;
 }
 
+interface AddressPayload {
+  data: Country | string | null;
+  addressType: keyof Pick<AddressState, "billingAddress" | "shippingAddress">;
+  field: keyof AddressData;
+}
+
+const initialAddressData: AddressData = {
+  country: null,
+  city: "",
+  streetName: "",
+  postalCode: "",
+};
+
 const initialState: AddressState = {
-  billingAddress: {
-    country: null,
-    city: "",
-    streetName: "",
-    postalCode: "",
-  },
-  shippingAddress: {
-    country: null,
-    city: "",
-    streetName: "",
-    postalCode: "",
-  },
-  commonAddress: {
-    country: null,
-    city: "",
-    streetName: "",
-    postalCode: "",
-  },
+  billingAddress: initialAddressData,
+  shippingAddress: initialAddressData,
+  commonAddress: initialAddressData,
   isCommonAddress: false,
 };
 
@@ -38,60 +36,18 @@ export const addressSlice = createSlice({
   name: "address",
   initialState,
   reducers: {
-    setCountry(
-      state,
-      {
-        payload,
-      }: PayloadAction<{
-        data: Country | null;
-        field: keyof Pick<AddressState, "billingAddress" | "shippingAddress">;
-      }>,
-    ) {
-      state[payload.field].country = payload.data;
-      if (state.isCommonAddress) {
-        state.commonAddress.country = payload.data;
+    setAddressDataValue(state, { payload }: PayloadAction<AddressPayload>) {
+      if (typeof payload.data === "string" && payload.field !== "country") {
+        state[payload.addressType][payload.field] = payload.data ?? "";
+        if (state.isCommonAddress) {
+          state.commonAddress[payload.field] = payload.data;
+        }
       }
-    },
-    setCity(
-      state,
-      {
-        payload,
-      }: PayloadAction<{
-        data: string;
-        field: keyof Pick<AddressState, "billingAddress" | "shippingAddress">;
-      }>,
-    ) {
-      state[payload.field].city = payload.data;
-      if (state.isCommonAddress) {
-        state.commonAddress.city = payload.data;
-      }
-    },
-    setStreetName(
-      state,
-      {
-        payload,
-      }: PayloadAction<{
-        data: string;
-        field: keyof Pick<AddressState, "billingAddress" | "shippingAddress">;
-      }>,
-    ) {
-      state[payload.field].streetName = payload.data;
-      if (state.isCommonAddress) {
-        state.commonAddress.streetName = payload.data;
-      }
-    },
-    setPostalCode(
-      state,
-      {
-        payload,
-      }: PayloadAction<{
-        data: string;
-        field: keyof Pick<AddressState, "billingAddress" | "shippingAddress">;
-      }>,
-    ) {
-      state[payload.field].postalCode = payload.data;
-      if (state.isCommonAddress) {
-        state.commonAddress.postalCode = payload.data;
+      if (typeof payload.data !== "string" && payload.field === "country") {
+        state[payload.addressType][payload.field] = payload.data;
+        if (state.isCommonAddress) {
+          state.commonAddress.country = payload.data;
+        }
       }
     },
     setCommonAddressState(state, action: PayloadAction<boolean>) {
