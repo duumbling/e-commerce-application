@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   FormLabel,
@@ -20,10 +20,17 @@ import {
 } from "./style";
 import { countries } from "../model/countries";
 import { Controller, useFormContext } from "react-hook-form";
-import { type AddressFormContext } from "../model/types";
+import {
+  type AddressFormValues,
+  type AddressFormContext,
+} from "../model/types";
+import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
+import { addressSlice } from "../model/slice";
+import { getOppositeAddressType } from "../lib/helper";
 
 type AddressFormProps = Pick<BoxProps, "sx"> & {
   title: string;
+  isCommonAddress: boolean;
   addressType: "shippingAddress" | "billingAddress";
   fieldLabelPosition?: "outside" | "inside";
   titleProps?: FormLabelProps;
@@ -37,6 +44,7 @@ type AddressFormProps = Pick<BoxProps, "sx"> & {
 export const AddressForm = ({
   sx,
   title,
+  isCommonAddress,
   fieldLabelPosition,
   titleProps,
   addressType,
@@ -49,8 +57,36 @@ export const AddressForm = ({
   const {
     control,
     register,
+    setValue,
     formState: { errors },
   } = useFormContext<AddressFormContext>();
+
+  const addressState = useAppSelector((state) => state.addressReducer);
+  const { setAddressDataValue, setCommonAddressState } = addressSlice.actions;
+  const dispatch = useAppDispatch();
+
+  const address = isCommonAddress
+    ? addressState.commonAddress
+    : addressState[addressType];
+
+  useEffect(() => {
+    dispatch(setCommonAddressState(isCommonAddress));
+  }, [isCommonAddress]);
+
+  const setAddressValue = (
+    addressField: keyof AddressFormValues,
+    value: string,
+  ): void => {
+    setValue(`${addressType}.${addressField}`, value, {
+      shouldValidate: true,
+    });
+    if (isCommonAddress) {
+      const anotherAddressType = getOppositeAddressType(addressType);
+      setValue(`${anotherAddressType}.${addressField}`, value, {
+        shouldValidate: true,
+      });
+    }
+  };
 
   return (
     <Box sx={{ ...rootStyle, ...sx }}>
@@ -60,13 +96,16 @@ export const AddressForm = ({
       <Controller
         control={control}
         name={`${addressType}.country`}
-        render={({ field: { ref, onChange, ...field } }) => (
+        render={({ field }) => (
           <Autocomplete
             options={countries}
             sx={autocompleteStyle}
             getOptionLabel={(option) => option.name}
+            value={address.country}
             onChange={(_, data) => {
-              onChange(data?.code);
+              const field = "country";
+              dispatch(setAddressDataValue({ data, addressType, field }));
+              setAddressValue(field, data?.code ?? "");
             }}
             renderInput={(params) => (
               <CustomTextField
@@ -97,6 +136,14 @@ export const AddressForm = ({
         error={errors[addressType]?.city !== undefined}
         helperText={errors[addressType]?.city?.message}
         {...register(`${addressType}.city`)}
+        value={address.city}
+        onChange={({ target }) => {
+          const field = "city";
+          dispatch(
+            setAddressDataValue({ data: target.value, addressType, field }),
+          );
+          setAddressValue(field, target.value);
+        }}
       />
       <CustomTextField
         type="text"
@@ -106,6 +153,18 @@ export const AddressForm = ({
         error={errors[addressType]?.streetName !== undefined}
         helperText={errors[addressType]?.streetName?.message}
         {...register(`${addressType}.streetName`)}
+        value={address.streetName}
+        onChange={({ target }) => {
+          const field = "streetName";
+          dispatch(
+            setAddressDataValue({
+              data: target.value,
+              addressType,
+              field,
+            }),
+          );
+          setAddressValue(field, target.value);
+        }}
       />
       <CustomTextField
         type="number"
@@ -115,6 +174,18 @@ export const AddressForm = ({
         error={errors[addressType]?.postalCode !== undefined}
         helperText={errors[addressType]?.postalCode?.message}
         {...register(`${addressType}.postalCode`)}
+        value={address.postalCode}
+        onChange={({ target }) => {
+          const field = "postalCode";
+          dispatch(
+            setAddressDataValue({
+              data: target.value,
+              addressType,
+              field,
+            }),
+          );
+          setAddressValue(field, target.value);
+        }}
         sx={{
           ...numberFieldStyle,
           ...postalCodeFieldProps?.sx,

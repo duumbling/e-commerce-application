@@ -9,3 +9,8 @@ export interface AddressFormContext {
   shippingAddress: AddressFormValues;
   billingAddress: AddressFormValues;
 }
+
+export interface Country {
+  name: string;
+  code: string;
+}

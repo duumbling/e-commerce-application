@@ -3,11 +3,9 @@ import { useForm, type SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Box,
-  FormControlLabel,
   FormLabel,
   Grid,
   Link,
-  Switch,
   Backdrop,
   CircularProgress,
 } from "@mui/material";
@@ -19,7 +17,6 @@ import {
   linkStyle,
   gridContainerProps,
   gridItemProps,
-  commonAddressSwitchLabelStyle,
   rootStyle,
   buttonBoxStyle,
 } from "./style";
@@ -28,16 +25,13 @@ import { CustomButton } from "../../../shared/ui/CustomButton";
 import { AddressForm } from "../../../features/AddressForm";
 import { AboutForm } from "../../../features/AboutForm";
 import { PasswordField } from "../../../shared/ui/PasswordField";
-import { createCustomer } from "../../../shared/api";
 import { PRIMARY_COLOR } from "../../../shared/constants/colors";
 import { type RegistrationFormValues } from "../model/types";
-import { AddressType } from "../model/types";
-import {
-  getUserBirthdayFormattedString,
-  isRegistrationError,
-} from "../lib/helpers";
+import { getErrorMessage } from "../lib/helpers";
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar/";
 import { formSchema } from "../model/schema";
+import CustomSwitch from "../../../shared/ui/CustomSwitch/CustomSwitch";
+import { registerCustomer } from "../api/registration";
 
 export const RegistrationForm = () => {
   const methods = useForm<RegistrationFormValues>({
@@ -52,6 +46,8 @@ export const RegistrationForm = () => {
     formState: { errors },
   } = methods;
 
+  const [isCommonAddressChecked, setCommonAddressChecked] = useState(false);
+
   const [isDefaultShippingAddressChecked, setDefaultShippingAddressChecked] =
     useState(false);
   const [isDefaultBillingAddressChecked, setDefaultBillingAddressChecked] =
@@ -65,33 +61,16 @@ export const RegistrationForm = () => {
 
   const onSubmit: SubmitHandler<RegistrationFormValues> = async (data) => {
     setLoading(true);
-
     try {
-      await createCustomer({
-        ...data,
-        dateOfBirth: getUserBirthdayFormattedString(data.userBirthday),
-        addresses: [data.shippingAddress, data.billingAddress],
-        defaultShippingAddress: isDefaultShippingAddressChecked
-          ? AddressType.SHIPPING
-          : undefined,
-        defaultBillingAddress: isDefaultBillingAddressChecked
-          ? AddressType.BILLING
-          : undefined,
-      });
+      await registerCustomer(
+        data,
+        isDefaultShippingAddressChecked,
+        isDefaultBillingAddressChecked,
+      );
       setSuccess(true);
     } catch (error) {
+      setErrorMessage(getErrorMessage(error));
       setSuccess(false);
-      if (error instanceof Error && isRegistrationError(error)) {
-        const { errors } = error.body;
-        if (
-          errors[0].code === "DuplicateField" &&
-          errors[0].field === "email"
-        ) {
-          setErrorMessage("Пользователь с таким email уже зарегистрирован");
-        } else {
-          setErrorMessage("Упс, что-то пошло не так");
-        }
-      }
     }
     setLoading(false);
     setMessageVisible(true);
@@ -158,6 +137,7 @@ export const RegistrationForm = () => {
             <Grid {...gridItemProps}>
               <AddressForm
                 title="Адрес доставки"
+                isCommonAddress={isCommonAddressChecked}
                 addressType="shippingAddress"
                 titleProps={{ sx: titleStyle }}
                 countryFieldProps={{
@@ -184,6 +164,7 @@ export const RegistrationForm = () => {
             <Grid {...gridItemProps}>
               <AddressForm
                 title="Адрес выставления счетов"
+                isCommonAddress={isCommonAddressChecked}
                 addressType="billingAddress"
                 titleProps={{ sx: titleStyle }}
                 countryFieldProps={{
@@ -212,10 +193,12 @@ export const RegistrationForm = () => {
                 maxWidth={235}
                 textAlign="center"
               >
-                <FormControlLabel
-                  control={<Switch />}
+                <CustomSwitch
                   label="Указать общий адрес"
-                  sx={commonAddressSwitchLabelStyle}
+                  name="common-address"
+                  handleChange={() => {
+                    setCommonAddressChecked(!isCommonAddressChecked);
+                  }}
                 />
                 <CustomButton
                   type="submit"

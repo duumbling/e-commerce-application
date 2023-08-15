@@ -7,7 +7,7 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 export const PasswordField = forwardRef<HTMLDivElement, TextFieldProps>(
   function PasswordField({ label, sx, InputProps, ...props }, ref) {
     const [isPasswordVisible, setPasswordVisibleState] = useState(false);
-    
+
     return (
       <CustomTextField
         {...props}
