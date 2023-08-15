@@ -63,7 +63,7 @@ export const LoginForm = () => {
                       field.onChange(e);
                     }}
                     value={field.value}
-                    error={!(errors.email?.message == null)}
+                    error={errors.email !== undefined}
                     helperText={errors.email?.message}
                   />
                 )}
@@ -80,7 +80,7 @@ export const LoginForm = () => {
                       field.onChange(e);
                     }}
                     value={field.value}
-                    error={!(errors.password?.message == null)}
+                    error={errors.password !== undefined}
                     helperText={errors.password?.message}
                   />
                 )}
