@@ -2,7 +2,7 @@ import React from "react";
 import { Link as MuiLink, type LinkProps as MuiLinkProps } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import type { Paths } from "../../constants/paths";
-import { PRIMARY_COLOR, ThemeColors } from "../../constants/colors";
+import { ThemeColors } from "../../constants/colors";
 import type { Omit } from "@reduxjs/toolkit/dist/tsHelpers";
 
 type LinkProps = Omit<MuiLinkProps, "color"> & {
@@ -18,7 +18,7 @@ export function Link({
   ...otherProps
 }: LinkProps) {
   const hoverColor =
-    color === ThemeColors.PRIMARY ? ThemeColors.BLACK : PRIMARY_COLOR;
+    color === ThemeColors.PRIMARY ? ThemeColors.BLACK : "primary.main";
 
   return (
     <MuiLink
