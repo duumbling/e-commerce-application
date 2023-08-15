@@ -3,6 +3,7 @@ import {
   FORMS_HEADER_BORDER_COLOR,
 } from "../../../shared/constants/colors";
 import { MOBILE_MEDIA } from "../../../shared/constants/mediaQuery";
+import { CONTAINED_BUTTON_PADDINGS } from "../../../shared/constants/sizes";
 
 export const gridContainerProps = {
   container: true,
@@ -40,13 +41,12 @@ export const secondLineStyle = {
 };
 export const goBackButtonStyle = {
   marginTop: { xs: 5, sm: 10, md: 10 },
-  padding: "14px 86px",
+  padding: CONTAINED_BUTTON_PADDINGS,
   textAlign: "center",
   fontSize: 15,
   textTransform: "none",
   [MOBILE_MEDIA]: {
     fontSize: 11,
-    padding: "10px 43px",
   },
   color: "#fff",
 };
