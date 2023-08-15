@@ -12,7 +12,7 @@ export const rootStyle = {
 
 export const gridContainerProps = {
   container: true,
-  rowSpacing: { xs: 4, sm: 6, md: 8 },
+  rowSpacing: 3,
   columns: 1,
   justifyContent: "center",
 };
