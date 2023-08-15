@@ -97,7 +97,12 @@ export const LoginForm = () => {
               <CustomButton type="submit" sx={loginButtonStyle}>
                 Войти
               </CustomButton>
-              <Link href="#" variant="body2" color="inherit" sx={linkStyle}>
+              <Link
+                href="/register"
+                variant="body2"
+                color="inherit"
+                sx={linkStyle}
+              >
                 Нет аккаунта? Зарегистрироваться
               </Link>
             </Box>
