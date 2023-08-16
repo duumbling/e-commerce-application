@@ -23,12 +23,11 @@ import {
   PasswordValidation,
 } from "../../../shared/lib/validation/login";
 import { Paths } from "../../../shared/constants/paths";
-
+interface Inputs {
+  email: string;
+  password: string;
+}
 export const LoginForm = () => {
-  interface Inputs {
-    email: string;
-    password: string;
-  }
   const { handleSubmit, control } = useForm<Inputs>({
     defaultValues: {
       email: "",
