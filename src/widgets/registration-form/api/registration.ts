@@ -15,6 +15,8 @@ export const registerCustomer = async (
     ...formData,
     dateOfBirth: getUserBirthdayFormattedString(formData.userBirthday),
     addresses: [formData.shippingAddress, formData.billingAddress],
+    shippingAddresses: [AddressType.SHIPPING],
+    billingAddresses: [AddressType.BILLING],
     defaultShippingAddress: isDefaultShippingAddressChecked
       ? AddressType.SHIPPING
       : undefined,
