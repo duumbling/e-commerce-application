@@ -57,8 +57,4 @@ export const linkStyle = {
   [MOBILE_MEDIA]: {
     fontSize: 8,
   },
-  textDecoration: "none",
-  "&:hover": {
-    textDecoration: "underline",
-  },
 };

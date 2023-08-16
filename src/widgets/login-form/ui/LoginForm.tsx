@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Link } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import {
   textFieldStyle,
   firstTextFieldStyle,
@@ -23,6 +23,7 @@ import {
   PasswordValidation,
 } from "../../../shared/lib/validation/login";
 import { Paths } from "../../../shared/constants/paths";
+import { Link } from "../../../shared/ui/Link";
 interface Inputs {
   email: string;
   password: string;
@@ -100,8 +101,8 @@ export const LoginForm = () => {
               <Link
                 href={Paths.Register}
                 variant="body2"
-                color="inherit"
                 sx={linkStyle}
+                underline="always"
               >
                 Нет аккаунта? Зарегистрироваться
               </Link>
