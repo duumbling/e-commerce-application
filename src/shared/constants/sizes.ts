@@ -30,3 +30,8 @@ export const SMALL_SIZE_SWITCH = {
     transitionDuration: "200ms",
   },
 };
+export const CONTAINED_BUTTON_PADDINGS = {
+  md: "14px 86px",
+  sm: "14px 86px",
+  xs: "10px 43px",
+};
