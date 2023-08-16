@@ -22,6 +22,7 @@ import {
   EmailValidation,
   PasswordValidation,
 } from "../../../shared/lib/validation/login";
+import { Paths } from "../../../shared/constants/paths";
 
 export const LoginForm = () => {
   interface Inputs {
@@ -98,7 +99,7 @@ export const LoginForm = () => {
                 Войти
               </CustomButton>
               <Link
-                href="/register"
+                href={Paths.Main}
                 variant="body2"
                 color="inherit"
                 sx={linkStyle}
