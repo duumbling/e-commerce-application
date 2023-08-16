@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Backdrop, Box, CircularProgress, Grid } from "@mui/material";
 import {
   textFieldStyle,
   firstTextFieldStyle,
@@ -24,12 +24,20 @@ import {
 } from "../../../shared/lib/validation/login";
 import { Paths } from "../../../shared/constants/paths";
 import { Link } from "../../../shared/ui/Link";
-interface Inputs {
-  email: string;
-  password: string;
-}
+import { loginCustomer } from "../../../shared/api/customers";
+import { PRIMARY_COLOR } from "../../../shared/constants/colors";
+import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
+import { type LoginFormValues } from "../model/types";
+import { getErrorMessage } from "../lib/helpers";
+import { useNavigate } from "react-router-dom";
+
 export const LoginForm = () => {
-  const { handleSubmit, control } = useForm<Inputs>({
+  const [isLoading, setLoading] = useState(false);
+  const [isLoginSuccess, setSuccess] = useState(false);
+  const [isMessageVisible, setMessageVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const { handleSubmit, control, reset } = useForm<LoginFormValues>({
     defaultValues: {
       email: "",
       password: "",
@@ -37,8 +45,22 @@ export const LoginForm = () => {
     mode: "onChange",
   });
   const { errors } = useFormState({ control });
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+  const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
+    setLoading(true);
+    try {
+      await loginCustomer(data);
+      setSuccess(true);
+      reset({ email: "", password: "" });
+      setTimeout(() => {
+        navigate(Paths.Main);
+      }, 2000);
+    } catch (error) {
+      setErrorMessage(getErrorMessage(error));
+      setSuccess(false);
+    }
+    setLoading(false);
+    setMessageVisible(true);
   };
   return (
     <form
@@ -110,6 +132,22 @@ export const LoginForm = () => {
           </Grid>
         </Grid>
       </Box>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress sx={{ color: PRIMARY_COLOR }} />
+      </Backdrop>
+      <CustomSnackBar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        severity={isLoginSuccess ? "success" : "error"}
+        autoHideDuration={2000}
+        open={isMessageVisible}
+        onClose={() => {
+          setMessageVisible(false);
+        }}
+        message={isLoginSuccess ? "Успешно" : errorMessage}
+      />
     </form>
   );
 };
