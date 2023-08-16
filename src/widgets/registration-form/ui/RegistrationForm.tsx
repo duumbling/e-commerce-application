@@ -72,9 +72,10 @@ export const RegistrationForm = () => {
         isDefaultBillingAddressChecked,
       );
       setSuccess(true);
+      const timeout = 1000;
       setTimeout(() => {
         navigate(Paths.Main);
-      }, 1000);
+      }, timeout);
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
       setSuccess(false);
