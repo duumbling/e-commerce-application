@@ -98,7 +98,7 @@ export const LoginForm = () => {
                 Войти
               </CustomButton>
               <Link
-                href={Paths.Main}
+                href={Paths.Register}
                 variant="body2"
                 color="inherit"
                 sx={linkStyle}
