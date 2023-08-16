@@ -1,12 +1,16 @@
 import { AddressType, type RegistrationFormValues } from "../model/types";
 import { createCustomer } from "../../../shared/api";
 import { getUserBirthdayFormattedString } from "../lib/helpers";
+import {
+  type ClientResponse,
+  type CustomerSignInResult,
+} from "@commercetools/platform-sdk";
 
 export const registerCustomer = async (
   formData: RegistrationFormValues,
   isDefaultShippingAddressChecked: boolean,
   isDefaultBillingAddressChecked: boolean,
-) => {
+): Promise<ClientResponse<CustomerSignInResult>> => {
   return await createCustomer({
     ...formData,
     dateOfBirth: getUserBirthdayFormattedString(formData.userBirthday),
