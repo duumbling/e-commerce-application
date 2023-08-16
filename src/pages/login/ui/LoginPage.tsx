@@ -9,7 +9,7 @@ export function LoginPage() {
     <div>
       <Box>
         <Grid {...gridContainerProps}>
-          <Grid {...gridHeaderProps}>
+          <Grid {...gridHeaderProps} {...gridItemProps}>
             <Header>Вход на сайт</Header>
           </Grid>
           <Grid {...gridItemProps}>
