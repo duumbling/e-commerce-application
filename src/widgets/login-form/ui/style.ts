@@ -46,7 +46,6 @@ export const loginButtonStyle = {
   [MOBILE_MEDIA]: {
     fontSize: 11,
   },
-  color: "#fff",
 };
 
 export const linkStyle = {
