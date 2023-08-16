@@ -16,10 +16,6 @@ export const gridItemProps = {
   md: 4,
 };
 export const gridHeaderProps = {
-  item: true,
-  xs: 4,
-  sm: 4,
-  md: 4,
   padding: "0 3% 0",
   borderBottom: `0.01rem solid ${FORMS_HEADER_BORDER_COLOR}`,
   color: PRIMARY_COLOR,
