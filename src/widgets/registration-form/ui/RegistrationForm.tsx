@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useForm, type SubmitHandler, FormProvider } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Box,
   FormLabel,
   Grid,
-  Link,
   Backdrop,
   CircularProgress,
 } from "@mui/material";
@@ -25,6 +25,7 @@ import { CustomButton } from "../../../shared/ui/CustomButton";
 import { AddressForm } from "../../../features/AddressForm";
 import { AboutForm } from "../../../features/AboutForm";
 import { PasswordField } from "../../../shared/ui/PasswordField";
+import { Link } from "../../../shared/ui/Link";
 import { PRIMARY_COLOR } from "../../../shared/constants/colors";
 import { type RegistrationFormValues } from "../model/types";
 import { getErrorMessage } from "../lib/helpers";
@@ -32,6 +33,7 @@ import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar/";
 import { formSchema } from "../model/schema";
 import CustomSwitch from "../../../shared/ui/CustomSwitch/CustomSwitch";
 import { registerCustomer } from "../api/registration";
+import { Paths } from "../../../shared/constants/paths";
 
 export const RegistrationForm = () => {
   const methods = useForm<RegistrationFormValues>({
@@ -59,6 +61,8 @@ export const RegistrationForm = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
+  const navigate = useNavigate();
+
   const onSubmit: SubmitHandler<RegistrationFormValues> = async (data) => {
     setLoading(true);
     try {
@@ -68,6 +72,9 @@ export const RegistrationForm = () => {
         isDefaultBillingAddressChecked,
       );
       setSuccess(true);
+      setTimeout(() => {
+        navigate(Paths.Main);
+      }, 1000);
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
       setSuccess(false);
@@ -207,7 +214,7 @@ export const RegistrationForm = () => {
                 >
                   Зарегистрироваться
                 </CustomButton>
-                <Link href="#" variant="body2" color="inherit" sx={linkStyle}>
+                <Link href={Paths.Login} underline="always" sx={linkStyle}>
                   Есть аккаунт? Войти
                 </Link>
               </Box>
