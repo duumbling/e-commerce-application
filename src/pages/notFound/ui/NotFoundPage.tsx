@@ -15,8 +15,7 @@ import { useNavigate } from "react-router-dom";
 export function NotFoundPage() {
   const navigate = useNavigate();
   return (
-    <div>
-      <Box>
+     <Box>
         <Grid {...gridContainerProps}>
           <Grid {...gridHeaderProps}>
             <Header></Header>
@@ -42,6 +41,5 @@ export function NotFoundPage() {
           </Grid>
         </Grid>
       </Box>
-    </div>
   );
 }
