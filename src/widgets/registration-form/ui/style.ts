@@ -75,7 +75,6 @@ export const registerButtonStyle = {
   textAlign: "center",
   fontSize: 15,
   textTransform: "none",
-  color: "#FFFFFF",
 
   [MOBILE_MEDIA]: {
     fontSize: 11,
