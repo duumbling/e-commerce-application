@@ -48,5 +48,4 @@ export const goBackButtonStyle = {
   [MOBILE_MEDIA]: {
     fontSize: 11,
   },
-  color: "#fff",
 };
