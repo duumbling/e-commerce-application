@@ -1,14 +1,15 @@
-import React from "react";
-import { LogoDevRounded } from "@mui/icons-material";
+import React, { type SVGProps } from "react";
 import { Link } from "react-router-dom";
 import { Paths } from "../../constants/paths";
+import { ReactComponent as IconLogo } from "../assets/logo/fo-logo.svg";
 
-// TODO Доделаю логотип, когда решим "как"
-
-export function Logo() {
+export function Logo({
+  width = "8rem",
+  ...otherProps
+}: SVGProps<SVGSVGElement>) {
   return (
     <Link to={Paths.Main}>
-      <LogoDevRounded sx={{ fontSize: 60 }} />
+      <IconLogo width={width} {...otherProps}></IconLogo>
     </Link>
   );
 }
