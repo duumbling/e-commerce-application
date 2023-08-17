@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Link } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import {
   textFieldStyle,
   firstTextFieldStyle,
@@ -12,20 +12,80 @@ import {
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
 import { PasswordField } from "../../../shared/ui/PasswordField";
-
+import {
+  useForm,
+  type SubmitHandler,
+  Controller,
+  useFormState,
+} from "react-hook-form";
+import {
+  EmailValidation,
+  PasswordValidation,
+} from "../../../shared/lib/validation/login";
+import { Paths } from "../../../shared/constants/paths";
+import { Link } from "../../../shared/ui/Link";
+interface Inputs {
+  email: string;
+  password: string;
+}
 export const LoginForm = () => {
+  const { handleSubmit, control } = useForm<Inputs>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onChange",
+  });
+  const { errors } = useFormState({ control });
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+  };
   return (
-    <form id="login-form">
+    <form
+      id="login-form"
+      onSubmit={(...args) => {
+        void handleSubmit(onSubmit)(...args);
+      }}
+    >
       <Box sx={rootStyle}>
         <Grid {...gridContainerProps}>
           <Grid {...gridItemProps}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <CustomTextField
-                type="email"
-                label="Email"
-                sx={firstTextFieldStyle}
+              <Controller
+                name="email"
+                rules={EmailValidation}
+                control={control}
+                render={({ field }) => (
+                  <CustomTextField
+                    type="email"
+                    label="Email"
+                    sx={firstTextFieldStyle}
+                    onChange={(e) => {
+                      field.onChange(e);
+                    }}
+                    value={field.value}
+                    error={errors.email !== undefined}
+                    helperText={errors.email?.message}
+                  />
+                )}
               />
-              <PasswordField label="Пароль" sx={textFieldStyle} />
+              <Controller
+                name="password"
+                rules={PasswordValidation}
+                control={control}
+                render={({ field }) => (
+                  <PasswordField
+                    label="Пароль"
+                    sx={textFieldStyle}
+                    onChange={(e) => {
+                      field.onChange(e);
+                    }}
+                    value={field.value}
+                    error={errors.password !== undefined}
+                    helperText={errors.password?.message}
+                  />
+                )}
+              />
             </Box>
           </Grid>
           <Grid {...gridItemProps}>
@@ -35,13 +95,15 @@ export const LoginForm = () => {
               maxWidth={235}
               textAlign="center"
             >
-              <CustomButton
-                type="submit"
-                sx={loginButtonStyle}
-              >
+              <CustomButton type="submit" sx={loginButtonStyle}>
                 Войти
               </CustomButton>
-              <Link href="#" variant="body2" color="inherit" sx={linkStyle}>
+              <Link
+                href={Paths.Register}
+                variant="body2"
+                sx={linkStyle}
+                underline="always"
+              >
                 Нет аккаунта? Зарегистрироваться
               </Link>
             </Box>
