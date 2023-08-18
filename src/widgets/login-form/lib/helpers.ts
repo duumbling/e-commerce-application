@@ -1,6 +1,7 @@
 import { type FormError } from "../../../shared/lib/errors";
 
-export const isLoginError = (obj: Error): obj is FormError => "body" in obj;
+export const isLoginError = (obj: Error): obj is FormError =>
+  Object.prototype.hasOwnProperty.call(obj, "body");
 
 export const getErrorMessage = (error: unknown): string => {
   if (error instanceof Error && isLoginError(error)) {
