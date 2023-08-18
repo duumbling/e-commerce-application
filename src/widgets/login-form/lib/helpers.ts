@@ -1,7 +1,6 @@
-import { type RegistrationError } from "../../../shared/lib/errors";
+import { type FormError } from "../../../shared/lib/errors";
 
-export const isLoginError = (obj: Error): obj is RegistrationError =>
-  "body" in obj;
+export const isLoginError = (obj: Error): obj is FormError => "body" in obj;
 
 export const getErrorMessage = (error: unknown): string => {
   if (error instanceof Error && isLoginError(error)) {
