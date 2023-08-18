@@ -23,7 +23,7 @@ const enum CustomSize {
   SMALL = "small",
 }
 
-function CustomSwitch({
+export function CustomSwitch({
   label,
   sx,
   name,
@@ -41,5 +41,3 @@ function CustomSwitch({
     />
   );
 }
-
-export default CustomSwitch;
