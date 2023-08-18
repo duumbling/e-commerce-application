@@ -29,3 +29,7 @@ export const enum ThemeColors {
   GREY_LIGHT = "grey.400",
   LIGHT = "grey.300",
 }
+
+export const enum ProductCardColors {
+  TITLE = "#797979",
+}
