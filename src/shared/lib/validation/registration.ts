@@ -50,6 +50,15 @@ export const validatePassword = (): StringSchema<
     .matches(
       /[A-ZА-ЯЁ]/,
       getPasswordCharacterValidationError("прописную букву"),
+    )
+    .matches(
+      /[!@#$%^&*]/,
+      "Пароль должен содержать хотя бы один специальный символ",
+    )
+    .test(
+      "trimmed",
+      "В начале и конце пароля должны отсутствовать пробелы",
+      (value) => value.trim() === value,
     );
 
 export const validatePasswordConfirm = (): StringSchema<
