@@ -4,7 +4,7 @@ import {
 } from "../../../shared/constants/colors";
 import { MOBILE_MEDIA } from "../../../shared/constants/mediaQuery";
 import { CONTAINED_BUTTON_PADDINGS } from "../../../shared/constants/sizes";
-import GirlImage from "../../../shared/images/girl_1240.png";
+import GirlImage from "../../../shared/assets/images/girl_1240.png";
 
 export const backgroundImageStyle = {
   height: {
