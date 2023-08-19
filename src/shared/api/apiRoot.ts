@@ -33,9 +33,9 @@ const createApiBuilderWithProjectKey = (
   });
 };
 
-export const anonymousApiRoot = (): ByProjectKeyRequestBuilder => {
+export const apiRoot = (): ByProjectKeyRequestBuilder => {
   const client = new ClientBuilder()
-    .withAnonymousSessionFlow({
+    .withClientCredentialsFlow({
       ...authMiddlewareOptions,
     })
     .withHttpMiddleware(httpMiddlewareOptions)
