@@ -51,14 +51,14 @@ const PassAuthMiddlewareOptions = (
     host: process.env.REACT_APP_CTP_AUTH_URL ?? "",
     projectKey: process.env.REACT_APP_CTP_PROJECT_KEY ?? "",
     credentials: {
-      clientId: process.env.REACT_APP_CTP_CUSTOMER_CLIENT_ID ?? "",
-      clientSecret: process.env.REACT_APP_CTP_CUSTOMER_CLIENT_SECRET ?? "",
+      clientId: process.env.REACT_APP_CTP_ADMIN_CLIENT_ID ?? "",
+      clientSecret: process.env.REACT_APP_CTP_ADMIN_CLIENT_SECRET ?? "",
       user: {
         username: email,
         password,
       },
     },
-    scopes: process.env.REACT_APP_CTP_CUSTOMER_SCOPES?.split(" ") ?? [""],
+    scopes: process.env.REACT_APP_CTP_SCOPES?.split(" ") ?? [""],
     fetch,
   };
   return options;
