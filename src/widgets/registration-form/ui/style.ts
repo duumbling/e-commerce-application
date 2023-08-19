@@ -63,6 +63,9 @@ export const buttonBoxStyle = {
     marginLeft: 10,
   },
   [MOBILE_MEDIA]: {
+    marginLeft: 0.8,
+  },
+  "@media (max-width: 590px)": {
     marginLeft: 0,
   },
 };
