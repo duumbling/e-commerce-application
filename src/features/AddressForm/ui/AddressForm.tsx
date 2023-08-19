@@ -25,10 +25,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
 import { addressSlice } from "../model/slice";
 import { getOppositeAddressType } from "../lib/helper";
-import {
-  CustomSize,
-  CustomSwitch,
-} from "../../../shared/ui/CustomSwitch/CustomSwitch";
+import { CustomSwitch } from "../../../shared/ui/CustomSwitch/CustomSwitch";
 
 type AddressFormProps = Pick<BoxProps, "sx"> & {
   title: string;
@@ -194,7 +191,6 @@ export const AddressForm = ({
         }}
       />
       <CustomSwitch
-        customSize={CustomSize.SMALL}
         label={`${title} по умолчанию`}
         labelStyle={defaultSwitchStyle}
         {...switchProps}
