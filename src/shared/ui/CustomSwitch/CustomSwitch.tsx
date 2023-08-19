@@ -21,7 +21,7 @@ type MyCustomSwitchProps = CustomSwitchProps & {
   customSize?: CustomSize;
 };
 
-export const enum CustomSize {
+const enum CustomSize {
   BIG = "big",
   SMALL = "small",
 }
