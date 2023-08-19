@@ -5,9 +5,7 @@ import {
   type MyCustomerSignin,
 } from "@commercetools/platform-sdk";
 
-import { anonymousApiRoot, loginApiRoot } from "./apiRoot";
-
-} from "@commercetools/platform-sdk";
+import { apiRoot, loginApiRoot } from "./apiRoot";
 
 export const createCustomer = async (
   customerData: CustomerDraft,

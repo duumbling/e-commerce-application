@@ -1,1 +1,1 @@
-export { createCustomer } from "./customers";
+export { createCustomer, loginCustomer } from "./customers";
