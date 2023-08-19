@@ -1,6 +1,6 @@
-import { type RegistrationError } from "../../../shared/lib/errors";
+import { type FormError } from "../../../shared/lib/errors";
 
-export const isRegistrationError = (obj: Error): obj is RegistrationError =>
+export const isRegistrationError = (obj: Error): obj is FormError =>
   "body" in obj;
 
 export const getUserBirthdayFormattedString = (date: Date | null): string => {

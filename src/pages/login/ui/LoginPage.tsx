@@ -6,17 +6,15 @@ import { gridContainerProps, gridItemProps, gridHeaderProps } from "./style";
 
 export function LoginPage() {
   return (
-    <div>
-      <Box>
-        <Grid {...gridContainerProps}>
-          <Grid {...gridHeaderProps} {...gridItemProps}>
-            <Header>Вход на сайт</Header>
-          </Grid>
-          <Grid {...gridItemProps}>
-            <LoginForm />
-          </Grid>
+    <Box>
+      <Grid {...gridContainerProps}>
+        <Grid {...gridHeaderProps} {...gridItemProps}>
+          <Header>Вход на сайт</Header>
         </Grid>
-      </Box>
-    </div>
+        <Grid {...gridItemProps}>
+          <LoginForm />
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
