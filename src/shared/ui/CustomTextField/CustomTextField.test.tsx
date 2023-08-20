@@ -3,7 +3,7 @@ import { render, screen, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { CustomTextField } from "./CustomTextField";
 
-describe("CustomButton component render", () => {
+describe("CustomTextField component render", () => {
   test("TextField Rendering", () => {
     render(
       <CustomTextField data-testid="custom-field">TextField</CustomTextField>,
