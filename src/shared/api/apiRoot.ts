@@ -8,7 +8,7 @@ import {
 } from "@commercetools/sdk-client-v2";
 import { createApiBuilderFromCtpClient } from "@commercetools/platform-sdk";
 import { type ByProjectKeyRequestBuilder } from "@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder";
-import { customerTokenCache } from "./tokens";
+import { customerTokenCache } from "./tokens/tokens";
 
 const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: process.env.REACT_APP_CTP_AUTH_URL ?? "",
@@ -77,4 +77,3 @@ export const loginApiRoot = (
 
   return createApiBuilderWithProjectKey(client);
 };
-export { customerTokenCache };
