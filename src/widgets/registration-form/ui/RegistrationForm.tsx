@@ -31,9 +31,10 @@ import { type RegistrationFormValues } from "../model/types";
 import { getErrorMessage } from "../lib/helpers";
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar/";
 import { formSchema } from "../model/schema";
-import CustomSwitch from "../../../shared/ui/CustomSwitch/CustomSwitch";
+import { CustomSwitch } from "../../../shared/ui/CustomSwitch/CustomSwitch";
 import { registerCustomer } from "../api/registration";
 import { Paths } from "../../../shared/constants/paths";
+import { loginCustomer } from "../../../shared/api";
 
 export const RegistrationForm = () => {
   const methods = useForm<RegistrationFormValues>({
@@ -71,6 +72,10 @@ export const RegistrationForm = () => {
         isDefaultShippingAddressChecked,
         isDefaultBillingAddressChecked,
       );
+      await loginCustomer({
+        email: data.email,
+        password: data.password,
+      });
       setSuccess(true);
       const timeout = 1000;
       setTimeout(() => {
@@ -204,8 +209,8 @@ export const RegistrationForm = () => {
                 <CustomSwitch
                   label="Указать общий адрес"
                   name="common-address"
-                  handleChange={() => {
-                    setCommonAddressChecked(!isCommonAddressChecked);
+                  onChange={(_, checked) => {
+                    setCommonAddressChecked(checked);
                   }}
                 />
                 <CustomButton

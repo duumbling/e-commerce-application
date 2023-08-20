@@ -9,13 +9,20 @@ export const rootStyle = {
   "@media (max-width: 950px)": {
     marginLeft: "5%",
   },
+  "@media (max-width: 700px)": {
+    marginLeft: 0,
+  },
 };
 
 export const gridContainerProps = {
   container: true,
-  columnSpacing: { xs: 12, sm: 6, md: 12 },
+  columnSpacing: { xs: 12, sm: 2, md: 12 },
   rowSpacing: { xs: 4, sm: 6, md: 8 },
-  justifyContent: "center",
+  justifyContent: {
+    xs: "center",
+    sm: "space-evenly",
+    md: "center",
+  },
 };
 
 export const gridItemProps = {
@@ -56,6 +63,9 @@ export const buttonBoxStyle = {
     marginLeft: 10,
   },
   [MOBILE_MEDIA]: {
+    marginLeft: 0.8,
+  },
+  "@media (max-width: 590px)": {
     marginLeft: 0,
   },
 };

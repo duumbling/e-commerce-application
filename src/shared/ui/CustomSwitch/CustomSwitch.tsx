@@ -4,6 +4,8 @@ import {
   Switch,
   Typography,
   type SwitchProps,
+  type SxProps,
+  type Theme,
 } from "@mui/material";
 
 import { bigSizeStyle, smallSizeStyle } from "./style";
@@ -15,6 +17,7 @@ type CustomSwitchProps = Pick<
 
 type MyCustomSwitchProps = CustomSwitchProps & {
   label: string;
+  labelStyle?: SxProps<Theme>;
   customSize?: CustomSize;
 };
 
@@ -28,6 +31,7 @@ export function CustomSwitch({
   sx,
   name,
   checked,
+  labelStyle,
   customSize = CustomSize.SMALL,
   onChange,
 }: MyCustomSwitchProps): JSX.Element {
@@ -37,7 +41,7 @@ export function CustomSwitch({
     <FormControlLabel
       control={<Switch name={name} checked={checked} onChange={onChange} />}
       sx={{ ...style, ...sx }}
-      label={<Typography sx={{ ...style }}>{label}</Typography>}
+      label={<Typography sx={{ ...style, ...labelStyle }}>{label}</Typography>}
     />
   );
 }
