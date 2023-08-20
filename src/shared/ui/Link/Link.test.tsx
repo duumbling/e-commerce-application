@@ -5,7 +5,7 @@ import { Link } from "./Link";
 import { Paths } from "../../constants/paths";
 import { BrowserRouter } from "react-router-dom";
 
-describe("Link component render", () => {
+describe("Link component", () => {
   test("Link Rendering", () => {
     render(
       <BrowserRouter>
@@ -25,9 +25,7 @@ describe("Link component render", () => {
     const link = screen.queryByText("Render link");
     expect(link).toHaveTextContent("Render link");
   });
-});
 
-describe("Link component href", () => {
   const testLinkHref = (path: Paths) => {
     render(
       <BrowserRouter>
