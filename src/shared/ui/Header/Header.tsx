@@ -8,7 +8,7 @@ export function Header({ children, sx }: HeaderProps) {
   return (
     <Box component="header" sx={{ display: "flex", p: ".5rem" }}>
       <Box>
-        <Logo />
+        <Logo width="3.8rem" />
       </Box>
       <Box
         sx={{
