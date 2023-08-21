@@ -1,7 +1,7 @@
 import {
   FORMS_HEADER_BORDER_COLOR,
   PRIMARY_COLOR,
-} from "../../../shared/constants/colors";
+} from "../../../constants/colors";
 
 export const gridContainerProps = {
   container: true,
