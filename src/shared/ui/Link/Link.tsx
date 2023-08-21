@@ -6,7 +6,7 @@ import { ThemeColors } from "../../constants/colors";
 import type { Omit } from "@reduxjs/toolkit/dist/tsHelpers";
 
 type LinkProps = Omit<MuiLinkProps, "color"> & {
-  href: Paths;
+  href: Paths | string;
   color?: ThemeColors;
 };
 
