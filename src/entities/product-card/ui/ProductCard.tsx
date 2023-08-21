@@ -14,6 +14,9 @@ import {
   buttonStyle,
   contentStyle,
   descriptionStyle,
+  gridContentContainerProps,
+  gridContentItemProps,
+  gridImageItemProps,
   priceStyle,
   rootStyle,
   titleStyle,
@@ -35,20 +38,21 @@ export const ProductCard = ({
   return (
     <Card sx={rootStyle}>
       <CardActionArea>
-        <CardMedia
-          component="img"
-          height={190}
-          image={image}
-          alt={`${title} image`}
-        />
-        <CardContent sx={contentStyle}>
-          <Typography component="h4" sx={titleStyle}>
-            {title}
-          </Typography>
-          <Typography component="p" sx={descriptionStyle}>
-            {description}
-          </Typography>
-        </CardContent>
+        <Grid {...gridContentContainerProps}>
+          <Grid {...gridImageItemProps}>
+            <CardMedia component="img" image={image} alt={`${title} image`} />
+          </Grid>
+          <Grid {...gridContentItemProps}>
+            <CardContent sx={contentStyle}>
+              <Typography component="h4" sx={titleStyle}>
+                {title}
+              </Typography>
+              <Typography component="p" sx={descriptionStyle}>
+                {description}
+              </Typography>
+            </CardContent>
+          </Grid>
+        </Grid>
       </CardActionArea>
       <Grid {...buttonContainer}>
         <Grid item>
