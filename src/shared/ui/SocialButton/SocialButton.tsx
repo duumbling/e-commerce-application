@@ -4,14 +4,11 @@ import { Link } from "@mui/material";
 import { style } from "./style";
 import { resolveSx } from "../../lib/helpers/resolveSx";
 
-export type SocialButtonProps = React.ComponentProps<typeof CustomButton> &
-  SocialButtonData;
-
-export interface SocialButtonData {
+export type SocialButtonProps = React.ComponentProps<typeof CustomButton> & {
   text?: string;
   icon?: string;
   href: string;
-}
+};
 
 export function SocialButton({
   href,
