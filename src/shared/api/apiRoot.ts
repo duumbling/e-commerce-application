@@ -8,6 +8,7 @@ import {
 } from "@commercetools/sdk-client-v2";
 import { createApiBuilderFromCtpClient } from "@commercetools/platform-sdk";
 import { type ByProjectKeyRequestBuilder } from "@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder";
+import { customerTokenCache } from "./tokens/tokens";
 
 const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: process.env.REACT_APP_CTP_AUTH_URL ?? "",
@@ -51,14 +52,15 @@ const PassAuthMiddlewareOptions = (
     host: process.env.REACT_APP_CTP_AUTH_URL ?? "",
     projectKey: process.env.REACT_APP_CTP_PROJECT_KEY ?? "",
     credentials: {
-      clientId: process.env.REACT_APP_CTP_ADMIN_CLIENT_ID ?? "",
-      clientSecret: process.env.REACT_APP_CTP_ADMIN_CLIENT_SECRET ?? "",
+      clientId: process.env.REACT_APP_CTP_CUSTOMER_CLIENT_ID ?? "",
+      clientSecret: process.env.REACT_APP_CTP_CUSTOMER_CLIENT_SECRET ?? "",
       user: {
         username: email,
         password,
       },
     },
-    scopes: process.env.REACT_APP_CTP_SCOPES?.split(" ") ?? [""],
+    tokenCache: customerTokenCache,
+    scopes: process.env.REACT_APP_CTP_CUSTOMER_SCOPES?.split(" ") ?? [""],
     fetch,
   };
   return options;
@@ -72,5 +74,6 @@ export const loginApiRoot = (
     .withPasswordFlow(PassAuthMiddlewareOptions(email, password))
     .withHttpMiddleware(httpMiddlewareOptions)
     .build();
+
   return createApiBuilderWithProjectKey(client);
 };
