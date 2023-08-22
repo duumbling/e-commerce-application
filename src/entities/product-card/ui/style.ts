@@ -29,10 +29,10 @@ export const gridImageItemProps = {
     sm: 148,
     md: 200,
   },
-  maxHeight: {
+  height: {
     xs: 90,
     sm: 100,
-    md: 190,
+    md: 170,
   },
 };
 
