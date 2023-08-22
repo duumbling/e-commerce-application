@@ -1,40 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { type GridProps, Grid, Typography } from "@mui/material";
 import { ProductCard } from "../../../entities/product-card";
 import { productsContainerProps, rootStyle, titleStyle } from "./style";
-
-export interface MockProductData {
-  title: string;
-  image: string;
-  description: string;
-  price: number;
-  id: string | number;
-}
+import { type ProductData } from "../model/types";
+import { getAllProductsByCategoryId } from "../api/products";
 
 type ProductsViewProps = Pick<GridProps, "sx"> & {
   title: string;
-  products: MockProductData[];
+  categoryId: string;
   limit?: number;
 };
 
 export function ProductsView({
   title,
-  products,
+  categoryId,
   sx,
   limit,
 }: ProductsViewProps) {
-  const productsData =
-    limit !== undefined ? products.slice(0, limit) : products;
+  const [products, setProducts] = useState<ProductData[]>([]);
+
+  const updateProductsData = async () => {
+    try {
+      const productsData = await getAllProductsByCategoryId(categoryId);
+      setProducts(
+        limit !== undefined ? productsData.slice(0, limit) : productsData,
+      );
+    } catch (error) {
+      console.log(error);
+      // TODO: make something when there are any errors while fetching products data
+    }
+  };
+
+  useEffect(() => {
+    void updateProductsData();
+  }, []);
+
   return (
     <Grid container sx={{ ...rootStyle, ...sx }}>
       <Typography component="h2" sx={titleStyle}>
         {title}
       </Typography>
       <Grid {...productsContainerProps}>
-        {productsData.map((product) => {
+        {products.map((product) => {
           return (
             <Grid key={product.id} item>
-              <ProductCard {...product} />
+              <ProductCard
+                title={product.title}
+                description={product.description}
+                image={product.images[0]}
+                price={product.price}
+              />
             </Grid>
           );
         })}
