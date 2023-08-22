@@ -54,15 +54,27 @@ export function Footer() {
   return (
     <Grid component={"footer"}>
       <Grid item>
-        <Logo />
+        <Stack direction="row">
+          <Logo />
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            flex={1}
+            flexWrap="wrap"
+            gap="1rem"
+            useFlexGap
+          >
+            <Link href={Paths.NotFound} fontWeight="bold">
+              Калорийность и состав
+            </Link>
+            <Link href={Paths.NotFound} fontWeight="bold">
+              Правовая информация
+            </Link>
+          </Stack>
+        </Stack>
       </Grid>
       <Grid container item my={2}>
-        <Link href={Paths.Main} fontWeight="bold">
-          Калорийность и состав
-        </Link>
-        <Link href={Paths.Main} fontWeight="bold">
-          Правовая информация
-        </Link>
         <Grid container item spacing={2} xs={8}>
           {socialLinkItems}
         </Grid>
