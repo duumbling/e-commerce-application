@@ -1,10 +1,10 @@
-import React from "react";
+import React, { type ComponentProps } from "react";
 import { CustomButton } from "../CustomButton";
-import { Link } from "@mui/material";
+
 import { style } from "./style";
 import { resolveSx } from "../../lib/helpers/resolveSx";
 
-export type SocialButtonProps = React.ComponentProps<typeof CustomButton> & {
+export type SocialButtonProps = ComponentProps<typeof CustomButton> & {
   text?: string;
   icon?: string;
   href: string;
@@ -14,24 +14,20 @@ export function SocialButton({
   href,
   icon = "",
   text = "",
+  sx,
   ...otherProps
 }: SocialButtonProps) {
-  const { sx } = otherProps;
+  const sxStyle = resolveSx(
+    style,
+    {
+      background: `url(${icon}) no-repeat center`,
+    },
+    sx,
+  );
 
   return (
-    <Link href={href}>
-      <CustomButton
-        sx={resolveSx(
-          {
-            background: `url(${icon}) no-repeat center`,
-          },
-          style,
-          sx,
-        )}
-        {...otherProps}
-      >
-        {text}
-      </CustomButton>
-    </Link>
+    <CustomButton variant="outlined" sx={sxStyle} {...otherProps}>
+      {text}
+    </CustomButton>
   );
 }
