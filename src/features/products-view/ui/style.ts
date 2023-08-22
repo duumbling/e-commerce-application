@@ -4,11 +4,13 @@ import {
   TABLET_MEDIA,
 } from "../../../shared/constants/mediaQuery";
 
+const SMALL_DESKTOP_MEDIA = "@media (max-width: 1158px)";
+
 export const rootStyle = {
   maxWidth: 1200,
   margin: "auto",
 
-  "@media (max-width: 1158px)": {
+  [SMALL_DESKTOP_MEDIA]: {
     maxWidth: 900,
   },
 
@@ -24,7 +26,7 @@ export const titleStyle = {
 
   marginLeft: 4,
 
-  "@media (max-width: 1158px)": {
+  [SMALL_DESKTOP_MEDIA]: {
     marginLeft: 3,
   },
 
