@@ -1,5 +1,5 @@
 import React from "react";
-import { type BoxProps, Grid, Typography } from "@mui/material";
+import { type GridProps, Grid, Typography } from "@mui/material";
 import { ProductCard } from "../../../entities/product-card";
 import { productsContainerProps, rootStyle, titleStyle } from "./style";
 
@@ -11,7 +11,7 @@ export interface MockProductData {
   id: string | number;
 }
 
-type ProductsViewProps = Pick<BoxProps, "sx"> & {
+type ProductsViewProps = Pick<GridProps, "sx"> & {
   title: string;
   products: MockProductData[];
   limit?: number;
