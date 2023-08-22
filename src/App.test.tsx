@@ -4,13 +4,18 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 
 test("renders learn react link", () => {
   render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>,
   );
 
-  expect(screen.getByText(/Hello/i)).toBeInTheDocument();
+  expect(screen.getByText(/Главная страница/i)).toBeInTheDocument();
 });

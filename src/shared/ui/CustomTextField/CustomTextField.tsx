@@ -1,35 +1,57 @@
-import React from "react";
-import { TextField, type TextFieldProps } from "@mui/material";
+import React, { forwardRef } from "react";
+import { TextField, FormLabel, type TextFieldProps } from "@mui/material";
 
 import {
   helperTextStyle,
   inputStyle,
-  labelStyle,
-  textFieldStyle,
+  insideLabelStyle,
+  outsideLabelStyle,
 } from "./style";
 
-type CustomTextFieldProps = Omit<TextFieldProps, "variant" | "size">;
-
-export const CustomTextField = (props: CustomTextFieldProps) => {
-  return (
-    <TextField
-      {...props}
-      variant="outlined"
-      size="small"
-      InputProps={{
-        ...props.InputProps,
-        sx: { ...inputStyle, ...props.InputProps?.sx },
-      }}
-      InputLabelProps={{
-        ...props.InputLabelProps,
-        sx: { ...labelStyle, ...props.InputLabelProps?.sx },
-      }}
-      FormHelperTextProps={{
-        ...props.FormHelperTextProps,
-        sx: { ...helperTextStyle, ...props.FormHelperTextProps?.sx },
-      }}
-      sx={{ input: textFieldStyle, ...props.sx }}
-      label={props.label}
-    />
-  );
+type CustomTextFieldProps = Omit<TextFieldProps, "variant" | "size"> & {
+  labelPosition?: "outside" | "inside";
 };
+
+export const CustomTextField = forwardRef<HTMLDivElement, CustomTextFieldProps>(
+  function CustomTextField(
+    {
+      InputProps,
+      InputLabelProps,
+      FormHelperTextProps,
+      sx,
+      label,
+      labelPosition,
+      ...otherProps
+    },
+    ref,
+  ) {
+    const isLabelOutside = labelPosition === "outside";
+    return (
+      <React.Fragment>
+        {isLabelOutside ? (
+          <FormLabel sx={outsideLabelStyle}>{label}</FormLabel>
+        ) : null}
+        <TextField
+          {...otherProps}
+          inputRef={ref}
+          variant="outlined"
+          size="small"
+          InputProps={{
+            ...InputProps,
+            sx: { ...inputStyle, ...InputProps?.sx },
+          }}
+          InputLabelProps={{
+            ...InputLabelProps,
+            sx: { ...insideLabelStyle, ...InputLabelProps?.sx },
+          }}
+          FormHelperTextProps={{
+            ...FormHelperTextProps,
+            sx: { ...helperTextStyle, ...FormHelperTextProps?.sx },
+          }}
+          sx={sx}
+          label={isLabelOutside ? "" : label}
+        />
+      </React.Fragment>
+    );
+  },
+);
