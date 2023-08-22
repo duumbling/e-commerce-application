@@ -17,6 +17,10 @@ export const rootStyle = {
   [TABLET_MEDIA]: {
     maxWidth: 650,
   },
+
+  [MOBILE_MEDIA]: {
+    maxWidth: 280,
+  },
 };
 
 export const titleStyle = {
@@ -36,6 +40,7 @@ export const titleStyle = {
 
   [MOBILE_MEDIA]: {
     fontSize: 21,
+    marginLeft: 0,
   },
 };
 
