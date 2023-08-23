@@ -19,6 +19,8 @@ import {
   gridItemProps,
   rootStyle,
   buttonBoxStyle,
+  shippingAddressSwitchStyle,
+  billingAddressSwitchStyle,
 } from "./style";
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
@@ -171,6 +173,7 @@ export const RegistrationForm = () => {
                   onChange: (_, checked) => {
                     setDefaultShippingAddressChecked(checked);
                   },
+                  sx: shippingAddressSwitchStyle,
                 }}
               />
             </Grid>
@@ -196,6 +199,7 @@ export const RegistrationForm = () => {
                   onChange: (_, checked) => {
                     setDefaultBillingAddressChecked(checked);
                   },
+                  sx: billingAddressSwitchStyle,
                 }}
               />
             </Grid>
