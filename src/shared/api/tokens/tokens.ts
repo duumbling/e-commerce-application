@@ -1,6 +1,6 @@
 import { type TokenStore, type TokenCache } from "@commercetools/sdk-client-v2";
 
-const TOKEN_KEY = "user_token";
+const TOKEN_KEY = "fo-sushi-user_token";
 
 class MyTokenCache implements TokenCache {
   myCache: TokenStore = {
