@@ -1,3 +1,5 @@
+import { type SortOptions } from "./sort-options";
+
 export interface ProductData {
   id: string;
   title: string;
@@ -5,3 +7,5 @@ export interface ProductData {
   images: string[];
   price: number;
 }
+
+export type SortType = keyof typeof SortOptions;
