@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import { ThemeProvider } from "@mui/material";
 import { mainTheme } from "./shared/ui/themes";
+import { ProfilePage } from "./pages/profile";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route index element={<MainPage />} />
               <Route path={Paths.Login} element={<LoginPage />} />
               <Route path={Paths.Register} element={<RegisterPage />} />
+              <Route path={Paths.Profile} element={<ProfilePage />} />
               <Route path={Paths.NotFound} element={<NotFoundPage />} />
             </Route>
           </Routes>
