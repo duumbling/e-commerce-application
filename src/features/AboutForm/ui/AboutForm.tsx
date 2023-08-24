@@ -18,6 +18,8 @@ type AboutFormProps = Pick<BoxProps, "sx"> & {
   userBirthDayProps?: TextFieldProps;
   emailFieldProps?: TextFieldProps;
   isContainEmail?: boolean;
+  fieldLabelPosition?: "outside" | "inside";
+  disabled?: boolean;
 };
 
 export const AboutForm = ({
@@ -29,6 +31,8 @@ export const AboutForm = ({
   userBirthDayProps,
   emailFieldProps,
   isContainEmail,
+  fieldLabelPosition,
+  disabled,
 }: AboutFormProps) => {
   const isEmailFieldVisible = isContainEmail ?? false;
 
@@ -55,6 +59,8 @@ export const AboutForm = ({
           error={errors.firstName !== undefined}
           helperText={errors.firstName?.message}
           {...register("firstName")}
+          labelPosition={fieldLabelPosition}
+          disabled={disabled}
         />
         <CustomTextField
           label="Фамилия"
@@ -63,6 +69,8 @@ export const AboutForm = ({
           error={errors.lastName !== undefined}
           helperText={errors.lastName?.message}
           {...register("lastName")}
+          labelPosition={fieldLabelPosition}
+          disabled={disabled}
         />
         <CustomTextField
           label="Дата рождения"
@@ -72,6 +80,8 @@ export const AboutForm = ({
           error={errors.userBirthday !== undefined}
           helperText={errors.userBirthday?.message}
           {...register("userBirthday")}
+          labelPosition={fieldLabelPosition}
+          disabled={disabled}
         />
         {isEmailFieldVisible && (
           <CustomTextField
@@ -81,6 +91,8 @@ export const AboutForm = ({
             error={errors.userEmail !== undefined}
             helperText={errors.userBirthday?.message}
             {...register("userEmail")}
+            labelPosition={fieldLabelPosition}
+            disabled={disabled}
           />
         )}
       </Box>
