@@ -7,7 +7,6 @@ import {
   DEFAULT_SWITCH_COLOR,
   PRIMARY_COLOR,
 } from "../../../shared/constants/colors";
-import { TABLET_MEDIA } from "../../../shared/constants/mediaQuery";
 
 export const rootStyle = {
   display: "flex",
@@ -39,16 +38,14 @@ export const defaultSwitchStyle = {
   [`.${formControlLabelClasses.root} &.${typographyClasses.root}`]: {
     fontSize: 12,
     color: DEFAULT_SWITCH_COLOR,
-
-    [TABLET_MEDIA]: {
-      fontSize: 8,
-    },
   },
 };
 
 export const autocompleteStyle = {
   [`&.${autocompleteClasses.root} .${autocompleteClasses.inputRoot}`]: {
-    paddingTop: 1.25,
+    paddingTop: 0.9,
     paddingBottom: 1,
   },
+  display: "flex",
+  flexDirection: "column",
 };
