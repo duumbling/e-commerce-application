@@ -13,6 +13,7 @@ import {
   priceStyle,
   imageStyle,
   priceWithDiscountStyle,
+  cardActionsStyle,
 } from "./style";
 import { ThemeColors } from "../../../shared/constants/colors";
 
@@ -31,7 +32,7 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <Card sx={rootStyle}>
-      <CardActionArea>
+      <CardActionArea sx={cardActionsStyle}>
         <CardMedia
           component="img"
           image={image}

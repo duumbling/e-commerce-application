@@ -1,19 +1,23 @@
 import { PRIMARY_COLOR } from "../../../shared/constants/colors";
 import { TABLET_MEDIA } from "../../../shared/constants/mediaQuery";
 
+const DESKTOP_WIDTH = 318;
+const TABLET_WIDTH = 269;
+
 export const imageStyle = {
-  maxWidth: 318,
+  maxWidth: DESKTOP_WIDTH,
   maxHeight: 285,
 
   [TABLET_MEDIA]: {
-    maxWidth: 269,
+    maxWidth: TABLET_WIDTH,
     maxHeight: 241,
   },
 };
 
 export const rootStyle = {
-  maxWidth: 318,
+  maxWidth: DESKTOP_WIDTH,
   boxShadow: "none",
+  textAlign: "center",
 };
 
 export const titleStyle = {
@@ -44,5 +48,15 @@ export const priceWithDiscountStyle = {
 
   [TABLET_MEDIA]: {
     fontSize: 20,
+  },
+};
+
+export const cardActionsStyle = {
+  height: 428,
+  width: DESKTOP_WIDTH,
+
+  [TABLET_MEDIA]: {
+    height: 350,
+    width: TABLET_WIDTH,
   },
 };
