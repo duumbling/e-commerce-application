@@ -18,9 +18,10 @@ export const getAllProductsByCategoryId = async (
       },
     })
     .execute();
+
   return results.map(({ id, name, description, masterVariant }) => {
     if (masterVariant.prices === undefined) {
-      throw Error("There is no any price for some product");
+      throw Error("There is no price for any product");
     }
     if (description === undefined) {
       throw Error("There is no any description for some product");

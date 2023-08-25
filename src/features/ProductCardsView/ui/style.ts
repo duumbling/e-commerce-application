@@ -46,9 +46,8 @@ export const titleStyle = {
 
 export const productsContainerProps = {
   container: true,
-  item: true,
   alignItems: "center",
-  columnSpacing: 1,
+  columnSpacing: { md: 12, sm: 6 },
   rowSpacing: { xs: 2, sm: 8, md: 10 },
-  justifyContent: { md: "center", sm: "space-around", xs: "center" },
+  justifyContent: "center",
 };

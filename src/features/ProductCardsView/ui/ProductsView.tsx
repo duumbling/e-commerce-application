@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { type GridProps, Grid, Typography } from "@mui/material";
+import { type GridProps, Grid } from "@mui/material";
 import { ProductCard } from "../../../entities/product-card";
-import { productsContainerProps, rootStyle, titleStyle } from "./style";
+import { productsContainerProps } from "./style";
 import { type ProductData, type SortType } from "../model/types";
 import { getAllProductsByCategoryId } from "../api/products";
 
 type ProductsViewProps = Pick<GridProps, "sx"> & {
-  title: string;
   categoryId: string;
   sort?: SortType;
   limit?: number;
 };
 
-export function ProductsView({
-  title,
+export function ProductCardsView({
   categoryId,
   sx,
   limit,
-  sort = "DEFAULT",
+  sort = "NAME",
 }: ProductsViewProps) {
   const [products, setProducts] = useState<ProductData[]>([]);
 
@@ -38,24 +36,18 @@ export function ProductsView({
   }, [categoryId]);
 
   return (
-    <Grid container sx={{ ...rootStyle, ...sx }}>
-      <Typography component="h2" sx={titleStyle}>
-        {title}
-      </Typography>
-      <Grid {...productsContainerProps}>
-        {products.map((product) => {
-          return (
-            <Grid key={product.id} item>
-              <ProductCard
-                title={product.title}
-                description={product.description}
-                image={product.images[0]}
-                price={product.price}
-              />
-            </Grid>
-          );
-        })}
-      </Grid>
+    <Grid {...productsContainerProps}>
+      {products.map((product) => {
+        return (
+          <Grid key={product.id} item>
+            <ProductCard
+              title={product.title}
+              image={product.images[0]}
+              price={product.price}
+            />
+          </Grid>
+        );
+      })}
     </Grid>
   );
 }
