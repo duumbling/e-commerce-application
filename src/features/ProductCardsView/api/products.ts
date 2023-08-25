@@ -24,7 +24,7 @@ export const getAllProductsByCategoryId = async (
       throw Error("There is no price for any product");
     }
     if (description === undefined) {
-      throw Error("There is no any description for some product");
+      throw Error("There is no description for any product");
     }
     const priceStr = masterVariant.prices[0].value.centAmount.toString();
     const fractionDigits = masterVariant.prices[0].value.fractionDigits;
