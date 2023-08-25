@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { type GridProps, Grid } from "@mui/material";
 import { ProductCard } from "../../../entities/product-card";
 import { productsContainerProps } from "./style";
-import { type ProductData, type SortType } from "../model/types";
+import { type ProductData } from "../model/types";
 import { getAllProductsByCategoryId } from "../api/products";
 
 type ProductsViewProps = Pick<GridProps, "sx"> & {
   categoryId: string;
-  sort?: SortType;
+  sort?: string;
   limit?: number;
 };
 
@@ -15,7 +15,7 @@ export function ProductCardsView({
   categoryId,
   sx,
   limit,
-  sort = "NAME",
+  sort,
 }: ProductsViewProps) {
   const [products, setProducts] = useState<ProductData[]>([]);
 
@@ -33,10 +33,10 @@ export function ProductCardsView({
 
   useEffect(() => {
     void updateProductsData();
-  }, [categoryId]);
+  }, [categoryId, sort]);
 
   return (
-    <Grid {...productsContainerProps}>
+    <Grid {...productsContainerProps} sx={sx}>
       {products.map((product) => {
         return (
           <Grid key={product.id} item>
