@@ -1,5 +1,12 @@
-import { autocompleteClasses } from "@mui/material";
-import { PRIMARY_COLOR } from "../../../shared/constants/colors";
+import {
+  autocompleteClasses,
+  formControlLabelClasses,
+  typographyClasses,
+} from "@mui/material";
+import {
+  DEFAULT_SWITCH_COLOR,
+  PRIMARY_COLOR,
+} from "../../../shared/constants/colors";
 import { TABLET_MEDIA } from "../../../shared/constants/mediaQuery";
 
 export const rootStyle = {
@@ -28,9 +35,10 @@ export const numberFieldStyle = {
   },
 };
 
-export const formControlStyle = {
-  "& .MuiFormControlLabel-label": {
+export const defaultSwitchStyle = {
+  [`.${formControlLabelClasses.root} &.${typographyClasses.root}`]: {
     fontSize: 12,
+    color: DEFAULT_SWITCH_COLOR,
 
     [TABLET_MEDIA]: {
       fontSize: 8,

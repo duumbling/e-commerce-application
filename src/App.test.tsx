@@ -17,5 +17,5 @@ test("renders learn react link", () => {
     </React.StrictMode>,
   );
 
-  expect(screen.getByText(/page/i)).toBeInTheDocument();
+  expect(screen.getByText(/Главная страница/i)).toBeInTheDocument();
 });

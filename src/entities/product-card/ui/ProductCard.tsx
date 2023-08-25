@@ -2,70 +2,72 @@ import React from "react";
 import {
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
-  Grid,
   Typography,
+  Grid,
 } from "@mui/material";
-import { CustomButton } from "../../../shared/ui/CustomButton";
 import {
-  buttonContainer,
-  buttonStyle,
-  contentStyle,
-  descriptionStyle,
-  gridContentContainerProps,
-  gridContentItemProps,
-  gridImageItemProps,
-  priceStyle,
   rootStyle,
   titleStyle,
+  priceStyle,
+  imageStyle,
+  priceWithDiscountStyle,
 } from "./style";
+import { ThemeColors } from "../../../shared/constants/colors";
 
 interface ProductCardProps {
   image: string;
   title: string;
-  description: string;
   price: number;
+  discountPrice?: number;
 }
 
 export const ProductCard = ({
   image,
   title,
-  description,
   price,
+  discountPrice,
 }: ProductCardProps) => {
   return (
     <Card sx={rootStyle}>
       <CardActionArea>
-        <Grid {...gridContentContainerProps}>
-          <Grid {...gridImageItemProps}>
-            <CardMedia component="img" image={image} alt={`${title} image`} />
-          </Grid>
-          <Grid {...gridContentItemProps}>
-            <CardContent sx={contentStyle}>
-              <Typography component="h4" sx={titleStyle}>
-                {title}
-              </Typography>
-              <Typography component="p" sx={descriptionStyle}>
-                {description}
-              </Typography>
-            </CardContent>
-          </Grid>
-        </Grid>
-      </CardActionArea>
-      <Grid {...buttonContainer}>
-        <Grid item>
-          <Typography variant="h4" component="div" sx={priceStyle}>
-            от {price} Р
+        <CardMedia
+          component="img"
+          image={image}
+          alt={`${title} image`}
+          sx={imageStyle}
+        />
+        <CardContent>
+          {discountPrice !== undefined ? (
+            <Grid container justifyContent="space-between" alignItems="center">
+              <Grid item marginLeft={2}>
+                <Typography variant="h4" component="div" sx={priceStyle}>
+                  {discountPrice} Р
+                </Typography>
+              </Grid>
+              <Grid item marginRight={8}>
+                <Typography
+                  variant="h4"
+                  component="div"
+                  sx={priceWithDiscountStyle}
+                  color={ThemeColors.GREY}
+                >
+                  {price} Р
+                </Typography>
+              </Grid>
+            </Grid>
+          ) : (
+            <Typography variant="h4" component="div" sx={priceStyle}>
+              {price} Р
+            </Typography>
+          )}
+
+          <Typography sx={titleStyle} color={ThemeColors.BLACK}>
+            {title}
           </Typography>
-        </Grid>
-        <Grid item>
-          <CardActions>
-            <CustomButton sx={buttonStyle}>В корзину</CustomButton>
-          </CardActions>
-        </Grid>
-      </Grid>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 };

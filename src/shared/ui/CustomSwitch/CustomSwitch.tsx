@@ -2,43 +2,46 @@ import React from "react";
 import {
   FormControlLabel,
   Switch,
-  type SxProps,
   Typography,
+  type SwitchProps,
+  type SxProps,
+  type Theme,
 } from "@mui/material";
 
 import { bigSizeStyle, smallSizeStyle } from "./style";
 
-interface CustomSwitchProps {
+type CustomSwitchProps = Pick<
+  SwitchProps,
+  "onChange" | "sx" | "name" | "checked"
+>;
+
+type MyCustomSwitchProps = CustomSwitchProps & {
   label: string;
-  sx?: SxProps;
-  name: string;
-  checked?: boolean;
+  labelStyle?: SxProps<Theme>;
   customSize?: CustomSize;
-  handleChange?: () => void;
-}
+};
 
 const enum CustomSize {
   BIG = "big",
   SMALL = "small",
 }
 
-function CustomSwitch({
+export function CustomSwitch({
   label,
   sx,
   name,
   checked,
+  labelStyle,
   customSize = CustomSize.SMALL,
-  handleChange,
-}: CustomSwitchProps): JSX.Element {
+  onChange,
+}: MyCustomSwitchProps): JSX.Element {
   const style =
     customSize === CustomSize.BIG ? { ...bigSizeStyle } : { ...smallSizeStyle };
   return (
     <FormControlLabel
-      control={<Switch name={name} checked={checked} onChange={handleChange} />}
+      control={<Switch name={name} checked={checked} onChange={onChange} />}
       sx={{ ...style, ...sx }}
-      label={<Typography sx={{ ...style }}>{label}</Typography>}
+      label={<Typography sx={{ ...style, ...labelStyle }}>{label}</Typography>}
     />
   );
 }
-
-export default CustomSwitch;

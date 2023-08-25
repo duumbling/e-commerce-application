@@ -1,10 +1,11 @@
 import {
   type ClientResponse,
-  type CustomerSignInResult,
   type CustomerDraft,
+  type CustomerSignInResult,
+  type MyCustomerSignin,
 } from "@commercetools/platform-sdk";
 
-import { apiRoot } from "./apiRoot";
+import { apiRoot, loginApiRoot } from "./apiRoot";
 
 export const createCustomer = async (
   customerData: CustomerDraft,
@@ -14,5 +15,15 @@ export const createCustomer = async (
     .post({
       body: customerData,
     })
+    .execute();
+};
+
+export const loginCustomer = async (
+  loginData: MyCustomerSignin,
+): Promise<ClientResponse<CustomerSignInResult>> => {
+  return await loginApiRoot(loginData.email, loginData.password)
+    .me()
+    .login()
+    .post({ body: loginData })
     .execute();
 };
