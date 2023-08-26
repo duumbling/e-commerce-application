@@ -3,28 +3,16 @@ import { Button, type ButtonProps } from "@mui/material";
 
 import { style } from "./style";
 
-type CustomButtonProps = Pick<
-  ButtonProps,
-  "variant" | "children" | "onClick" | "sx" | "type" | "form"
->;
-
-export const CustomButton = ({
+export function CustomButton({
   variant = "contained",
-  children,
   sx,
-  type,
-  form,
-  onClick,
-}: CustomButtonProps): JSX.Element => {
+  ...otherProps
+}: ButtonProps) {
   return (
     <Button
       variant={variant}
-      type={type}
-      form={form}
-      onClick={onClick}
       sx={{ ...style[variant], ...sx }}
-    >
-      {children}
-    </Button>
+      {...otherProps}
+    ></Button>
   );
-};
+}
