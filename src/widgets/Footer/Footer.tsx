@@ -1,22 +1,35 @@
 import React from "react";
-import { Grid, Stack } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import {
   SocialButton,
   type SocialButtonProps,
 } from "../../shared/ui/SocialButton";
-import {
-  iconFacebook,
-  iconSignal,
-  iconSkype,
-  iconTelegram,
-  iconVK,
-  iconViber,
-} from "../../shared/ui/assets/icons/social";
 import { Logo } from "../../shared/ui/Logo";
 import { Link } from "../../shared/ui/Link";
 import { Paths } from "../../shared/constants/paths";
 import { ThemeColors } from "../../shared/constants/colors";
-import { socialButtonStyle } from "./style";
+import {
+  footerContainerStyleProps,
+  footerLinksInfoContainerStyleProps,
+  footerLinksContainerStyleProps,
+  footerLogoContainerStyleProps,
+  paymentIconStyleProps,
+  socialButtonStyle,
+  footerLinksSocialContainerStyleProps,
+  footerLinksSocialAddressContainerStyleProps,
+  footerContactsContainerStyleProps,
+  footerContactsTitleStyleProps,
+  footerContactsPhoneNumberStyleProps,
+  footerContactsSocialButtonsContainerStyleProps,
+  footerContactsInfoContainerStyleProps,
+  footerContactsPaymentContainerStyleProps,
+  footerLinksSocialStyleProps,
+  footerLinksSocialSubContainerStyleProps,
+  footerLinksSocialAddressSubContainerStyleProps,
+  socialLinkStyleProps,
+} from "./style";
+import { paymentIcons, socialIcons } from "../../shared/ui/assets/icons";
+import { bgIconCenter } from "../../shared/lib/helpers/styles";
 
 interface SocialLink {
   href: string;
@@ -24,12 +37,12 @@ interface SocialLink {
 }
 
 const socialData: SocialButtonProps[] = [
-  { href: "https://viber.com", icon: iconViber },
-  { href: "https://skype.com", icon: iconSkype },
-  { href: "https://signal.org", icon: iconSignal },
-  { href: "https://web.telegram.org", icon: iconTelegram },
-  { href: "https://facebook.com", icon: iconFacebook },
-  { href: "https://vk.com", icon: iconVK },
+  { href: "https://viber.com", icon: socialIcons.iconViber },
+  { href: "https://skype.com", icon: socialIcons.iconSkype },
+  { href: "https://signal.org", icon: socialIcons.iconSignal },
+  { href: "https://web.telegram.org", icon: socialIcons.iconTelegram },
+  { href: "https://facebook.com", icon: socialIcons.iconFacebook },
+  { href: "https://vk.com", icon: socialIcons.iconVK },
 ];
 const socialLinks: SocialLink[] = [
   { href: "https://youtube.com", title: "YouTube" },
@@ -38,13 +51,17 @@ const socialLinks: SocialLink[] = [
   { href: "https://vk.com", title: "ВКонтакте" },
 ];
 
+const paymentIconItems = Object.values(paymentIcons).map((icon) => (
+  <Box key={icon} {...paymentIconStyleProps} sx={bgIconCenter(icon)} />
+));
+
 const socialButtons = socialData.map((data) => (
   <SocialButton key={data.href} sx={socialButtonStyle.iconButton} {...data} />
 ));
 
 const socialLinkItems = socialLinks.map(({ href, title }) => (
-  <Grid item key={href} xs={6}>
-    <Link href={href} color={ThemeColors.GREY}>
+  <Grid item key={href} {...socialLinkStyleProps.container}>
+    <Link href={href} {...socialLinkStyleProps.link}>
       {title}
     </Link>
   </Grid>
@@ -52,49 +69,59 @@ const socialLinkItems = socialLinks.map(({ href, title }) => (
 
 export function Footer() {
   return (
-    <Grid component={"footer"}>
-      <Grid item>
-        <Stack direction="row">
+    <Grid container component={"footer"} {...footerContainerStyleProps}>
+      <Grid container item {...footerLogoContainerStyleProps}>
+        <Grid item>
           <Logo />
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-            flex={1}
-            flexWrap="wrap"
-            gap="1rem"
-            useFlexGap
-          >
-            <Link href={Paths.NotFound} fontWeight="bold">
-              Калорийность и состав
-            </Link>
-            <Link href={Paths.NotFound} fontWeight="bold">
-              Правовая информация
-            </Link>
-          </Stack>
-        </Stack>
-      </Grid>
-      <Grid container item my={2}>
-        <Grid container item spacing={2} xs={8}>
-          {socialLinkItems}
         </Grid>
-        <Grid item xs={4}>
-          <Link href={Paths.Main} color={ThemeColors.GREY}>
-            <Stack spacing={2} useFlexGap>
-              <span>Москва ул. Проспект</span>
-              <span>Вернадского 86В</span>
-            </Stack>
+      </Grid>
+
+      <Grid container item {...footerLinksContainerStyleProps}>
+        <Stack {...footerLinksInfoContainerStyleProps}>
+          <Link href={Paths.NotFound} {...footerLinksSocialStyleProps}>
+            О нас
           </Link>
+          <Link href={Paths.NotFound} {...footerLinksSocialStyleProps}>
+            Правовая информация
+          </Link>
+        </Stack>
+        <Grid container item {...footerLinksSocialContainerStyleProps}>
+          <Grid container item {...footerLinksSocialSubContainerStyleProps}>
+            {socialLinkItems}
+          </Grid>
+          <Grid item {...footerLinksSocialAddressContainerStyleProps}>
+            <Link href={Paths.NotFound} color={ThemeColors.GREY}>
+              <Stack {...footerLinksSocialAddressSubContainerStyleProps}>
+                <span>Москва ул. Проспект</span>
+                <span>Вернадского 86В</span>
+              </Stack>
+            </Link>
+          </Grid>
         </Grid>
       </Grid>
-      <Grid item>
-        <Stack direction="row" flexWrap="wrap" spacing={2} useFlexGap>
+
+      <Grid item {...footerContactsContainerStyleProps}>
+        <Stack>
+          <Typography component={"span"} {...footerContactsTitleStyleProps}>
+            Остались вопросы? А мы всегда на связи:
+          </Typography>
+          <Link href="tel:88005553535" {...footerContactsPhoneNumberStyleProps}>
+            8 800 555-35-35
+          </Link>
+        </Stack>
+        <Stack {...footerContactsSocialButtonsContainerStyleProps}>
           {socialButtons}
-          <SocialButton
-            href={Paths.Main}
-            text="Написать нам"
-            sx={socialButtonStyle.textButton}
-          ></SocialButton>
+          <SocialButton href={Paths.NotFound} sx={socialButtonStyle.textButton}>
+            Написать нам
+          </SocialButton>
+        </Stack>
+        <Stack {...footerContactsInfoContainerStyleProps}>
+          <Typography component="span">
+            RSS Все права защищены © 2023
+          </Typography>
+          <Stack {...footerContactsPaymentContainerStyleProps}>
+            {paymentIconItems}
+          </Stack>
         </Stack>
       </Grid>
     </Grid>
