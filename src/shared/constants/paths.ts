@@ -3,4 +3,5 @@ export const enum Paths {
   Login = "/login",
   Register = "/register",
   NotFound = "*",
+  Catalog = "/catalog",
 }

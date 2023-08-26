@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { addressReducer } from "../features/AddressForm";
-
-const myReducer = (): number => 1;
+import { sortProductsReducer } from "../entities/products-sort-select/";
 
 export const store = configureStore({
   reducer: {
-    myReducer,
     addressReducer,
+    sortProductsReducer,
   },
 });

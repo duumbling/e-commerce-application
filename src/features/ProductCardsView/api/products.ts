@@ -1,10 +1,9 @@
 import { apiRoot } from "../../../shared/api/apiRoot";
-import { SortOptions } from "../model/sort-options";
-import { type ProductData, type SortType } from "../model/types";
+import { type ProductData } from "../model/types";
 
 export const getAllProductsByCategoryId = async (
   categoryId: string,
-  sort: SortType,
+  sort?: string,
 ): Promise<ProductData[]> => {
   const {
     body: { results },
@@ -14,7 +13,7 @@ export const getAllProductsByCategoryId = async (
     .get({
       queryArgs: {
         filter: `categories.id:"${categoryId}"`,
-        sort: SortOptions[sort],
+        sort,
       },
     })
     .execute();

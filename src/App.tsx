@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import { ThemeProvider } from "@mui/material";
 import { mainTheme } from "./shared/ui/themes";
+import { CatalogPage } from "./pages/catalog";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path={Paths.Login} element={<LoginPage />} />
               <Route path={Paths.Register} element={<RegisterPage />} />
               <Route path={Paths.NotFound} element={<NotFoundPage />} />
+              <Route path={Paths.Catalog} element={<CatalogPage />} />
             </Route>
           </Routes>
         </div>
