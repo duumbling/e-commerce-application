@@ -35,10 +35,7 @@ export const LoginForm = () => {
               maxWidth={235}
               textAlign="center"
             >
-              <CustomButton
-                type="submit"
-                sx={loginButtonStyle}
-              >
+              <CustomButton type="submit" sx={loginButtonStyle}>
                 Войти
               </CustomButton>
               <Link href="#" variant="body2" color="inherit" sx={linkStyle}>
