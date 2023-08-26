@@ -1,19 +1,13 @@
 import React from "react";
 import { Link as MuiLink, type LinkProps as MuiLinkProps } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import type { Paths } from "../../constants/paths";
 import { ThemeColors } from "../../constants/colors";
-import type { Omit } from "@reduxjs/toolkit/dist/tsHelpers";
 
-type LinkProps = Omit<MuiLinkProps, "color"> & {
-  href: Paths | string;
-  color?: ThemeColors;
-};
+export type LinkProps = MuiLinkProps;
 
 export function Link({
   href,
   color = ThemeColors.BLACK,
-  underline = "none",
   sx,
   ...otherProps
 }: LinkProps) {
@@ -25,7 +19,7 @@ export function Link({
       component={RouterLink}
       to={href}
       color={color}
-      underline={underline}
+      underline="none"
       sx={{
         "&:hover": {
           color: hoverColor,
