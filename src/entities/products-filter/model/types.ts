@@ -1,6 +1,6 @@
 import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
 
-type FilterEnumName = "brand" | "color" | "size";
+export type FilterEnumName = "brand" | "color" | "size";
 
 interface FilterStateItem {
   name: FilterEnumName;

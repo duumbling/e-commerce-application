@@ -43,7 +43,11 @@ const colors = [
 ];
 // const sizes = ["39", "40", "41", "42", "43"];
 
-export function ProductsFilter() {
+interface ProductsFilterProps {
+  onChange?: () => void;
+}
+
+export function ProductsFilter({ onChange }: ProductsFilterProps) {
   const { updateEnumFilters: updateFIlterAttributes } = filterSlice.actions;
 
   const dispatch = useAppDispatch();
@@ -61,6 +65,9 @@ export function ProductsFilter() {
                 dispatch(
                   updateFIlterAttributes({ name: "brand", data: brand }),
                 );
+                if (onChange !== undefined) {
+                  onChange();
+                }
               }}
             />
           ))}
@@ -77,6 +84,9 @@ export function ProductsFilter() {
                 dispatch(
                   updateFIlterAttributes({ name: "color", data: value }),
                 );
+                if (onChange !== undefined) {
+                  onChange();
+                }
               }}
             />
           ))}
