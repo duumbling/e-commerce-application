@@ -1,12 +1,11 @@
-import React, { type ComponentProps } from "react";
-import { CustomButton } from "../CustomButton";
-
+import React from "react";
+import { CustomButton, type CustomButtonProps } from "../CustomButton";
 import { style } from "./style";
 import { Link } from "../Link";
 import { type Paths } from "../../constants/paths";
 import { bgIconCenter, resolveSx } from "../../lib/helpers/styles";
 
-export type SocialButtonProps = ComponentProps<typeof CustomButton> & {
+export type SocialButtonProps = CustomButtonProps & {
   href: Paths | string;
   icon?: string;
 };
