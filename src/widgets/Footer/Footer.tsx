@@ -27,6 +27,7 @@ import {
   footerLinksSocialSubContainerStyleProps,
   footerLinksSocialAddressSubContainerStyleProps,
   socialLinkStyleProps,
+  footerContactsSubContainerStyleProps,
 } from "./style";
 import { paymentIcons, socialIcons } from "../../shared/ui/assets/icons";
 import { bgIconCenter } from "../../shared/lib/helpers/styles";
@@ -101,7 +102,7 @@ export function Footer() {
       </Grid>
 
       <Grid item {...footerContactsContainerStyleProps}>
-        <Stack>
+        <Stack {...footerContactsSubContainerStyleProps}>
           <Typography component={"span"} {...footerContactsTitleStyleProps}>
             Остались вопросы? А мы всегда на связи:
           </Typography>

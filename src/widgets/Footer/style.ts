@@ -81,6 +81,15 @@ export const footerContactsContainerStyleProps: GridProps = {
   lg: 6,
 };
 
+export const footerContactsSubContainerStyleProps: StackProps = {
+  direction: "row",
+  flexWrap: "wrap",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+  columnGap: 2,
+  useFlexGap: true,
+};
+
 export const footerContactsSocialButtonsContainerStyleProps: StackProps = {
   direction: "row",
   flexWrap: "wrap",
