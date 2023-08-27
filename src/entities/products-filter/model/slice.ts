@@ -1,5 +1,9 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { type FilterEnumPayload, type FilterState } from "./types";
+import {
+  type FilterStatePriceItem,
+  type FilterEnumPayload,
+  type FilterState,
+} from "./types";
 import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
 
 const initialState: FilterState = {
@@ -11,10 +15,11 @@ const initialState: FilterState = {
     name: "color",
     values: [],
   },
-  sizeFilter: {
-    name: "size",
-    values: [],
+  priceFilter: {
+    min: 0,
+    max: 0,
   },
+  sizeFilter: [],
 };
 
 const getUpdatedFilterArray = (
@@ -46,14 +51,19 @@ export const filterSlice = createSlice({
             data,
           );
           break;
-        case state.sizeFilter.name:
-          state.sizeFilter.values = getUpdatedFilterArray(
-            state.sizeFilter.values,
-            data,
-          );
-          break;
         default:
           return state;
+      }
+    },
+    updatePriceFilter(state, { payload }: PayloadAction<FilterStatePriceItem>) {
+      state.priceFilter.min = payload.min;
+      state.priceFilter.max = payload.max;
+    },
+    updateSizeFilter(state, { payload }: PayloadAction<number>) {
+      if (state.sizeFilter.includes(payload)) {
+        state.sizeFilter = state.sizeFilter.filter((size) => size !== payload);
+      } else {
+        state.sizeFilter.push(payload);
       }
     },
   },

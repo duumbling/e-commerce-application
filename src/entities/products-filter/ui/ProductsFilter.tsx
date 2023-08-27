@@ -3,6 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { Checkbox } from "../../../shared/ui/Checkbox";
 import { useAppDispatch } from "../../../shared/model/hooks";
 import { filterSlice } from "../model/slice";
+import { PriceSlider } from "./PriceSlider/PriceSlider";
 
 // FIXME: change mock static filters to dynamic filters
 const brands = [
@@ -43,8 +44,10 @@ const colors = [
   },
 ];
 
+const availableSizes = [39, 40, 41, 42, 43];
+
 export function ProductsFilter() {
-  const { updateEnumFilters: updateFIlterAttributes } = filterSlice.actions;
+  const { updateEnumFilters, updateSizeFilter } = filterSlice.actions;
 
   const dispatch = useAppDispatch();
 
@@ -58,9 +61,7 @@ export function ProductsFilter() {
               key={brand.key}
               label={brand.label}
               onChange={() => {
-                dispatch(
-                  updateFIlterAttributes({ name: "brand", data: brand }),
-                );
+                dispatch(updateEnumFilters({ name: "brand", data: brand }));
               }}
             />
           ))}
@@ -74,28 +75,31 @@ export function ProductsFilter() {
               key={value.key}
               label={value.label}
               onChange={() => {
-                dispatch(
-                  updateFIlterAttributes({ name: "color", data: value }),
-                );
+                dispatch(updateEnumFilters({ name: "color", data: value }));
               }}
             />
           ))}
         </Stack>
       </Box>
-      {/* <Box>
+      <Box>
         <Typography>Размер</Typography>
         <Stack>
-          {sizes.map((value) => (
+          {availableSizes.map((value) => (
             <Checkbox
               key={value}
               label={value}
               onChange={() => {
-                dispatch(updateFIlterAttributes(value));
+                dispatch(updateSizeFilter(value));
               }}
             />
           ))}
         </Stack>
-      </Box> */}
+      </Box>
+      <Box>
+        <Typography>Цена</Typography>
+        {/* FIXME: Change min and max static constants to dynamic min and max prices */}
+        <PriceSlider min={2700} max={7200} />
+      </Box>
     </Box>
   );
 }
