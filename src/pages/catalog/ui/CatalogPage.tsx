@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { ProductCardsView } from "../../../features/ProductCardsView";
 import { Header } from "../../../shared/ui/Header";
 import { apiRoot } from "../../../shared/api/apiRoot";
-import { Box } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import { ProductsSortSelect } from "../../../entities/products-sort-select";
 import { useAppSelector } from "../../../shared/model/hooks";
+import { ProductsFilter } from "../../../entities/products-filter/ui/ProductsFilter";
 
 export function CatalogPage() {
   const [categoryId, setCategoryId] = useState("");
@@ -25,12 +26,22 @@ export function CatalogPage() {
   return (
     <>
       <Header>Каталог</Header>
-      <Box>
-        <ProductsSortSelect />
-      </Box>
-      <Box maxWidth={784} margin="auto">
-        <ProductCardsView categoryId={categoryId} sort={sortOption.value} />
-      </Box>
+      <ProductsSortSelect />
+      <Container maxWidth="lg">
+        <Grid container columnSpacing={8} justifyContent="space-between">
+          <Grid item>
+            <ProductsFilter />
+          </Grid>
+          <Grid item>
+            <Box maxWidth={784} margin="auto">
+              <ProductCardsView
+                categoryId={categoryId}
+                sort={sortOption.value}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 }
