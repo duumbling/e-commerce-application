@@ -4,6 +4,7 @@ import { Checkbox } from "../../../shared/ui/Checkbox";
 import { useAppDispatch } from "../../../shared/model/hooks";
 import { filterSlice } from "../model/slice";
 
+// FIXME: change mock static filters to dynamic filters
 const brands = [
   {
     key: "PUMA",
@@ -41,13 +42,8 @@ const colors = [
     label: "Бежевый",
   },
 ];
-// const sizes = ["39", "40", "41", "42", "43"];
 
-interface ProductsFilterProps {
-  onChange?: () => void;
-}
-
-export function ProductsFilter({ onChange }: ProductsFilterProps) {
+export function ProductsFilter() {
   const { updateEnumFilters: updateFIlterAttributes } = filterSlice.actions;
 
   const dispatch = useAppDispatch();
@@ -65,9 +61,6 @@ export function ProductsFilter({ onChange }: ProductsFilterProps) {
                 dispatch(
                   updateFIlterAttributes({ name: "brand", data: brand }),
                 );
-                if (onChange !== undefined) {
-                  onChange();
-                }
               }}
             />
           ))}
@@ -84,9 +77,6 @@ export function ProductsFilter({ onChange }: ProductsFilterProps) {
                 dispatch(
                   updateFIlterAttributes({ name: "color", data: value }),
                 );
-                if (onChange !== undefined) {
-                  onChange();
-                }
               }}
             />
           ))}
