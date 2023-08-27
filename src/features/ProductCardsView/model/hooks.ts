@@ -15,12 +15,17 @@ export function useProducts(
 
   useEffect(() => {
     void (async () => {
+      if (categoryId === "") {
+        return;
+      }
       try {
         const productsData = await getAllProductsByCategoryId(
           categoryId,
           {
             brandFilter: filterState.brandFilter.values,
             colorFilter: filterState.colorFilter.values,
+            priceFilter: filterState.priceFilter,
+            sizeFilter: filterState.sizeFilter,
           },
           sort,
         );

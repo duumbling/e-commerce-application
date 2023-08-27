@@ -6,7 +6,7 @@ import {
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { type Filters, type ProductData } from "../model/types";
 
-const getFilterString = (
+const getEnumTypeFilterString = (
   name: string,
   filterValues: AttributePlainEnumValue[],
 ): string => {
@@ -16,6 +16,23 @@ const getFilterString = (
         .join()}`
     : "";
 };
+
+const getCentAmount = (priceValue: number): number => Number(`${priceValue}00`);
+
+const getPriceFilterString = (min: number, max: number): string => {
+  return min !== 0 && max !== 0
+    ? `variants.price.centAmount:range (${getCentAmount(
+        min,
+      )} to ${getCentAmount(max)})`
+    : "";
+};
+
+const getSizeFilterString = (sizeFilter: number[]): string =>
+  sizeFilter.length > 0
+    ? `variants.attributes.sizes:${sizeFilter
+        .map((value) => `"${value}"`)
+        .join(",")}`
+    : "";
 
 const getPriceValue = (price: TypedMoney): number => {
   const priceStr = price.centAmount.toString();
@@ -32,9 +49,6 @@ const getProductData = ({
   if (masterVariant.prices === undefined) {
     throw Error("There is no price for any product");
   }
-  if (description === undefined) {
-    throw Error("There is no description for any product");
-  }
 
   return {
     id,
@@ -44,14 +58,14 @@ const getProductData = ({
         ? getPriceValue(masterVariant.prices[0].discounted.value)
         : undefined,
     title: name["ru-RU"],
-    description: description["ru-RU"],
+    description: description !== undefined ? description["ru-RU"] : undefined,
     images: masterVariant.images?.map((img) => img.url) ?? [],
   };
 };
 
 export const getAllProductsByCategoryId = async (
   categoryId: string,
-  filter: Filters,
+  { brandFilter, colorFilter, priceFilter, sizeFilter }: Filters,
   sort?: string,
 ): Promise<ProductData[]> => {
   const {
@@ -63,13 +77,15 @@ export const getAllProductsByCategoryId = async (
       queryArgs: {
         filter: [
           `categories.id:"${categoryId}"`,
-          getFilterString("brand", filter.brandFilter),
-          getFilterString("color", filter.colorFilter),
+          getEnumTypeFilterString("brand", brandFilter),
+          getEnumTypeFilterString("color", colorFilter),
+          getPriceFilterString(priceFilter.min, priceFilter.max),
+          getSizeFilterString(sizeFilter),
         ],
         sort,
       },
     })
     .execute();
   console.log(results);
-  return results.map((productProjection) => getProductData(productProjection));
+  return results.map(getProductData);
 };
