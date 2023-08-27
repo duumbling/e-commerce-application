@@ -6,6 +6,7 @@ export interface ProductData {
   description: string;
   images: string[];
   price: number;
+  discountPrice?: number;
 }
 
 export interface Filters {

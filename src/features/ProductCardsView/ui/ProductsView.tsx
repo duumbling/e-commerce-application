@@ -28,6 +28,7 @@ export function ProductCardsView({ categoryId, sx, sort }: ProductsViewProps) {
               title={product.title}
               image={product.images[0]}
               price={product.price}
+              discountPrice={product.discountPrice}
             />
           </Grid>
         );
