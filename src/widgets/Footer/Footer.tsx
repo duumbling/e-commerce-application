@@ -30,7 +30,7 @@ import {
   footerContactsSubContainerStyleProps,
 } from "./style";
 import { paymentIcons, socialIcons } from "../../shared/ui/assets/icons";
-import { bgIconCenter } from "../../shared/lib/helpers/styles";
+import { backgroundIcon } from "../../shared/lib/helpers/styles";
 
 interface SocialLink {
   href: string;
@@ -53,7 +53,7 @@ const socialLinks: SocialLink[] = [
 ];
 
 const paymentIconItems = Object.values(paymentIcons).map((icon) => (
-  <Box key={icon} {...paymentIconStyleProps} sx={bgIconCenter(icon)} />
+  <Box key={icon} {...paymentIconStyleProps} sx={backgroundIcon(icon)} />
 ));
 
 const socialButtons = socialData.map((data) => (

@@ -3,7 +3,7 @@ import { CustomButton, type CustomButtonProps } from "../CustomButton";
 import { style } from "./style";
 import { Link } from "../Link";
 import { type Paths } from "../../constants/paths";
-import { bgIconCenter, resolveSx } from "../../lib/helpers/styles";
+import { backgroundIcon, resolveSx } from "../../lib/helpers/styles";
 
 export type SocialButtonProps = CustomButtonProps & {
   href: Paths | string;
@@ -19,7 +19,7 @@ export function SocialButton({
     <CustomButton
       component={Link}
       variant="outlined"
-      sx={resolveSx(style, bgIconCenter(icon), sx)}
+      sx={resolveSx(style, backgroundIcon(icon), sx)}
       {...otherProps}
     />
   );
