@@ -3,31 +3,29 @@ import { type ProductData, type ProductsFetchResult } from "./types";
 import { useAppSelector } from "../../../shared/model/hooks";
 import { getAllProductsByCategoryId } from "../api/products";
 
-export function useProducts(
-  categoryId: string,
-  sort?: string,
-): ProductsFetchResult {
+export function useFetchProducts(categoryId: string): ProductsFetchResult {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
 
-  const filterState = useAppSelector((state) => state.productsFilterReducer);
+  const { brandFilter, colorFilter, priceFilter, sizeFilter } = useAppSelector(
+    (state) => state.productsFilterReducer,
+  );
+
+  const sortState = useAppSelector((state) => state.sortProductsReducer);
 
   useEffect(() => {
     void (async () => {
-      if (categoryId === "") {
-        return;
-      }
       try {
         const productsData = await getAllProductsByCategoryId(
           categoryId,
           {
-            brandFilter: filterState.brandFilter.values,
-            colorFilter: filterState.colorFilter.values,
-            priceFilter: filterState.priceFilter,
-            sizeFilter: filterState.sizeFilter,
+            brandFilter: brandFilter.values,
+            colorFilter: colorFilter.values,
+            priceFilter,
+            sizeFilter,
           },
-          sort,
+          sortState.value,
         );
         setProducts(productsData);
       } catch (error) {
@@ -38,7 +36,14 @@ export function useProducts(
       }
       setIsLoading(false);
     })();
-  }, [categoryId, sort, filterState]);
+  }, [
+    categoryId,
+    sortState,
+    brandFilter,
+    colorFilter,
+    priceFilter,
+    sizeFilter,
+  ]);
 
   return {
     isLoading,

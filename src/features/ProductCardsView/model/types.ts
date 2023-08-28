@@ -1,10 +1,14 @@
-import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
+import {
+  type ProductVariant,
+  type AttributePlainEnumValue,
+} from "@commercetools/platform-sdk";
 
 export interface ProductData {
   id: string;
   title: string;
   images: string[];
   price: number;
+  allVariants: ProductVariant[];
   description?: string;
   discountPrice?: number;
 }

@@ -2,6 +2,7 @@ import {
   type ProductProjection,
   type AttributePlainEnumValue,
   type TypedMoney,
+  type ProductVariant,
 } from "@commercetools/platform-sdk";
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { type Filters, type ProductData } from "../model/types";
@@ -23,7 +24,7 @@ const getPriceFilterString = (min: number, max: number): string => {
   return min !== 0 && max !== 0
     ? `variants.price.centAmount:range (${getCentAmount(
         min,
-      )} to ${getCentAmount(max)})`
+      )} to ${getCentAmount(max + 1)})`
     : "";
 };
 
@@ -40,26 +41,38 @@ const getPriceValue = (price: TypedMoney): number => {
   return Number(priceStr.substring(0, priceStr.length - fractionDigits));
 };
 
+const getMatchingVariant = (
+  masterVariant: ProductVariant,
+  variants: ProductVariant[],
+): ProductVariant =>
+  masterVariant.isMatchingVariant ?? false
+    ? masterVariant
+    : variants.filter((value) => value.isMatchingVariant ?? false)[0];
+
 const getProductData = ({
   id,
   name,
   description,
   masterVariant,
+  variants,
 }: ProductProjection): ProductData => {
-  if (masterVariant.prices === undefined) {
+  const matchingVariant = getMatchingVariant(masterVariant, variants);
+
+  if (matchingVariant.prices === undefined) {
     throw Error("There is no price for any product");
   }
 
   return {
     id,
-    price: getPriceValue(masterVariant.prices[0].value),
+    price: getPriceValue(matchingVariant.prices[0].value),
     discountPrice:
-      masterVariant.prices[0]?.discounted !== undefined
-        ? getPriceValue(masterVariant.prices[0].discounted.value)
+      matchingVariant.prices[0]?.discounted !== undefined
+        ? getPriceValue(matchingVariant.prices[0].discounted.value)
         : undefined,
     title: name["ru-RU"],
     description: description !== undefined ? description["ru-RU"] : undefined,
-    images: masterVariant.images?.map((img) => img.url) ?? [],
+    images: matchingVariant.images?.map((img) => img.url) ?? [],
+    allVariants: [masterVariant, ...variants],
   };
 };
 
@@ -76,13 +89,14 @@ export const getAllProductsByCategoryId = async (
     .get({
       queryArgs: {
         filter: [
-          `categories.id:"${categoryId}"`,
+          categoryId !== "" ? `categories.id:"${categoryId}"` : "",
           getEnumTypeFilterString("brand", brandFilter),
           getEnumTypeFilterString("color", colorFilter),
           getPriceFilterString(priceFilter.min, priceFilter.max),
           getSizeFilterString(sizeFilter),
         ],
         sort,
+        markMatchingVariants: true,
       },
     })
     .execute();
