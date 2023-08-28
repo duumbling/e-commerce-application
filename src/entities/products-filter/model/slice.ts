@@ -3,6 +3,7 @@ import {
   type FilterStatePriceItem,
   type FilterEnumPayload,
   type FilterState,
+  type AvailableFilterValuePayload,
 } from "./types";
 import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
 
@@ -20,15 +21,29 @@ const initialState: FilterState = {
     max: 0,
   },
   sizeFilter: [],
+  availableFilterValues: {
+    brands: [],
+    colors: [],
+    sizes: [],
+    prices: { min: 0, max: 0 },
+  },
 };
 
-const getUpdatedFilterArray = (
+const getUpdatedFilterEnumValueArray = (
   values: AttributePlainEnumValue[],
   incomingValue: AttributePlainEnumValue,
 ): AttributePlainEnumValue[] =>
   values.find((brand) => brand.key === incomingValue.key) !== undefined
     ? values.filter((value) => value.key !== incomingValue.key)
     : [...values, incomingValue];
+
+const isArrayOfStrings = (value: unknown): value is string[] => {
+  return (
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every((value) => typeof value === "string")
+  );
+};
 
 export const filterSlice = createSlice({
   name: "products-filter",
@@ -40,13 +55,13 @@ export const filterSlice = createSlice({
     ) {
       switch (name) {
         case state.brandFilter.name:
-          state.brandFilter.values = getUpdatedFilterArray(
+          state.brandFilter.values = getUpdatedFilterEnumValueArray(
             state.brandFilter.values,
             data,
           );
           break;
         case state.colorFilter.name:
-          state.colorFilter.values = getUpdatedFilterArray(
+          state.colorFilter.values = getUpdatedFilterEnumValueArray(
             state.colorFilter.values,
             data,
           );
@@ -64,6 +79,27 @@ export const filterSlice = createSlice({
         state.sizeFilter = state.sizeFilter.filter((size) => size !== payload);
       } else {
         state.sizeFilter.push(payload);
+      }
+    },
+    updateAvailableFilterValues(
+      state,
+      { payload: { name, value } }: PayloadAction<AvailableFilterValuePayload>,
+    ) {
+      if (!Array.isArray(value)) {
+        state.availableFilterValues.prices = value;
+      } else if (!isArrayOfStrings(value)) {
+        state.availableFilterValues.sizes = value;
+      } else {
+        switch (name) {
+          case "brand":
+            state.availableFilterValues.brands = value;
+            break;
+          case "color":
+            state.availableFilterValues.colors = value;
+            break;
+          default:
+            return state;
+        }
       }
     },
   },
