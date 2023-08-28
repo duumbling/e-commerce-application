@@ -3,7 +3,6 @@ import { Box, Typography } from "@mui/material";
 import { useAppSelector } from "../../../../shared/model/hooks";
 import { FilterSectionBox } from "./FilterBox/FilterSectionBox";
 import { PriceSlider } from "./PriceSlider/PriceSlider";
-// import { rootStyle } from "./style";
 
 export function FilterContent() {
   const { availableFilterValues } = useAppSelector(
