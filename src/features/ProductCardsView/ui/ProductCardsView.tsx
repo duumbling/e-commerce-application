@@ -30,18 +30,11 @@ export function ProductCardsView({ categoryId, sx }: ProductsViewProps) {
       updateAvailableFilterValues({
         brands: getAvailableBrands(data),
         colors: getAvailableColors(data),
-      }),
-    );
-  }, [isLoading]);
-
-  useEffect(() => {
-    dispatch(
-      updateAvailableFilterValues({
         sizes: getAvailableSizes(data),
         prices: getMinAndMaxPrices(data),
       }),
     );
-  }, [data]);
+  }, [isLoading]);
 
   if (isLoading) {
     return (
