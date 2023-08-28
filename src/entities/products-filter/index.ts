@@ -1,3 +1,6 @@
 export { ProductsFilter } from "./ui/ProductsFilter";
-export { productsFilterReducer } from "./model/slice";
-export { type FilterEnumName } from "./model/types";
+export {
+  productsFilterReducer,
+  updateAvailableFilterValues,
+} from "./model/slice";
+export { type FilterEnumName, type PriceValue } from "./model/types";

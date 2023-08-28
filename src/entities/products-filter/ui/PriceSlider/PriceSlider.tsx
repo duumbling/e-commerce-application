@@ -20,6 +20,7 @@ export function PriceSlider({ min, max, ...otherProps }: SliderProps) {
     if (!Array.isArray(newValue)) {
       return;
     }
+    console.log(newValue);
 
     let minValue = 0;
     let maxValue = 0;

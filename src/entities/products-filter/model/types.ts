@@ -7,22 +7,22 @@ interface FilterStateEnumTypeItem {
   values: AttributePlainEnumValue[];
 }
 
-export interface FilterStatePriceItem {
+export interface PriceValue {
   min: number;
   max: number;
 }
 
 export interface FilterValues {
-  brands: string[];
-  colors: string[];
+  brands: AttributePlainEnumValue[];
+  colors: AttributePlainEnumValue[];
   sizes: number[];
-  prices: FilterStatePriceItem;
+  prices: PriceValue;
 }
 
 export interface FilterState {
   brandFilter: FilterStateEnumTypeItem;
   colorFilter: FilterStateEnumTypeItem;
-  priceFilter: FilterStatePriceItem;
+  priceFilter: PriceValue;
   sizeFilter: number[];
   availableFilterValues: FilterValues;
 }
@@ -30,9 +30,4 @@ export interface FilterState {
 export interface FilterEnumPayload {
   name: FilterEnumName;
   data: AttributePlainEnumValue;
-}
-
-export interface AvailableFilterValuePayload {
-  name: "brand" | "color" | "size" | "price";
-  value: string[] | number[] | FilterStatePriceItem;
 }

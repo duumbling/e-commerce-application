@@ -1,9 +1,9 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
-  type FilterStatePriceItem,
+  type PriceValue,
   type FilterEnumPayload,
   type FilterState,
-  type AvailableFilterValuePayload,
+  type FilterValues,
 } from "./types";
 import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
 
@@ -37,14 +37,6 @@ const getUpdatedFilterEnumValueArray = (
     ? values.filter((value) => value.key !== incomingValue.key)
     : [...values, incomingValue];
 
-const isArrayOfStrings = (value: unknown): value is string[] => {
-  return (
-    Array.isArray(value) &&
-    value.length > 0 &&
-    value.every((value) => typeof value === "string")
-  );
-};
-
 export const filterSlice = createSlice({
   name: "products-filter",
   initialState,
@@ -70,7 +62,7 @@ export const filterSlice = createSlice({
           return state;
       }
     },
-    updatePriceFilter(state, { payload }: PayloadAction<FilterStatePriceItem>) {
+    updatePriceFilter(state, { payload }: PayloadAction<PriceValue>) {
       state.priceFilter.min = payload.min;
       state.priceFilter.max = payload.max;
     },
@@ -83,26 +75,23 @@ export const filterSlice = createSlice({
     },
     updateAvailableFilterValues(
       state,
-      { payload: { name, value } }: PayloadAction<AvailableFilterValuePayload>,
+      { payload }: PayloadAction<Partial<FilterValues>>,
     ) {
-      if (!Array.isArray(value)) {
-        state.availableFilterValues.prices = value;
-      } else if (!isArrayOfStrings(value)) {
-        state.availableFilterValues.sizes = value;
-      } else {
-        switch (name) {
-          case "brand":
-            state.availableFilterValues.brands = value;
-            break;
-          case "color":
-            state.availableFilterValues.colors = value;
-            break;
-          default:
-            return state;
-        }
+      if (payload.brands !== undefined) {
+        state.availableFilterValues.brands = payload.brands;
+      }
+      if (payload.colors !== undefined) {
+        state.availableFilterValues.colors = payload.colors;
+      }
+      if (payload.prices !== undefined) {
+        state.availableFilterValues.prices = payload.prices;
+      }
+      if (payload.sizes !== undefined) {
+        state.availableFilterValues.sizes = payload.sizes;
       }
     },
   },
 });
 
 export const productsFilterReducer = filterSlice.reducer;
+export const { updateAvailableFilterValues } = filterSlice.actions;
