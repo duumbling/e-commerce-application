@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Slider, type SliderProps } from "@mui/material";
-import { filterSlice } from "../../model/slice";
-import { useAppDispatch } from "../../../../shared/model/hooks";
+import { filterSlice } from "../../../model/slice";
+import { useAppDispatch } from "../../../../../shared/model/hooks";
 
 const PRICE_MIN_DISTANCE = 100;
 
@@ -50,10 +50,10 @@ export function PriceSlider({ min, max, ...otherProps }: SliderProps) {
         }
         dispatch(updatePriceFilter({ min: newValue[0], max: newValue[1] }));
       }}
-      sx={{
-        marginLeft: 3,
-      }}
       {...otherProps}
+      sx={{
+        maxWidth: 150,
+      }}
     />
   );
 }
