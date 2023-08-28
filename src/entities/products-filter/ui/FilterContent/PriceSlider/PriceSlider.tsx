@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Slider, type SliderProps } from "@mui/material";
+import { Grid, Slider, type SliderProps } from "@mui/material";
 import { filterSlice } from "../../../model/slice";
 import { useAppDispatch } from "../../../../../shared/model/hooks";
 
@@ -35,24 +35,25 @@ export function PriceSlider({ min, max, ...otherProps }: SliderProps) {
   };
 
   return (
-    <Slider
-      color="primary"
-      min={min}
-      max={max}
-      valueLabelDisplay="auto"
-      step={100}
-      value={priceValue}
-      onChange={handlePriceChange}
-      onChangeCommitted={(_, newValue) => {
-        if (!Array.isArray(newValue)) {
-          return;
-        }
-        dispatch(updatePriceFilter({ min: newValue[0], max: newValue[1] }));
-      }}
-      {...otherProps}
-      sx={{
-        maxWidth: 150,
-      }}
-    />
+    <Grid container columnSpacing={3} justifyContent="center">
+      <Grid item xs={10} md={12} sm={10}>
+        <Slider
+          color="primary"
+          min={min}
+          max={max}
+          valueLabelDisplay="auto"
+          step={100}
+          value={priceValue}
+          onChange={handlePriceChange}
+          onChangeCommitted={(_, newValue) => {
+            if (!Array.isArray(newValue)) {
+              return;
+            }
+            dispatch(updatePriceFilter({ min: newValue[0], max: newValue[1] }));
+          }}
+          {...otherProps}
+        />
+      </Grid>
+    </Grid>
   );
 }
