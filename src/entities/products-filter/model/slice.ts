@@ -62,10 +62,12 @@ export const filterSlice = createSlice({
           return state;
       }
     },
+
     updatePriceFilter(state, { payload }: PayloadAction<PriceValue>) {
       state.priceFilter.min = payload.min;
       state.priceFilter.max = payload.max;
     },
+
     updateSizeFilter(state, { payload }: PayloadAction<number>) {
       if (state.sizeFilter.includes(payload)) {
         state.sizeFilter = state.sizeFilter.filter((size) => size !== payload);
@@ -73,6 +75,7 @@ export const filterSlice = createSlice({
         state.sizeFilter.push(payload);
       }
     },
+
     updateAvailableFilterValues(
       state,
       { payload }: PayloadAction<Partial<FilterValues>>,
@@ -94,4 +97,5 @@ export const filterSlice = createSlice({
 });
 
 export const productsFilterReducer = filterSlice.reducer;
+
 export const { updateAvailableFilterValues } = filterSlice.actions;
