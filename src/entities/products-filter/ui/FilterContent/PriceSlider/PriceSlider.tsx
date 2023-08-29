@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { Grid, Slider, type SliderProps } from "@mui/material";
-import { filterSlice } from "../../../model/slice";
-import { useAppDispatch } from "../../../../../shared/model/hooks";
+import { useCustomSearchParams } from "../../../../../shared/model/hooks";
+import { FilterParamNames } from "../../../model/types";
+import { ThemeColors } from "../../../../../shared/constants/colors";
+import { useNavigate } from "react-router-dom";
+import { Paths } from "../../../../../shared/constants/paths";
 
 const PRICE_MIN_DISTANCE = 100;
 
 export function PriceSlider({ min, max, ...otherProps }: SliderProps) {
-  const { updatePriceFilter } = filterSlice.actions;
-
-  const dispatch = useAppDispatch();
-
   const [priceValue, setPriceValue] = useState<number[]>([min ?? 0, max ?? 0]);
+
+  const { searchParams } = useCustomSearchParams();
+
+  const navigate = useNavigate();
 
   const handlePriceChange = (
     _: Event,
@@ -38,7 +41,7 @@ export function PriceSlider({ min, max, ...otherProps }: SliderProps) {
     <Grid container columnSpacing={3} justifyContent="center">
       <Grid item xs={10} md={12} sm={10}>
         <Slider
-          color="primary"
+          color={ThemeColors.PRIMARY}
           min={min}
           max={max}
           valueLabelDisplay="auto"
@@ -49,7 +52,18 @@ export function PriceSlider({ min, max, ...otherProps }: SliderProps) {
             if (!Array.isArray(newValue)) {
               return;
             }
-            dispatch(updatePriceFilter({ min: newValue[0], max: newValue[1] }));
+            searchParams.set(
+              FilterParamNames.PRICE_MIN,
+              newValue[0].toString(),
+            );
+            searchParams.set(
+              FilterParamNames.PRICE_MAX,
+              newValue[1].toString(),
+            );
+            navigate({
+              pathname: Paths.Catalog,
+              search: searchParams.toString(),
+            });
           }}
           {...otherProps}
         />

@@ -3,4 +3,4 @@ export {
   productsFilterReducer,
   updateAvailableFilterValues,
 } from "./model/slice";
-export { type FilterEnumName, type PriceValue } from "./model/types";
+export { type PriceValue } from "./model/types";
