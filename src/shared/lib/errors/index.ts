@@ -1,1 +1,1 @@
-export { ErrorType, type RegistrationError } from "./types";
+export { ErrorType, type FormError } from "./types";

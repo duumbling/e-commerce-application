@@ -3,6 +3,7 @@ import { PRIMARY_COLOR, ButtonColors } from "../../constants/colors";
 export const style = {
   contained: {
     backgroundColor: PRIMARY_COLOR,
+    color: ButtonColors.CONTAINED_BUTTON_COLOR,
     fontWeight: 800,
     borderRadius: 2,
     "&:hover": {

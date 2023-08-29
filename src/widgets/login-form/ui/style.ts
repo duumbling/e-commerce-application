@@ -3,6 +3,7 @@ import {
   MOBILE_MEDIA,
   TABLET_MEDIA,
 } from "../../../shared/constants/mediaQuery";
+import { CONTAINED_BUTTON_PADDINGS } from "../../../shared/constants/sizes";
 
 export const rootStyle = {
   [TABLET_MEDIA]: {
@@ -12,7 +13,7 @@ export const rootStyle = {
 
 export const gridContainerProps = {
   container: true,
-  rowSpacing: { xs: 4, sm: 6, md: 8 },
+  rowSpacing: 3,
   columns: 1,
   justifyContent: "center",
 };
@@ -38,7 +39,7 @@ export const firstTextFieldStyle = {
 
 export const loginButtonStyle = {
   marginTop: 3.12,
-  padding: "14px 26px",
+  padding: CONTAINED_BUTTON_PADDINGS,
   textAlign: "center",
   fontSize: 15,
   textTransform: "none",

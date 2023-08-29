@@ -6,6 +6,7 @@ import {
   type AnyObject,
   type DateSchema,
 } from "yup";
+import validator from "validator";
 
 const PASSWORD_MIN_LENGTH = 8;
 const USER_MIN_YEARS = 13;
@@ -18,7 +19,7 @@ export const matchOnlyAlphabeticCharacters = (
   schema: StringSchema<string, AnyObject, undefined, "">,
 ): StringSchema<string, AnyObject, undefined, ""> => {
   return schema.matches(
-    /^[a-zа-яё]/i,
+    /^[a-zа-яё]+$/i,
     "Поле должно содержать только символы алфавита",
   );
 };
@@ -31,7 +32,12 @@ export const validateEmail = (): StringSchema<
   AnyObject,
   undefined,
   ""
-> => string().required("Введите email").email("Введите корректный email адрес");
+> =>
+  string()
+    .required("Введите email")
+    .test("isEmail", "Введите корректный email адрес", (value) =>
+      validator.isEmail(value),
+    );
 
 export const validatePassword = (): StringSchema<
   string,
@@ -50,6 +56,15 @@ export const validatePassword = (): StringSchema<
     .matches(
       /[A-ZА-ЯЁ]/,
       getPasswordCharacterValidationError("прописную букву"),
+    )
+    .matches(
+      /[!@#$%^&*]/,
+      "Пароль должен содержать хотя бы один специальный символ",
+    )
+    .test(
+      "trimmed",
+      "В начале и конце пароля должны отсутствовать пробелы",
+      (value) => value.trim() === value,
     );
 
 export const validatePasswordConfirm = (): StringSchema<
