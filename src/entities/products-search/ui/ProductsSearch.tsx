@@ -4,23 +4,31 @@ import { Autocomplete, Grid, type GridProps } from "@mui/material";
 import { useSearchProducts } from "../model/hooks";
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
 import { CustomButton } from "../../../shared/ui/CustomButton";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { Paths } from "../../../shared/constants/paths";
+import { useAppDispatch } from "../../../shared/model/hooks";
+import { searchKeywordsSlice } from "../model/slice";
 
-export function ProductsSearchInput({ sx }: GridProps) {
+export function ProductsSearch({ sx }: GridProps) {
   const { searchValue, setSearchValue, keywords, error } = useSearchProducts();
 
   const [isErrorMessageVisible, setIsErrorMessageVisible] = useState(false);
 
   const navigate = useNavigate();
 
-  if (error !== null) {
-    setIsErrorMessageVisible(true);
-  }
+  const { setKeywords } = searchKeywordsSlice.actions;
+
+  const dispatch = useAppDispatch();
 
   const handleSearch = () => {
     if (searchValue.length > 0) {
-      navigate(`${Paths.Catalog}?search=${searchValue}`);
+      dispatch(setKeywords(keywords));
+      navigate({
+        pathname: Paths.Catalog,
+        search: createSearchParams({
+          text: searchValue,
+        }).toString(),
+      });
     }
   };
 
@@ -28,7 +36,7 @@ export function ProductsSearchInput({ sx }: GridProps) {
     <Grid
       container
       columnSpacing={1}
-      justifyContent="ceenter"
+      justifyContent="center"
       alignContent="center"
       sx={sx}
     >
