@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import { type ProductData, type ProductsFetchResult } from "./types";
-import { useAppSelector } from "../../../shared/model/hooks";
+import {
+  useAppSelector,
+  useCustomSearchParams,
+} from "../../../shared/model/hooks";
 import { getAllProductsByCategoryId } from "../api/products";
+import { FilterParamNames } from "../../../entities/products-filter/model/types";
 
 export function useFetchProducts(categoryId: string): ProductsFetchResult {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
 
-  const { brandFilter, colorFilter, priceFilter, sizeFilter } = useAppSelector(
-    (state) => state.productsFilterReducer,
-  );
-
   const sortState = useAppSelector((state) => state.sortProductsReducer);
+
+  const { searchParams } = useCustomSearchParams();
 
   useEffect(() => {
     void (async () => {
@@ -20,10 +22,13 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
         const productsData = await getAllProductsByCategoryId(
           categoryId,
           {
-            brandFilter: brandFilter.values,
-            colorFilter: colorFilter.values,
-            priceFilter,
-            sizeFilter,
+            brand: searchParams.getAll(FilterParamNames.BRAND),
+            color: searchParams.getAll(FilterParamNames.COLOR),
+            size: searchParams.getAll(FilterParamNames.SIZE),
+            price: {
+              min: Number(searchParams.get(FilterParamNames.PRICE_MIN)),
+              max: Number(searchParams.get(FilterParamNames.PRICE_MAX)),
+            },
           },
           sortState.value,
         );
@@ -36,14 +41,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
       }
       setIsLoading(false);
     })();
-  }, [
-    categoryId,
-    sortState,
-    brandFilter,
-    colorFilter,
-    priceFilter,
-    sizeFilter,
-  ]);
+  }, [categoryId, sortState, searchParams]);
 
   return {
     isLoading,

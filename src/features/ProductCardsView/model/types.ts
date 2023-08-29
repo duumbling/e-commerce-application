@@ -1,7 +1,5 @@
-import {
-  type ProductVariant,
-  type AttributePlainEnumValue,
-} from "@commercetools/platform-sdk";
+import { type ProductVariant } from "@commercetools/platform-sdk";
+import { type PriceValue } from "../../../entities/products-filter";
 
 export interface ProductData {
   id: string;
@@ -14,10 +12,10 @@ export interface ProductData {
 }
 
 export interface Filters {
-  brandFilter: AttributePlainEnumValue[];
-  colorFilter: AttributePlainEnumValue[];
-  priceFilter: { min: number; max: number };
-  sizeFilter: number[];
+  brand: string[];
+  color: string[];
+  size: string[];
+  price: PriceValue;
 }
 
 export interface ProductsFetchResult {
