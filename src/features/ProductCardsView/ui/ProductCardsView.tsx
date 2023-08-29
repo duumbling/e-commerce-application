@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { type GridProps, Grid, Box, Typography } from "@mui/material";
+import {
+  type GridProps,
+  Grid,
+  Backdrop,
+  CircularProgress,
+} from "@mui/material";
 import { ProductCard } from "../../../entities/product-card";
 import { productsContainerProps } from "./style";
 import { useFetchProducts } from "../model/hooks";
@@ -12,13 +17,14 @@ import {
   getMinAndMaxPrices,
 } from "../lib/helpers";
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
+import { PRIMARY_COLOR } from "../../../shared/constants/colors";
 
 type ProductsViewProps = Pick<GridProps, "sx"> & {
   categoryId: string;
 };
 
 export function ProductCardsView({ categoryId, sx }: ProductsViewProps) {
-  const { isLoading, data, error } = useFetchProducts(categoryId);
+  const { isLoading, isFetching, data, error } = useFetchProducts(categoryId);
 
   const dispatch = useAppDispatch();
 
@@ -36,14 +42,6 @@ export function ProductCardsView({ categoryId, sx }: ProductsViewProps) {
     );
   }, [isLoading]);
 
-  if (isLoading) {
-    return (
-      <Box>
-        <Typography variant="h3">Loading</Typography>
-      </Box>
-    );
-  }
-
   return (
     <Grid {...productsContainerProps} sx={sx}>
       {data.map((product) => {
@@ -58,6 +56,12 @@ export function ProductCardsView({ categoryId, sx }: ProductsViewProps) {
           </Grid>
         );
       })}
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isFetching}
+      >
+        <CircularProgress sx={{ color: PRIMARY_COLOR }} />
+      </Backdrop>
       <CustomSnackBar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         severity="error"

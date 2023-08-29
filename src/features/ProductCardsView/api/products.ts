@@ -76,9 +76,23 @@ const getProductData = ({
   };
 };
 
+export const searchByWord = async (word: string) => {
+  return await apiRoot()
+    .productProjections()
+    .suggest()
+    .get({
+      queryArgs: {
+        "searchKeywords.ru-RU": word,
+        fuzzy: true,
+      },
+    })
+    .execute();
+};
+
 export const getAllProductsByCategoryId = async (
   categoryId: string,
   { brandFilter, colorFilter, priceFilter, sizeFilter }: Filters,
+  searchValue: string,
   sort?: string,
 ): Promise<ProductData[]> => {
   const {
@@ -97,6 +111,7 @@ export const getAllProductsByCategoryId = async (
         ],
         sort,
         markMatchingVariants: true,
+        "text.ru-RU": searchValue,
       },
     })
     .execute();
