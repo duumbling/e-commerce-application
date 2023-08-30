@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { searchByWord } from "../api/search";
+import { getProductKeywords } from "../api/search";
 
 export function useSearchProducts() {
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -9,17 +9,23 @@ export function useSearchProducts() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    void (async () => {
-      try {
-        const { body } = await searchByWord(searchValue);
-        setKeywords(body["searchKeywords.ru-RU"].map((value) => value.text));
-      } catch (error) {
-        if (!(error instanceof Error)) {
-          throw error;
+    const timer = setTimeout(() => {
+      void (async () => {
+        try {
+          const { body } = await getProductKeywords(searchValue);
+          setKeywords(body["searchKeywords.ru-RU"].map((value) => value.text));
+        } catch (error) {
+          if (!(error instanceof Error)) {
+            throw error;
+          }
+          setError(error);
         }
-        setError(error);
-      }
-    })();
+      })();
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [searchValue]);
 
   return {
