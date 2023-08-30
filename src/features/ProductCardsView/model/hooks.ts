@@ -29,7 +29,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
       try {
         const searchValue = getSearchKeyword(
           searchKeywordsState.keywords,
-          searchParams.get("text") ?? "",
+          searchParams.get("text")?.toLowerCase() ?? "",
         );
 
         const productsData = await getAllProductsByCategoryId(

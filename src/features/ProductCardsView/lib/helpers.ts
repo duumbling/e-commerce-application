@@ -59,7 +59,16 @@ export const getSearchKeyword = (
   if (searchValue === "") {
     return searchValue;
   }
-  if (keywords.filter((word) => word.includes(searchValue)).length === 0) {
+  const matchWords = keywords.filter(
+    (word) => word.toLowerCase() === searchValue,
+  );
+  if (matchWords.length > 0) {
+    return matchWords[0];
+  }
+  if (
+    keywords.filter((word) => word.toLowerCase().includes(searchValue))
+      .length === 0
+  ) {
     return searchValue;
   }
   const keywordsCopy = [...keywords];

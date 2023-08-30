@@ -118,6 +118,5 @@ export const getAllProductsByCategoryId = async (
       },
     })
     .execute();
-  console.log(results);
   return results.map(getProductData);
 };
