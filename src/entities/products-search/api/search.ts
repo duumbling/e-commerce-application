@@ -4,6 +4,8 @@ import {
 } from "@commercetools/platform-sdk";
 import { apiRoot } from "../../../shared/api/apiRoot";
 
+export const KEYWORDS_QUERY_NAME = "searchKeywords.ru-RU";
+
 export const getProductKeywords = async (
   word: string,
 ): Promise<ClientResponse<SuggestionResult>> => {
@@ -12,7 +14,7 @@ export const getProductKeywords = async (
     .suggest()
     .get({
       queryArgs: {
-        "searchKeywords.ru-RU": word,
+        [KEYWORDS_QUERY_NAME]: word,
         fuzzy: true,
       },
     })
