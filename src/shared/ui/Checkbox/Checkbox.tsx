@@ -8,12 +8,12 @@ import {
 } from "@mui/material";
 import { PRIMARY_COLOR } from "../../constants/colors";
 
-type CheckBoxProps = Partial<FormControlLabelProps> & {
+export type CheckboxProps = Partial<FormControlLabelProps> & {
   withColor?: boolean;
   color?: string;
 };
 
-export function Checkbox({ label, withColor, color, ...props }: CheckBoxProps) {
+export function Checkbox({ label, withColor, color, ...props }: CheckboxProps) {
   return (
     <FormControlLabel
       {...props}
