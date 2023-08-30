@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import { type ProductData, type ProductsFetchResult } from "./types";
-import {
-  useAppSelector,
-  useCustomSearchParams,
-} from "../../../shared/model/hooks";
+import { useCustomSearchParams } from "../../../shared/model/hooks";
 import { getAllProductsByCategoryId } from "../api/products";
 import { FilterParamNames } from "../../../entities/products-filter/model/types";
+import { SortOptions } from "../../../entities/products-sort-select";
 
 export function useFetchProducts(categoryId: string): ProductsFetchResult {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
-
-  const sortState = useAppSelector((state) => state.sortProductsReducer);
 
   const { searchParams } = useCustomSearchParams();
 
@@ -30,7 +26,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
               max: Number(searchParams.get(FilterParamNames.PRICE_MAX)),
             },
           },
-          sortState.value,
+          searchParams.get("sort") ?? SortOptions.PRICE_ASC,
         );
         setProducts(productsData);
       } catch (error) {
@@ -41,7 +37,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
       }
       setIsLoading(false);
     })();
-  }, [categoryId, sortState, searchParams]);
+  }, [categoryId, searchParams]);
 
   return {
     isLoading,

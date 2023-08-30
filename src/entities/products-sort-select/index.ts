@@ -1,2 +1,2 @@
 export { ProductsSortSelect } from "./ui/ProductsSortSelect";
-export { sortProductsReducer } from "./model/slice";
+export { SortOptions } from "./model/types";
