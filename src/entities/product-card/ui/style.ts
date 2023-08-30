@@ -6,11 +6,9 @@ const TABLET_WIDTH = 269;
 
 export const imageStyle = {
   maxWidth: DESKTOP_WIDTH,
-  maxHeight: 285,
 
   [TABLET_MEDIA]: {
     maxWidth: TABLET_WIDTH,
-    maxHeight: 241,
   },
 };
 
@@ -52,11 +50,9 @@ export const priceWithDiscountStyle = {
 };
 
 export const cardActionsStyle = {
-  height: 428,
   width: DESKTOP_WIDTH,
 
   [TABLET_MEDIA]: {
-    height: 350,
     width: TABLET_WIDTH,
   },
 };
