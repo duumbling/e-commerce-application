@@ -9,9 +9,9 @@ import { Paths } from "../../../../../shared/constants/paths";
 const PRICE_MIN_DISTANCE = 100;
 
 export function PriceSlider({ min, max, ...otherProps }: SliderProps) {
-  const [priceValue, setPriceValue] = useState<number[]>([min ?? 0, max ?? 0]);
-
   const { searchParams } = useCustomSearchParams();
+
+  const [priceValue, setPriceValue] = useState<number[]>([min ?? 0, max ?? 0]);
 
   const navigate = useNavigate();
 
@@ -24,17 +24,17 @@ export function PriceSlider({ min, max, ...otherProps }: SliderProps) {
       return;
     }
 
-    let minValue = 0;
-    let maxValue = 0;
-
     if (activeThumb === 0) {
-      minValue = Math.min(newValue[0], priceValue[1] - PRICE_MIN_DISTANCE);
-      maxValue = priceValue[1];
+      setPriceValue([
+        Math.min(newValue[0], priceValue[1] - PRICE_MIN_DISTANCE),
+        priceValue[1],
+      ]);
     } else {
-      minValue = priceValue[0];
-      maxValue = Math.max(newValue[1], priceValue[0] + PRICE_MIN_DISTANCE);
+      setPriceValue([
+        priceValue[0],
+        Math.max(newValue[1], priceValue[0] + PRICE_MIN_DISTANCE),
+      ]);
     }
-    setPriceValue([minValue, maxValue]);
   };
 
   return (
@@ -46,6 +46,7 @@ export function PriceSlider({ min, max, ...otherProps }: SliderProps) {
           max={max}
           valueLabelDisplay="auto"
           step={100}
+          disableSwap
           value={priceValue}
           onChange={handlePriceChange}
           onChangeCommitted={(_, newValue) => {
