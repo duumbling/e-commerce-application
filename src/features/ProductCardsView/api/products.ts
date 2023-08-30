@@ -58,8 +58,11 @@ const getProductData = ({
 }: ProductProjection): ProductData => {
   const matchingVariant = getMatchingVariant(masterVariant, variants);
 
-  if (matchingVariant.prices === undefined) {
-    throw Error("There is no price for any product");
+  if (
+    matchingVariant.prices === undefined ||
+    matchingVariant.prices.length === 0
+  ) {
+    throw Error(`There is no price for ${name["ru-RU"]} product`);
   }
 
   return {
@@ -115,5 +118,6 @@ export const getAllProductsByCategoryId = async (
       },
     })
     .execute();
+  console.log(results);
   return results.map(getProductData);
 };
