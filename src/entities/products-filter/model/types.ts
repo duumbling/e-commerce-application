@@ -15,7 +15,7 @@ export interface FilterState {
 export enum FilterParamNames {
   BRAND = "brand",
   COLOR = "color",
-  SIZE = "sz",
+  SIZE = "size",
   PRICE_MIN = "price_min",
   PRICE_MAX = "price_max",
 }
