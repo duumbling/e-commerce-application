@@ -35,7 +35,7 @@ export const authContainerStyle = {
 export const burgerMenuButtonStyle = {
   mr: 2,
   position: "absolute",
-  right: "0",
+  right: 0,
   display: "none",
   [MOBILE_MEDIA]: {
     display: "block",
