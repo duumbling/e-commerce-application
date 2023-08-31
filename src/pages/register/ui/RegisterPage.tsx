@@ -1,11 +1,10 @@
 import React from "react";
-import { Header } from "../../../shared/ui/Header";
 import { RegistrationForm } from "../../../widgets/registration-form";
-import { AuthLayout } from "../../../shared/ui/AuthLayout";
 import { Box } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import { Paths } from "../../../shared/constants/paths";
 import { customerTokenCache } from "../../../shared/api";
+import { Header } from "../../../widgets/Header";
 
 export function RegisterPage() {
   const isAuthenticated = customerTokenCache.get().token !== "";
@@ -15,10 +14,8 @@ export function RegisterPage() {
   }
   return (
     <React.Fragment>
-      <AuthLayout>
-        <Header>Регистрация</Header>
-      </AuthLayout>
-      <Box marginTop={4.4}>
+      <Header />
+      <Box marginTop={15}>
         <RegistrationForm />
       </Box>
     </React.Fragment>

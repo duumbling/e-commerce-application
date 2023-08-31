@@ -1,10 +1,8 @@
 import React from "react";
-import { Header } from "../../../shared/ui/Header";
 import { Box, Grid, Typography } from "@mui/material";
 import {
   gridContainerProps,
   gridItemProps,
-  gridHeaderProps,
   goBackButtonStyle,
   firstLineStyle,
   secondLineStyle,
@@ -16,11 +14,8 @@ import { useNavigate } from "react-router-dom";
 export function NotFoundPage() {
   const navigate = useNavigate();
   return (
-    <Box>
+    <Box marginTop="10%">
       <Grid {...gridContainerProps}>
-        <Grid {...gridHeaderProps}>
-          <Header></Header>
-        </Grid>
         <Grid {...gridItemProps} sx={backgroundImageStyle}>
           <Typography variant="h1" component="p" {...firstLineStyle}>
             404

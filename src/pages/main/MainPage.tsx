@@ -1,5 +1,4 @@
 import React from "react";
-import { Header } from "../../shared/ui/Header";
 import { Grid, Stack } from "@mui/material";
 import { Link } from "../../shared/ui/Link";
 import { Paths } from "../../shared/constants/paths";
@@ -7,6 +6,7 @@ import { TABLET_MEDIA } from "../../shared/constants/mediaQuery";
 import { customerTokenCache } from "../../shared/api";
 import { CustomButton } from "../../shared/ui/CustomButton";
 import { useNavigate } from "react-router-dom";
+import { Header } from "../../widgets/Header";
 
 const linkStyle = {
   fontSize: 24,
@@ -31,7 +31,7 @@ export function MainPage() {
 
   return (
     <div>
-      <Header>Главная страница</Header>
+      <Header />
       <Grid container justifyContent="center" textAlign="center" marginTop={20}>
         <Grid item>
           {!isUserAuthenticated ? (
