@@ -3,7 +3,7 @@ import { IconButton, Toolbar, AppBar, Grid } from "@mui/material";
 import { navigationItems } from "../model/items";
 import { HeaderDrawer } from "./HeaderDrawer/HeaderDrawer";
 import { Link } from "../../../shared/ui/Link";
-import { customerTokenCache } from "../../../shared/api";
+import { isUserAuthenticated } from "../../../shared/api";
 import { ThemeColors } from "../../../shared/constants/colors";
 import { Paths } from "../../../shared/constants/paths";
 import { Logo } from "../../../shared/ui/Logo";
@@ -30,8 +30,6 @@ export function Header() {
   const onAccountButtonClick = () => {
     navigate(Paths.Profile);
   };
-
-  const isUserAuthenticated = customerTokenCache.get().token !== "";
 
   return (
     <header>
@@ -61,7 +59,7 @@ export function Header() {
             sm={4}
             sx={authContainerStyle}
           >
-            {isUserAuthenticated ? (
+            {isUserAuthenticated() ? (
               <Grid item>
                 <IconButton size="large" onClick={onAccountButtonClick}>
                   <AccountCircleIcon />
@@ -94,7 +92,7 @@ export function Header() {
         <HeaderDrawer
           open={isDrawerOpen}
           onClose={handleDrawerToggle}
-          isUserAuthenticated={isUserAuthenticated}
+          isUserAuthenticated={isUserAuthenticated()}
         />
       </nav>
     </header>
