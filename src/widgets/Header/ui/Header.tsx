@@ -90,8 +90,8 @@ export function Header() {
       </AppBar>
       <nav>
         <HeaderDrawer
-          isOpen={isDrawerOpen}
-          handleDrawerToggle={handleDrawerToggle}
+          open={isDrawerOpen}
+          onClose={handleDrawerToggle}
           isUserAuthenticated={isUserAuthenticated}
         />
       </nav>

@@ -8,6 +8,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  type DrawerProps,
 } from "@mui/material";
 import { navigationItems } from "../../model/items";
 import LoginIcon from "@mui/icons-material/Login";
@@ -21,15 +22,14 @@ import { ThemeColors } from "../../../../shared/constants/colors";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../../../../shared/constants/paths";
 
-interface HeaderDrawerProps {
-  isOpen: boolean;
-  handleDrawerToggle: () => void;
+type HeaderDrawerProps = DrawerProps & {
   isUserAuthenticated: boolean;
-}
+  onClose: () => void;
+};
 
 export function HeaderDrawer({
-  isOpen,
-  handleDrawerToggle,
+  open,
+  onClose,
   isUserAuthenticated,
 }: HeaderDrawerProps) {
   const navigate = useNavigate();
@@ -46,8 +46,8 @@ export function HeaderDrawer({
     <Drawer
       variant="temporary"
       anchor="right"
-      open={isOpen}
-      onClose={handleDrawerToggle}
+      open={open}
+      onClose={onClose}
       ModalProps={{ keepMounted: true }}
       sx={rootStyle}
     >
@@ -85,7 +85,7 @@ export function HeaderDrawer({
           ))}
         </List>
 
-        <IconButton size="large" color="inherit" onClick={handleDrawerToggle}>
+        <IconButton size="large" onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </Box>
