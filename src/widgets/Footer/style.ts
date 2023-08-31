@@ -26,6 +26,7 @@ export const socialLinkStyleProps = {
 export const footerContainerStyleProps: GridProps = {
   spacing: 2,
   alignContent: "space-around",
+  marginTop: 5,
 };
 
 export const footerLogoContainerStyleProps: GridProps = {
