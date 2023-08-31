@@ -28,7 +28,7 @@ export function Header() {
 
   return (
     <header>
-      <AppBar component="nav" sx={rootStyle}>
+      <AppBar component="nav" sx={rootStyle} position="absolute">
         <Toolbar>
           <Logo />
           <Grid
