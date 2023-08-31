@@ -1,5 +1,5 @@
 export const rootStyle = {
-  display: { sm: "block", md: "none" },
+  display: { xs: "block", md: "none" },
   "& .MuiDrawer-paper": {
     boxSizing: "border-box",
     width: "100%",

@@ -2,12 +2,16 @@ import { Paths } from "../../../shared/constants/paths";
 
 export const navigationItems = [
   {
+    href: Paths.Catalog,
+    value: "Каталог",
+  },
+  {
     href: Paths.CatalogMen,
-    value: "Мужчинам",
+    value: "Мужская",
   },
   {
     href: Paths.CatalogWomen,
-    value: "Женщинам",
+    value: "Женская",
   },
   {
     href: Paths.CatalogSale,

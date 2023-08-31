@@ -16,12 +16,19 @@ import {
   navigationContainerStyle,
   rootStyle,
 } from "./style";
+import { useNavigate } from "react-router-dom";
 
 export function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleDrawerToggle = () => {
     setIsDrawerOpen((state) => !state);
+  };
+
+  const onAccountButtonClick = () => {
+    navigate(Paths.Profile);
   };
 
   const isUserAuthenticated = customerTokenCache.get().token !== "";
@@ -55,7 +62,7 @@ export function Header() {
           >
             {isUserAuthenticated ? (
               <Grid item>
-                <IconButton size="large">
+                <IconButton size="large" onClick={onAccountButtonClick}>
                   <AccountCircleIcon />
                 </IconButton>
               </Grid>

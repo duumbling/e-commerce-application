@@ -17,5 +17,5 @@ test("renders learn react link", () => {
     </React.StrictMode>,
   );
 
-  expect(screen.getAllByText(/Мужчинам/i)).toBeDefined();
+  expect(screen.getAllByText(/Мужская/i)).toBeDefined();
 });
