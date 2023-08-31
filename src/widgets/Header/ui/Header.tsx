@@ -38,6 +38,7 @@ export function Header() {
       <AppBar component="nav" sx={rootStyle} position="absolute">
         <Toolbar>
           <Logo />
+
           <Grid
             container
             columnSpacing={{ md: 3, sm: 1 }}
@@ -50,6 +51,7 @@ export function Header() {
               </Grid>
             ))}
           </Grid>
+
           <Grid
             columnSpacing={3}
             item
@@ -78,6 +80,7 @@ export function Header() {
               </IconButton>
             </Grid>
           </Grid>
+
           <IconButton
             edge="end"
             onClick={handleDrawerToggle}

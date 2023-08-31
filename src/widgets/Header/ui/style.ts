@@ -21,6 +21,7 @@ export const navigationContainerStyle = {
   [TABLET_MEDIA]: {
     marginRight: "0",
   },
+
   [MOBILE_MEDIA]: {
     display: "none",
   },
@@ -37,6 +38,7 @@ export const burgerMenuButtonStyle = {
   position: "absolute",
   right: 0,
   display: "none",
+
   [MOBILE_MEDIA]: {
     display: "block",
   },
