@@ -1,27 +1,18 @@
 import React, { useState } from "react";
-import {
-  IconButton,
-  Toolbar,
-  type BoxProps,
-  AppBar,
-  Grid,
-} from "@mui/material";
-import { Paths } from "../../shared/constants/paths";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Logo } from "../../shared/ui/Logo";
-import { Link } from "../../shared/ui/Link";
-import { MOBILE_MEDIA, TABLET_MEDIA } from "../../shared/constants/mediaQuery";
-import { ThemeColors } from "../../shared/constants/colors";
-import { customerTokenCache } from "../../shared/api";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import { IconButton, Toolbar, AppBar, Grid } from "@mui/material";
 import { navigationItems } from "./model/items";
 import { HeaderDrawer } from "./Drawer/Drawer";
+import { MOBILE_MEDIA, TABLET_MEDIA } from "../../shared/constants/mediaQuery";
+import { Link } from "../../shared/ui/Link";
+import { customerTokenCache } from "../../shared/api";
+import { ThemeColors } from "../../shared/constants/colors";
+import { Paths } from "../../shared/constants/paths";
+import { Logo } from "../../shared/ui/Logo";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-type HeaderProps = Pick<BoxProps, "children" | "sx">;
-
-export function Header({ sx }: HeaderProps) {
+export function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleDrawerToggle = () => {

@@ -9,15 +9,17 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import { ThemeColors } from "../../../shared/constants/colors";
-import { Logo } from "../../../shared/ui/Logo";
 import { navigationItems } from "../model/items";
 import LoginIcon from "@mui/icons-material/Login";
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Link } from "../../../shared/ui/Link";
 import { listItemTextStyle, rootStyle } from "./style";
+import { Link } from "../../../shared/ui/Link";
+import { Logo } from "../../../shared/ui/Logo";
+import { ThemeColors } from "../../../shared/constants/colors";
+import { useNavigate } from "react-router-dom";
+import { Paths } from "../../../shared/constants/paths";
 
 interface HeaderDrawerProps {
   isOpen: boolean;
@@ -30,6 +32,16 @@ export function HeaderDrawer({
   handleDrawerToggle,
   isUserAuthenticated,
 }: HeaderDrawerProps) {
+  const navigate = useNavigate();
+
+  const handleLoginButtonCLick = () => {
+    navigate(Paths.Login);
+  };
+
+  const handleAccountButtonClick = () => {
+    navigate(Paths.Profile);
+  };
+
   return (
     <Drawer
       variant="temporary"
@@ -46,11 +58,11 @@ export function HeaderDrawer({
           </Grid>
           <Grid item>
             {isUserAuthenticated ? (
-              <IconButton size="large">
+              <IconButton size="large" onClick={handleAccountButtonClick}>
                 <AccountCircleIcon />
               </IconButton>
             ) : (
-              <IconButton size="large">
+              <IconButton size="large" onClick={handleLoginButtonCLick}>
                 <LoginIcon />
               </IconButton>
             )}
