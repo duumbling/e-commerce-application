@@ -42,7 +42,6 @@ export function Header() {
             container
             columnSpacing={{ md: 3, sm: 1 }}
             justifyContent={{ md: "end", sm: "center" }}
-            marginRight="13vw"
             sx={navigationContainerStyle}
           >
             {navigationItems.map((item) => (

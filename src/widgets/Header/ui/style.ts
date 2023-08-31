@@ -16,6 +16,8 @@ export const rootStyle = {
 };
 
 export const navigationContainerStyle = {
+  marginRight: "13vw",
+
   [TABLET_MEDIA]: {
     marginRight: "0",
   },
