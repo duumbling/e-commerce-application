@@ -6,7 +6,7 @@ import { IconLogoBig } from "../assets/icons/logo";
 export function Logo(props: SVGProps<SVGSVGElement>) {
   return (
     <Link to={Paths.Main}>
-      <IconLogoBig {...props} />
+      <IconLogoBig width="3.8rem" {...props} />
     </Link>
   );
 }
