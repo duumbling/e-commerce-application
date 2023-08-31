@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import { IconButton, Toolbar, AppBar, Grid } from "@mui/material";
-import { navigationItems } from "./model/items";
-import { HeaderDrawer } from "./Drawer/Drawer";
-import { MOBILE_MEDIA, TABLET_MEDIA } from "../../shared/constants/mediaQuery";
-import { Link } from "../../shared/ui/Link";
-import { customerTokenCache } from "../../shared/api";
-import { ThemeColors } from "../../shared/constants/colors";
-import { Paths } from "../../shared/constants/paths";
-import { Logo } from "../../shared/ui/Logo";
+import { navigationItems } from "../model/items";
+import { HeaderDrawer } from "./HeaderDrawer/HeaderDrawer";
+import { Link } from "../../../shared/ui/Link";
+import { customerTokenCache } from "../../../shared/api";
+import { ThemeColors } from "../../../shared/constants/colors";
+import { Paths } from "../../../shared/constants/paths";
+import { Logo } from "../../../shared/ui/Logo";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import {
+  authContainerStyle,
+  burgerMenuButtonStyle,
+  navigationContainerStyle,
+  rootStyle,
+} from "./style";
 
 export function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -22,20 +27,8 @@ export function Header() {
   const isUserAuthenticated = customerTokenCache.get().token !== "";
 
   return (
-    <React.Fragment>
-      <AppBar
-        component="nav"
-        sx={{
-          backgroundColor: "#fff",
-          boxShadow: "0 0.1px black",
-          fontSize: 16,
-          fontWeight: 700,
-
-          [TABLET_MEDIA]: {
-            fontSize: 12,
-          },
-        }}
-      >
+    <header>
+      <AppBar component="nav" sx={rootStyle}>
         <Toolbar>
           <Logo />
           <Grid
@@ -43,14 +36,7 @@ export function Header() {
             columnSpacing={{ md: 3, sm: 1 }}
             justifyContent={{ md: "end", sm: "center" }}
             marginRight="13vw"
-            sx={{
-              [TABLET_MEDIA]: {
-                marginRight: "0",
-              },
-              [MOBILE_MEDIA]: {
-                display: "none",
-              },
-            }}
+            sx={navigationContainerStyle}
           >
             {navigationItems.map((item) => (
               <Grid item key={item.value}>
@@ -65,15 +51,11 @@ export function Header() {
             justifyContent="end"
             alignItems="center"
             sm={4}
-            sx={{
-              [MOBILE_MEDIA]: {
-                display: "none",
-              },
-            }}
+            sx={authContainerStyle}
           >
             {isUserAuthenticated ? (
               <Grid item>
-                <IconButton size="large" color="inherit">
+                <IconButton size="large">
                   <AccountCircleIcon />
                 </IconButton>
               </Grid>
@@ -85,21 +67,15 @@ export function Header() {
               </Grid>
             )}
             <Grid item>
-              <IconButton size="large" color="inherit">
+              <IconButton size="large">
                 <ShoppingCartOutlinedIcon />
               </IconButton>
             </Grid>
           </Grid>
           <IconButton
-            color="inherit"
             edge="end"
             onClick={handleDrawerToggle}
-            sx={{
-              mr: 2,
-              display: { sm: "none" },
-              position: "absolute",
-              right: "0",
-            }}
+            sx={burgerMenuButtonStyle}
           >
             <MenuIcon />
           </IconButton>
@@ -112,6 +88,6 @@ export function Header() {
           isUserAuthenticated={isUserAuthenticated}
         />
       </nav>
-    </React.Fragment>
+    </header>
   );
 }
