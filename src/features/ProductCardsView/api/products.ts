@@ -52,8 +52,11 @@ const getProductData = ({
 }: ProductProjection): ProductData => {
   const matchingVariant = getMatchingVariant(masterVariant, variants);
 
-  if (matchingVariant.prices === undefined) {
-    throw Error("There is no price for any product");
+  if (
+    matchingVariant.prices === undefined ||
+    matchingVariant.prices.length === 0
+  ) {
+    throw Error(`There is no price for ${name["ru-RU"]} product`);
   }
 
   return {
@@ -68,6 +71,19 @@ const getProductData = ({
     images: matchingVariant.images?.map((img) => img.url) ?? [],
     allVariants: [masterVariant, ...variants],
   };
+};
+
+export const searchByWord = async (word: string) => {
+  return await apiRoot()
+    .productProjections()
+    .suggest()
+    .get({
+      queryArgs: {
+        "searchKeywords.ru-RU": word,
+        fuzzy: true,
+      },
+    })
+    .execute();
 };
 
 export const getAllProductsByCategoryId = async (
@@ -91,6 +107,7 @@ export const getAllProductsByCategoryId = async (
         ],
         sort,
         markMatchingVariants: true,
+        "text.ru-RU": searchValue,
       },
     })
     .execute();

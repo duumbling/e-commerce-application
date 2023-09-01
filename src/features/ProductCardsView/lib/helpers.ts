@@ -51,3 +51,27 @@ export const getMinAndMaxPrices = (products: ProductData[]): PriceValue => {
   const prices = products.map((value) => value.discountPrice ?? value.price);
   return { min: Math.min(...prices), max: Math.max(...prices) };
 };
+
+export const getSearchKeyword = (
+  keywords: string[],
+  searchValue: string,
+): string => {
+  if (searchValue === "") {
+    return searchValue;
+  }
+  const matchWords = keywords.filter(
+    (word) => word.toLowerCase() === searchValue,
+  );
+  if (matchWords.length > 0) {
+    return matchWords[0];
+  }
+  if (
+    keywords.filter((word) => word.toLowerCase().includes(searchValue))
+      .length === 0
+  ) {
+    return searchValue;
+  }
+  const keywordsCopy = [...keywords];
+  keywordsCopy.sort((first, second) => first.length - second.length);
+  return keywordsCopy[0];
+};

@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { type ProductData, type ProductsFetchResult } from "./types";
 import { useCustomSearchParams } from "../../../shared/model/hooks";
 import { getAllProductsByCategoryId } from "../api/products";
+import { useSearchParams } from "react-router-dom";
+import { getSearchKeyword } from "../lib/helpers";
 import { FilterParamNames } from "../../../entities/products-filter/model/types";
 import { SortOptions } from "../../../entities/products-sort-select";
 
 export function useFetchProducts(categoryId: string): ProductsFetchResult {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingFirstTime, setIsLoadingFirstTime] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
 
@@ -14,7 +17,13 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
 
   useEffect(() => {
     void (async () => {
+      setIsFetching(true);
       try {
+        const searchValue = getSearchKeyword(
+          searchKeywordsState.keywords,
+          searchParams.get("text")?.toLowerCase() ?? "",
+        );
+
         const productsData = await getAllProductsByCategoryId(
           categoryId,
           {
@@ -26,6 +35,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
               max: Number(searchParams.get(FilterParamNames.PRICE_MAX)),
             },
           },
+          searchValue,
           searchParams.get("sort") ?? SortOptions.PRICE_ASC,
         );
         setProducts(productsData);
@@ -35,12 +45,14 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
         }
         setError(error);
       }
-      setIsLoading(false);
+      setIsLoadingFirstTime(false);
+      setIsFetching(false);
     })();
   }, [categoryId, searchParams]);
 
   return {
-    isLoading,
+    isFetching,
+    isLoadingFirstTime,
     data: products,
     error,
   };
