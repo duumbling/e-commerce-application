@@ -5,4 +5,4 @@ export {
   validatePassword,
   validatePasswordConfirm,
   validateBirthday,
-} from "./registration";
+} from "./validation";

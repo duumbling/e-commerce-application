@@ -1,19 +1,20 @@
 import {
   type ProductProjection,
-  type AttributePlainEnumValue,
   type TypedMoney,
   type ProductVariant,
 } from "@commercetools/platform-sdk";
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { type Filters, type ProductData } from "../model/types";
 
-const getEnumTypeFilterString = (
+const getAttributesFilterString = (
   name: string,
-  filterValues: AttributePlainEnumValue[],
+  values: string[],
+  type: "enum" | "common",
 ): string => {
-  return filterValues.length > 0
-    ? `variants.attributes.${name}.key:${filterValues
-        .map((value) => `"${value.key}"`)
+  const queryVariant = type === "enum" ? ".key" : "";
+  return values.length > 0
+    ? `variants.attributes.${name}${queryVariant}:${values
+        .map((value) => `"${value}"`)
         .join()}`
     : "";
 };
@@ -27,13 +28,6 @@ const getPriceFilterString = (min: number, max: number): string => {
       )} to ${getCentAmount(max + 1)})`
     : "";
 };
-
-const getSizeFilterString = (sizeFilter: number[]): string =>
-  sizeFilter.length > 0
-    ? `variants.attributes.sizes:${sizeFilter
-        .map((value) => `"${value}"`)
-        .join(",")}`
-    : "";
 
 const getPriceValue = (price: TypedMoney): number => {
   const priceStr = price.centAmount.toString();
@@ -94,8 +88,7 @@ export const searchByWord = async (word: string) => {
 
 export const getAllProductsByCategoryId = async (
   categoryId: string,
-  { brandFilter, colorFilter, priceFilter, sizeFilter }: Filters,
-  searchValue: string,
+  { brand, color, price, size }: Filters,
   sort?: string,
 ): Promise<ProductData[]> => {
   const {
@@ -107,10 +100,10 @@ export const getAllProductsByCategoryId = async (
       queryArgs: {
         filter: [
           categoryId !== "" ? `categories.id:"${categoryId}"` : "",
-          getEnumTypeFilterString("brand", brandFilter),
-          getEnumTypeFilterString("color", colorFilter),
-          getPriceFilterString(priceFilter.min, priceFilter.max),
-          getSizeFilterString(sizeFilter),
+          getAttributesFilterString("brand", brand, "enum"),
+          getAttributesFilterString("color", color, "enum"),
+          getAttributesFilterString("sizes", size, "common"),
+          getPriceFilterString(price.min, price.max),
         ],
         sort,
         markMatchingVariants: true,

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { type ProductData, type ProductsFetchResult } from "./types";
-import { useAppSelector } from "../../../shared/model/hooks";
+import { useCustomSearchParams } from "../../../shared/model/hooks";
 import { getAllProductsByCategoryId } from "../api/products";
 import { useSearchParams } from "react-router-dom";
 import { getSearchKeyword } from "../lib/helpers";
+import { FilterParamNames } from "../../../entities/products-filter/model/types";
+import { SortOptions } from "../../../entities/products-sort-select";
 
 export function useFetchProducts(categoryId: string): ProductsFetchResult {
   const [isLoadingFirstTime, setIsLoadingFirstTime] = useState(true);
@@ -11,17 +13,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
 
-  const [searchParams] = useSearchParams();
-
-  const searchKeywordsState = useAppSelector(
-    (state) => state.searchKeywordsReducer,
-  );
-
-  const { brandFilter, colorFilter, priceFilter, sizeFilter } = useAppSelector(
-    (state) => state.productsFilterReducer,
-  );
-
-  const sortState = useAppSelector((state) => state.sortProductsReducer);
+  const { searchParams } = useCustomSearchParams();
 
   useEffect(() => {
     void (async () => {
@@ -35,13 +27,16 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
         const productsData = await getAllProductsByCategoryId(
           categoryId,
           {
-            brandFilter: brandFilter.values,
-            colorFilter: colorFilter.values,
-            priceFilter,
-            sizeFilter,
+            brand: searchParams.getAll(FilterParamNames.BRAND),
+            color: searchParams.getAll(FilterParamNames.COLOR),
+            size: searchParams.getAll(FilterParamNames.SIZE),
+            price: {
+              min: Number(searchParams.get(FilterParamNames.PRICE_MIN)),
+              max: Number(searchParams.get(FilterParamNames.PRICE_MAX)),
+            },
           },
           searchValue,
-          sortState.value,
+          searchParams.get("sort") ?? SortOptions.PRICE_ASC,
         );
         setProducts(productsData);
       } catch (error) {
@@ -53,15 +48,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
       setIsLoadingFirstTime(false);
       setIsFetching(false);
     })();
-  }, [
-    categoryId,
-    sortState,
-    brandFilter,
-    colorFilter,
-    priceFilter,
-    sizeFilter,
-    searchParams,
-  ]);
+  }, [categoryId, searchParams]);
 
   return {
     isFetching,

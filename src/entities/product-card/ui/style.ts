@@ -50,11 +50,9 @@ export const priceWithDiscountStyle = {
 };
 
 export const cardActionsStyle = {
-  // height: 428,
   width: DESKTOP_WIDTH,
 
   [TABLET_MEDIA]: {
-    // height: 350,
     width: TABLET_WIDTH,
   },
 };

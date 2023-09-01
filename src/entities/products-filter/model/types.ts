@@ -1,33 +1,21 @@
 import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
 
-export type FilterEnumName = "brand" | "color" | "size";
-
-interface FilterStateEnumTypeItem {
-  name: FilterEnumName;
-  values: AttributePlainEnumValue[];
-}
-
 export interface PriceValue {
   min: number;
   max: number;
 }
 
-export interface FilterValues {
+export interface FilterState {
   brands: AttributePlainEnumValue[];
   colors: AttributePlainEnumValue[];
   sizes: number[];
   prices: PriceValue;
 }
 
-export interface FilterState {
-  brandFilter: FilterStateEnumTypeItem;
-  colorFilter: FilterStateEnumTypeItem;
-  priceFilter: PriceValue;
-  sizeFilter: number[];
-  availableFilterValues: FilterValues;
-}
-
-export interface FilterEnumPayload {
-  name: FilterEnumName;
-  data: AttributePlainEnumValue;
+export enum FilterParamNames {
+  BRAND = "brand",
+  COLOR = "color",
+  SIZE = "size",
+  PRICE_MIN = "price_min",
+  PRICE_MAX = "price_max",
 }

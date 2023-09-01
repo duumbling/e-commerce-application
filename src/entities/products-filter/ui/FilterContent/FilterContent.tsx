@@ -3,9 +3,10 @@ import { Box, Typography } from "@mui/material";
 import { useAppSelector } from "../../../../shared/model/hooks";
 import { FilterSectionBox } from "./FilterBox/FilterSectionBox";
 import { PriceSlider } from "./PriceSlider/PriceSlider";
+import { FilterParamNames } from "../../model/types";
 
 export function FilterContent() {
-  const { availableFilterValues } = useAppSelector(
+  const { brands, colors, sizes, prices } = useAppSelector(
     (state) => state.productsFilterReducer,
   );
 
@@ -13,22 +14,23 @@ export function FilterContent() {
     <Box>
       <FilterSectionBox
         title="Бренд"
-        values={availableFilterValues.brands}
-        enumValuesName="brand"
+        values={brands}
+        filterName={FilterParamNames.BRAND}
       />
       <FilterSectionBox
         title="Цвет"
-        values={availableFilterValues.colors}
-        enumValuesName="color"
+        values={colors}
+        filterName={FilterParamNames.COLOR}
       />
-      <FilterSectionBox title="Размер" values={availableFilterValues.sizes} />
-      {availableFilterValues.prices.min > 0 && (
+      <FilterSectionBox
+        title="Размер"
+        values={sizes}
+        filterName={FilterParamNames.SIZE}
+      />
+      {prices.min > 0 && (
         <Box>
           <Typography>Цена</Typography>
-          <PriceSlider
-            min={availableFilterValues.prices.min}
-            max={availableFilterValues.prices.max}
-          />
+          <PriceSlider min={prices.min} max={prices.max} />
         </Box>
       )}
     </Box>

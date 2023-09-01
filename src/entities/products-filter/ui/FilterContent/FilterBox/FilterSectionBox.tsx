@@ -6,28 +6,24 @@ import {
   Stack,
   useMediaQuery,
 } from "@mui/material";
-import { Checkbox } from "../../../../../shared/ui/Checkbox";
 import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
-import { filterSlice } from "../../../model/slice";
-import { useAppDispatch } from "../../../../../shared/model/hooks";
+import { type FilterParamNames } from "../../../model/types";
+import { isPlainEnumValue } from "../../../lib/helpers";
+import { FilterCheckbox } from "./FilterCheckbox";
 
 type FilterSectionBoxProps = BoxProps & {
   title: "Бренд" | "Размер" | "Цвет";
+  filterName: FilterParamNames;
   values: AttributePlainEnumValue[] | number[];
-  enumValuesName?: "brand" | "color";
 };
 
 export function FilterSectionBox({
   title,
   values,
-  enumValuesName,
+  filterName,
   ...otherProps
 }: FilterSectionBoxProps) {
-  const { updateEnumFilters, updateSizeFilter } = filterSlice.actions;
-
   const tabletMedia = useMediaQuery("(max-width: 998px)");
-
-  const dispatch = useAppDispatch();
 
   return (
     <React.Fragment>
@@ -35,30 +31,14 @@ export function FilterSectionBox({
         <Box {...otherProps}>
           <Typography>{title}</Typography>
           <Stack direction={tabletMedia ? "row" : "column"} flexWrap="wrap">
-            {values.map((value) =>
-              typeof value === "number" ? (
-                <Checkbox
-                  key={value}
-                  label={value}
-                  onChange={() => {
-                    dispatch(updateSizeFilter(value));
-                  }}
-                />
-              ) : (
-                <Checkbox
-                  key={value.key}
-                  label={value.label}
-                  onChange={() => {
-                    dispatch(
-                      updateEnumFilters({
-                        name: enumValuesName ?? "brand",
-                        data: value,
-                      }),
-                    );
-                  }}
-                />
-              ),
-            )}
+            {values.map((value) => (
+              <FilterCheckbox
+                filterName={filterName}
+                key={isPlainEnumValue(value) ? value.key : value}
+                label={isPlainEnumValue(value) ? value.label : value}
+                value={value}
+              />
+            ))}
           </Stack>
         </Box>
       )}

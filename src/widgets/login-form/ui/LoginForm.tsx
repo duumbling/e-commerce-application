@@ -12,16 +12,7 @@ import {
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { CustomButton } from "../../../shared/ui/CustomButton";
 import { PasswordField } from "../../../shared/ui/PasswordField";
-import {
-  useForm,
-  type SubmitHandler,
-  Controller,
-  useFormState,
-} from "react-hook-form";
-import {
-  EmailValidation,
-  PasswordValidation,
-} from "../../../shared/lib/validation/login";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { Paths } from "../../../shared/constants/paths";
 import { Link } from "../../../shared/ui/Link";
 import { loginCustomer } from "../../../shared/api/customers";
@@ -30,6 +21,8 @@ import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
 import { type LoginFormValues } from "../model/types";
 import { getErrorMessage } from "../lib/helpers";
 import { useNavigate } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { formSchema } from "../model/schema";
 
 export const LoginForm = () => {
   const [isLoading, setLoading] = useState(false);
@@ -37,14 +30,20 @@ export const LoginForm = () => {
   const [isMessageVisible, setMessageVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { handleSubmit, control, reset } = useForm<LoginFormValues>({
+  const {
+    handleSubmit,
+    reset,
+    register,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
     defaultValues: {
       email: "",
       password: "",
     },
+    resolver: yupResolver(formSchema),
     mode: "onChange",
   });
-  const { errors } = useFormState({ control });
+
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     setLoading(true);
@@ -73,40 +72,20 @@ export const LoginForm = () => {
         <Grid {...gridContainerProps}>
           <Grid {...gridItemProps}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Controller
-                name="email"
-                rules={EmailValidation}
-                control={control}
-                render={({ field }) => (
-                  <CustomTextField
-                    type="email"
-                    label="Email"
-                    sx={firstTextFieldStyle}
-                    onChange={(e) => {
-                      field.onChange(e);
-                    }}
-                    value={field.value}
-                    error={errors.email !== undefined}
-                    helperText={errors.email?.message}
-                  />
-                )}
+              <CustomTextField
+                type="email"
+                label="Email"
+                sx={firstTextFieldStyle}
+                error={errors.email !== undefined}
+                helperText={errors.email?.message}
+                {...register("email")}
               />
-              <Controller
-                name="password"
-                rules={PasswordValidation}
-                control={control}
-                render={({ field }) => (
-                  <PasswordField
-                    label="Пароль"
-                    sx={textFieldStyle}
-                    onChange={(e) => {
-                      field.onChange(e);
-                    }}
-                    value={field.value}
-                    error={errors.password !== undefined}
-                    helperText={errors.password?.message}
-                  />
-                )}
+              <PasswordField
+                label="Пароль"
+                sx={textFieldStyle}
+                error={errors.password !== undefined}
+                helperText={errors.password?.message}
+                {...register("password")}
               />
             </Box>
           </Grid>
