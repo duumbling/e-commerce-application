@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import { getSearchKeyword } from "../lib/helpers";
 
 export function useFetchProducts(categoryId: string): ProductsFetchResult {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingFirstTime, setIsLoadingFirstTime] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -50,7 +50,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
         }
         setError(error);
       }
-      setIsLoading(false);
+      setIsLoadingFirstTime(false);
       setIsFetching(false);
     })();
   }, [
@@ -65,7 +65,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
 
   return {
     isFetching,
-    isLoading,
+    isLoading: isLoadingFirstTime,
     data: products,
     error,
   };
