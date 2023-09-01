@@ -65,7 +65,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
 
   return {
     isFetching,
-    isLoading: isLoadingFirstTime,
+    isLoadingFirstTime,
     data: products,
     error,
   };

@@ -24,12 +24,13 @@ type ProductsViewProps = Pick<GridProps, "sx"> & {
 };
 
 export function ProductCardsView({ categoryId = "", sx }: ProductsViewProps) {
-  const { isLoading, isFetching, data, error } = useFetchProducts(categoryId);
+  const { isLoadingFirstTime, isFetching, data, error } =
+    useFetchProducts(categoryId);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoadingFirstTime) {
       return;
     }
     dispatch(
@@ -40,7 +41,7 @@ export function ProductCardsView({ categoryId = "", sx }: ProductsViewProps) {
         prices: getMinAndMaxPrices(data),
       }),
     );
-  }, [isLoading]);
+  }, [isLoadingFirstTime]);
 
   return (
     <Grid {...productsContainerProps} sx={sx}>
