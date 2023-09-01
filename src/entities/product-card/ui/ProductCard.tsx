@@ -47,7 +47,7 @@ export const ProductCard = ({
                   {discountPrice} Р
                 </Typography>
               </Grid>
-              <Grid item marginRight={8}>
+              <Grid item marginRight={6}>
                 <Typography
                   variant="h4"
                   component="div"
