@@ -8,7 +8,7 @@ import { NotFoundPage } from "../../pages/notFound";
 import { RegisterPage } from "../../pages/register";
 import { Layout } from "./Layout";
 
-export const shoesTypePaths: RouteObject[] = [
+const shoesTypePaths: RouteObject[] = [
   {
     path: Paths.Sneakers,
     element: <CatalogPage />,
