@@ -3,6 +3,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Provider } from "react-redux";
 import { AppRoutes } from "./app/routes/routes";
 import { mainTheme } from "./shared/ui/themes";
+import { store } from "./app/store/store";
 
 function App() {
   return (
