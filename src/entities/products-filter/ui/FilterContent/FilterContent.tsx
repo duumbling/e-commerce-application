@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useAppSelector } from "../../../../shared/model/hooks";
 import { FilterSectionBox } from "./FilterBox/FilterSectionBox";
-import { PriceSlider } from "./PriceSlider/PriceSlider";
 import { FilterParamNames } from "../../model/types";
+import { PriceFilterBox } from "./PriceFilterBox/PriceFilterBox";
 
 export function FilterContent() {
   const { brands, colors, sizes, prices } = useAppSelector(
@@ -29,8 +29,7 @@ export function FilterContent() {
       />
       {prices.min > 0 && (
         <Box>
-          <Typography>Цена</Typography>
-          <PriceSlider min={prices.min} max={prices.max} />
+          <PriceFilterBox />
         </Box>
       )}
     </Box>

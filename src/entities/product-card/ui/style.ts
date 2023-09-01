@@ -1,4 +1,4 @@
-import { PRIMARY_COLOR } from "../../../shared/constants/colors";
+import { InputColors, PRIMARY_COLOR } from "../../../shared/constants/colors";
 import { TABLET_MEDIA } from "../../../shared/constants/mediaQuery";
 
 const DESKTOP_WIDTH = 318;
@@ -16,6 +16,10 @@ export const rootStyle = {
   maxWidth: DESKTOP_WIDTH,
   boxShadow: "none",
   textAlign: "center",
+
+  ":hover": {
+    boxShadow: `0 0 14px ${InputColors.BORDER_FOCUSED}`,
+  },
 };
 
 export const titleStyle = {

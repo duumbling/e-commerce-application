@@ -18,6 +18,8 @@ const Transition = forwardRef(function Transition(
 export function ProductsFilter() {
   const isTabletWidth = useMediaQuery("(max-width: 899px)");
 
+  const isMobileWidth = useMediaQuery("(max-width: 600px");
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDialogClose = () => {
@@ -37,7 +39,8 @@ export function ProductsFilter() {
         </CustomButton>
         <Dialog
           open={isDialogOpen}
-          maxWidth="lg"
+          fullWidth
+          fullScreen={isMobileWidth}
           TransitionComponent={Transition}
           keepMounted
           onClose={handleDialogClose}
