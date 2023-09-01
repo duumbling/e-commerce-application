@@ -23,9 +23,9 @@ export function FavoriteButton({
       {...otherProps}
     >
       {isFavorite ? (
-        <FavoriteBorderRounded sx={favoriteIconStyle} />
-      ) : (
         <FavoriteRounded sx={favoriteIconStyle} />
+      ) : (
+        <FavoriteBorderRounded sx={favoriteIconStyle} />
       )}
     </IconButton>
   );
