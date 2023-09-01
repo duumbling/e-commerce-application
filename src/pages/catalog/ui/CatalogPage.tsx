@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ProductCardsView } from "../../../features/ProductCardsView";
-import { Header } from "../../../widgets/Header";
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { Box } from "@mui/material";
 import { ProductsSortSelect } from "../../../entities/products-sort-select";
@@ -24,7 +23,6 @@ export function CatalogPage() {
 
   return (
     <>
-      <Header />
       <Box>
         <ProductsSortSelect />
       </Box>
