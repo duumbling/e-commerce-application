@@ -7,3 +7,5 @@ export const resetCustomerTokenCache = (): void => {
     refreshToken: "",
   });
 };
+
+export const isUserAuthenticated = () => customerTokenCache.get().token !== "";

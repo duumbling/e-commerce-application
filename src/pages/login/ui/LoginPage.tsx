@@ -1,25 +1,31 @@
 import React from "react";
-import { Header } from "../../../shared/ui/Header";
+import { Header } from "../../../widgets/Header";
 import { LoginForm } from "../../../widgets/login-form";
-import { Box } from "@mui/material";
-import { AuthLayout } from "../../../shared/ui/AuthLayout";
-import { customerTokenCache } from "../../../shared/api";
+import { Box, Grid } from "@mui/material";
+import { isUserAuthenticated } from "../../../shared/api";
 import { Navigate } from "react-router-dom";
 import { Paths } from "../../../shared/constants/paths";
 
 export function LoginPage() {
-  const isAuthenticated = customerTokenCache.get().token !== "";
-
-  if (isAuthenticated) {
+  if (isUserAuthenticated()) {
     return <Navigate replace to={Paths.Main} />;
   }
 
   return (
     <Box>
-      <AuthLayout>
-        <Header>Вход на сайт</Header>
-        <LoginForm />
-      </AuthLayout>
+      <Header />
+      <Box marginTop={20}>
+        <Grid
+          container
+          rowSpacing={{ xs: "20%", sm: "15%", md: "10%" }}
+          columns={4}
+          justifyContent="center"
+        >
+          <Grid item xs={4} sm={4} md={4}>
+            <LoginForm />
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
   );
 }
