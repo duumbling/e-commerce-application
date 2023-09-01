@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { type ProductData, type ProductsFetchResult } from "./types";
-import { useCustomSearchParams } from "../../../shared/model/hooks";
+import {
+  useAppSelector,
+  useCustomSearchParams,
+} from "../../../shared/model/hooks";
 import { getAllProductsByCategoryId } from "../api/products";
-import { useSearchParams } from "react-router-dom";
 import { getSearchKeyword } from "../lib/helpers";
 import { FilterParamNames } from "../../../entities/products-filter/model/types";
 import { SortOptions } from "../../../entities/products-sort-select";
@@ -14,6 +16,10 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
   const [products, setProducts] = useState<ProductData[]>([]);
 
   const { searchParams } = useCustomSearchParams();
+
+  const searchKeywordsState = useAppSelector(
+    (state) => state.searchKeywordsReducer,
+  );
 
   useEffect(() => {
     void (async () => {

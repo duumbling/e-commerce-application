@@ -89,6 +89,7 @@ export const searchByWord = async (word: string) => {
 export const getAllProductsByCategoryId = async (
   categoryId: string,
   { brand, color, price, size }: Filters,
+  searchValue: string,
   sort?: string,
 ): Promise<ProductData[]> => {
   const {
