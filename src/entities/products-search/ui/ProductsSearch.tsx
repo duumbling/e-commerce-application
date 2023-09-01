@@ -40,7 +40,7 @@ export function ProductsSearch({ sx }: GridProps) {
       alignContent="center"
       sx={sx}
     >
-      <Grid item md={9} sm={9} xs={9}>
+      <Grid item md={9} sm={10} xs={9}>
         <Autocomplete
           options={keywords}
           freeSolo
@@ -60,7 +60,7 @@ export function ProductsSearch({ sx }: GridProps) {
           )}
         />
       </Grid>
-      <Grid item md={3} sm={3} xs={3}>
+      <Grid item md={3} sm={2} xs={3}>
         <CustomButton onClick={handleSearch}>Найти</CustomButton>
       </Grid>
 

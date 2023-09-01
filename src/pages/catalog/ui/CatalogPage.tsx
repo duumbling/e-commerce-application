@@ -9,13 +9,24 @@ export function CatalogPage() {
     <>
       <Grid
         container
-        justifyContent={{ md: "space-between", sm: "space-around" }}
+        justifyContent={{
+          md: "space-between",
+          sm: "center",
+          xs: "center",
+        }}
         marginTop={2}
       >
         <Grid item>
           <Breadcrumbs />
         </Grid>
-        <Grid item md={4} sm={4}>
+        <Grid
+          item
+          md={4}
+          sm={12}
+          xs={10}
+          marginTop={{ xs: 2 }}
+          marginLeft={{ xs: 2, sm: 2 }}
+        >
           <ProductsSearch />
         </Grid>
       </Grid>
