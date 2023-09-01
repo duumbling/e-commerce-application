@@ -6,15 +6,15 @@ export const navigationItems = [
     value: "Каталог",
   },
   {
-    href: Paths.CatalogMen,
+    href: `${Paths.Catalog}/${Paths.Men}`,
     value: "Мужская",
   },
   {
-    href: Paths.CatalogWomen,
+    href: `${Paths.Catalog}/${Paths.Women}`,
     value: "Женская",
   },
   {
-    href: Paths.CatalogSale,
+    href: `${Paths.Catalog}/${Paths.Sale}`,
     value: "Распродажа",
   },
   {

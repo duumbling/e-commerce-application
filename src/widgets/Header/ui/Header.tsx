@@ -33,7 +33,7 @@ export function Header() {
 
   return (
     <header>
-      <AppBar component="nav" sx={rootStyle} position="absolute">
+      <AppBar component="nav" sx={rootStyle} position="static">
         <Toolbar>
           <Logo />
 
