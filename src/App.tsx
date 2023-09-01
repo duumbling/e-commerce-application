@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "@emotion/react";
 import { Provider } from "react-redux";
-import { AppRoutes } from "./app/routes/AppRoutes";
+import { AppRoutes } from "./app/routes";
 import { mainTheme } from "./shared/ui/themes";
 import { store } from "./app/store/store";
 
