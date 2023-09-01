@@ -12,11 +12,11 @@ const Transition = forwardRef(function Transition(
   },
   ref: React.Ref<unknown>,
 ) {
-  return <Slide direction="right" ref={ref} {...props} />;
+  return <Slide direction="left" ref={ref} {...props} />;
 });
 
 export function ProductsFilter() {
-  const isTabletWidth = useMediaQuery("(max-width: 998px)");
+  const isTabletWidth = useMediaQuery("(max-width: 899px)");
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
