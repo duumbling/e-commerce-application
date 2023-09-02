@@ -5,10 +5,9 @@ import {
 } from "../../../../../shared/ui/Checkbox";
 import { type FilterParamNames } from "../../../model/types";
 import { useCustomSearchParams } from "../../../../../shared/model/hooks";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { isPlainEnumValue } from "../../../lib/helpers";
 import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
-import { Paths } from "../../../../../shared/constants/paths";
 
 type FilterCHeckboxProps = CheckboxProps & {
   filterName: FilterParamNames;
@@ -27,6 +26,8 @@ export function FilterCheckbox({
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const [isChecked, setIsChecked] = useState(
     searchParams.getAll(filterName).includes(currentValue),
   );
@@ -39,7 +40,7 @@ export function FilterCheckbox({
       deleteValue(filterName, currentValue);
     }
     navigate({
-      pathname: Paths.Catalog,
+      pathname: location.pathname,
       search: searchParams.toString(),
     });
   };
