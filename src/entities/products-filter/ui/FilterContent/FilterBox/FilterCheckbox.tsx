@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import {
   Checkbox,
   type CheckboxProps,
@@ -28,12 +28,16 @@ export function FilterCheckbox({
 
   const location = useLocation();
 
-  const [isChecked, setIsChecked] = useState(
-    searchParams.getAll(filterName).includes(currentValue),
-  );
+  const isChecked = useRef(false);
+
+  if (searchParams.getAll(filterName).includes(currentValue)) {
+    isChecked.current = true;
+  } else {
+    isChecked.current = false;
+  }
 
   const handleChange = (checked: boolean): void => {
-    setIsChecked(checked);
+    isChecked.current = checked;
     if (checked) {
       searchParams.append(filterName, currentValue);
     } else {
@@ -49,7 +53,7 @@ export function FilterCheckbox({
     <Checkbox
       value={value}
       {...props}
-      checked={isChecked}
+      checked={isChecked.current}
       onChange={(event, checked) => {
         handleChange(checked);
       }}
