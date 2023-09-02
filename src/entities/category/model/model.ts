@@ -1,12 +1,12 @@
 import { Paths } from "../../../shared/constants/paths";
 
-interface Breadcrumb {
+interface ProductCategory {
   path: string;
   breadcrumb: string;
   slug: string;
 }
 
-const getShoesTypeBreadcrumbs = (parent: Paths): Breadcrumb[] => {
+const getShoesTypeBreadcrumbs = (parent: Paths): ProductCategory[] => {
   return [
     {
       path: `${Paths.Catalog}/${parent}/${Paths.Sneakers}`,
@@ -26,7 +26,7 @@ const getShoesTypeBreadcrumbs = (parent: Paths): Breadcrumb[] => {
   ];
 };
 
-export const categoriesData: Breadcrumb[] = [
+export const categoriesData: ProductCategory[] = [
   {
     path: Paths.Main,
     breadcrumb: "Главная",
