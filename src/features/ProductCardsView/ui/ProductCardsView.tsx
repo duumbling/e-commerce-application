@@ -20,9 +20,9 @@ import {
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
 import { PRIMARY_COLOR } from "../../../shared/constants/colors";
 
-type ProductsViewProps = Pick<GridProps, "sx">;
+type ProductsCardsViewProps = Pick<GridProps, "sx">;
 
-export function ProductCardsView({ sx }: ProductsViewProps) {
+export function ProductCardsView({ sx }: ProductsCardsViewProps) {
   const { isCategoryUpdated, isFetching, data, error } = useFetchProducts();
 
   const dispatch = useAppDispatch();
