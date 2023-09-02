@@ -2,12 +2,13 @@ import { type Category } from "@commercetools/platform-sdk";
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface CategoryState {
-  values: Category[];
-  parentId?: string;
+  allCategories: Category[];
+  currentCategories: Category[];
 }
 
 const initialState: CategoryState = {
-  values: [],
+  allCategories: [],
+  currentCategories: [],
 };
 
 export const categoriesSlice = createSlice({
@@ -15,10 +16,10 @@ export const categoriesSlice = createSlice({
   initialState,
   reducers: {
     setCurrentCategories(state, { payload }: PayloadAction<Category[]>) {
-      state.values = payload;
+      state.currentCategories = payload;
     },
-    setCategoriesParentId(state, { payload }: PayloadAction<string>) {
-      state.parentId = payload;
+    setAllCategories(state, { payload }: PayloadAction<Category[]>) {
+      state.allCategories = payload;
     },
   },
 });

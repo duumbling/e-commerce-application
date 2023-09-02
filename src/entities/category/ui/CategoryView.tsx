@@ -1,78 +1,78 @@
-import { Chip, Stack } from "@mui/material";
 import React, { useEffect } from "react";
-import { Paths } from "../../../shared/constants/paths";
-import { useNavigate } from "react-router-dom";
-import { getCategoriesById } from "../api/categories";
+import { Chip, Stack } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAllCategories } from "../api/categories";
 import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
 import { categoriesSlice } from "../model/slice";
-
-const categoryPaths: Record<string, string> = {
-  men: `${Paths.Catalog}/${Paths.Men}`,
-  women: `${Paths.Catalog}/${Paths.Women}`,
-};
+import { categoriesData } from "../model/model";
+import { Paths } from "../../../shared/constants/paths";
 
 export function CategoryView() {
   const navigate = useNavigate();
-  const { setCurrentCategories, setCategoriesParentId } =
-    categoriesSlice.actions;
 
-  const handleCategoryClick = (key: string, parentId: string) => {
-    navigate(categoryPaths[key]);
-    dispatch(setCategoriesParentId(parentId));
+  const { setAllCategories, setCurrentCategories } = categoriesSlice.actions;
+
+  const handleCategoryClick = (slug: string) => {
+    const categoryPath =
+      categoriesData.find((value) => value.slug === slug)?.path ?? "";
+    navigate(categoryPath);
   };
 
-  const { values, parentId } = useAppSelector(
+  const { currentCategories, allCategories } = useAppSelector(
     (state) => state.categoriesReducer,
   );
 
+  const location = useLocation();
+
   const dispatch = useAppDispatch();
+
+  const updateCurrentCategoriesState = () => {
+    const categoryData = categoriesData.find(
+      (value) => value.path === location.pathname,
+    );
+    if (categoryData?.path === Paths.Catalog) {
+      const currentCategories = allCategories.filter(
+        (category) => category.parent === undefined,
+      );
+      dispatch(setCurrentCategories(currentCategories));
+    } else {
+      const parentCategory = allCategories.find(
+        (category) => category.slug["ru-RU"] === categoryData?.slug,
+      );
+      const currentCategories = allCategories.filter(
+        (category) => category?.parent?.id === parentCategory?.id,
+      );
+      dispatch(setCurrentCategories(currentCategories));
+    }
+  };
 
   useEffect(() => {
     void (async () => {
       const {
         body: { results },
-      } = await getCategoriesById(parentId);
-      dispatch(setCurrentCategories(results));
-      console.log(results);
+      } = await getAllCategories();
+      dispatch(setAllCategories(results));
     })();
-  }, [parentId]);
+  }, []);
+
+  useEffect(() => {
+    updateCurrentCategoriesState();
+  }, [location, allCategories]);
 
   return (
     <Stack direction="row" spacing={2}>
-      {values.map((value) => {
+      {currentCategories.map((value) => {
         return (
           <Chip
             key={value.id}
             label={value.name["ru-RU"]}
             variant="outlined"
             onClick={() => {
-              handleCategoryClick(value.key ?? "", value.id);
+              handleCategoryClick(value.slug["ru-RU"] ?? "");
             }}
           />
         );
       })}
-      {/* <Chip
-        label="Мужчинам"
-        variant="outlined"
-        sx={{ fontSize: 12 }}
-        onClick={() => {
-          handleCategoryClick(Paths.Men);
-        }}
-      />
-      <Chip
-        label="Женщинам"
-        variant="outlined"
-        onClick={() => {
-          handleCategoryClick(Paths.Women);
-        }}
-      />
-      <Chip
-        label="Распродажа"
-        variant="outlined"
-        onClick={() => {
-          handleCategoryClick(Paths.Sale);
-        }}
-      /> */}
     </Stack>
   );
 }

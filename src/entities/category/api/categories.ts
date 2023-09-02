@@ -1,6 +1,9 @@
 import { apiRoot } from "../../../shared/api/apiRoot";
 
-export const getCategoriesById = async (id?: string) =>
+export const getAllCategories = async () =>
+  await apiRoot().categories().get().execute();
+
+export const getCategoriesByParentId = async (id?: string) =>
   await apiRoot()
     .categories()
     .get({
