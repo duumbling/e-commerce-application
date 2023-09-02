@@ -2,6 +2,7 @@ import {
   type ProductProjection,
   type TypedMoney,
   type ProductVariant,
+  type Category,
 } from "@commercetools/platform-sdk";
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { type Filters, type ProductData } from "../model/types";
@@ -19,14 +20,30 @@ const getAttributesFilterString = (
     : "";
 };
 
+const getCategoriesFilterString = (categories: Category[]): string =>
+  `categories.id:${categories.map((value) => `"${value.id}"`).join()}`;
+
 const getCentAmount = (priceValue: number): number => Number(`${priceValue}00`);
 
 const getPriceFilterString = (min: number, max: number): string => {
-  return min !== 0 && max !== 0
-    ? `variants.price.centAmount:range (${getCentAmount(
-        min,
-      )} to ${getCentAmount(max + 1)})`
-    : "";
+  const minAmount = getCentAmount(min);
+  const maxAmount = getCentAmount(max);
+
+  const queryString = "variants.price.centAmount: range";
+
+  if (min !== 0 && max !== 0) {
+    return `${queryString} (${minAmount} to ${maxAmount + 1})`;
+  }
+
+  if (min !== 0) {
+    return `${queryString} (${minAmount} to *)`;
+  }
+
+  if (max !== 0) {
+    return `${queryString} (* to ${maxAmount})`;
+  }
+
+  return "";
 };
 
 const getPriceValue = (price: TypedMoney): number => {
@@ -87,7 +104,7 @@ export const searchByWord = async (word: string) => {
 };
 
 export const getAllProductsByCategoryId = async (
-  categoryId: string,
+  currentCategories: Category[],
   { brand, color, price, size }: Filters,
   searchValue: string,
   sort?: string,
@@ -100,7 +117,7 @@ export const getAllProductsByCategoryId = async (
     .get({
       queryArgs: {
         filter: [
-          categoryId !== "" ? `categories.id:"${categoryId}"` : "",
+          getCategoriesFilterString(currentCategories),
           getAttributesFilterString("brand", brand, "enum"),
           getAttributesFilterString("color", color, "enum"),
           getAttributesFilterString("sizes", size, "common"),
