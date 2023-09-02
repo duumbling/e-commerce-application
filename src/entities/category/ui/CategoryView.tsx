@@ -6,11 +6,17 @@ import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
 import { categoriesSlice } from "../model/slice";
 import { categoriesData } from "../model/model";
 import { Paths } from "../../../shared/constants/paths";
+import { type Category } from "@commercetools/platform-sdk";
 
 export function CategoryView() {
   const navigate = useNavigate();
 
-  const { setAllCategories, setCurrentCategories } = categoriesSlice.actions;
+  const {
+    setAllCategories,
+    setCurrentCategories,
+    setCategoriesIsUpdated,
+    setCurrentCategory,
+  } = categoriesSlice.actions;
 
   const handleCategoryClick = (slug: string) => {
     const categoryPath =
@@ -18,32 +24,37 @@ export function CategoryView() {
     navigate(categoryPath);
   };
 
-  const { currentCategories, allCategories } = useAppSelector(
+  const { availableCategories, allCategories } = useAppSelector(
     (state) => state.categoriesReducer,
   );
 
-  const location = useLocation();
+  const { pathname, search } = useLocation();
 
   const dispatch = useAppDispatch();
 
   const updateCurrentCategoriesState = () => {
+    let parentCategory: Category | undefined;
+    let currentCategories: Category[] = [];
+
     const categoryData = categoriesData.find(
-      (value) => value.path === location.pathname,
+      (value) => value.path === pathname,
     );
+
     if (categoryData?.path === Paths.Catalog) {
-      const currentCategories = allCategories.filter(
+      currentCategories = allCategories.filter(
         (category) => category.parent === undefined,
       );
-      dispatch(setCurrentCategories(currentCategories));
     } else {
-      const parentCategory = allCategories.find(
+      parentCategory = allCategories.find(
         (category) => category.slug["ru-RU"] === categoryData?.slug,
       );
-      const currentCategories = allCategories.filter(
+
+      currentCategories = allCategories.filter(
         (category) => category?.parent?.id === parentCategory?.id,
       );
-      dispatch(setCurrentCategories(currentCategories));
     }
+    dispatch(setCurrentCategories(currentCategories));
+    dispatch(setCurrentCategory(parentCategory));
   };
 
   useEffect(() => {
@@ -56,12 +67,17 @@ export function CategoryView() {
   }, []);
 
   useEffect(() => {
+    dispatch(setCategoriesIsUpdated(false));
+  }, [search]);
+
+  useEffect(() => {
     updateCurrentCategoriesState();
-  }, [location, allCategories]);
+    dispatch(setCategoriesIsUpdated(true));
+  }, [pathname, allCategories]);
 
   return (
     <Stack direction="row" spacing={2}>
-      {currentCategories.map((value) => {
+      {availableCategories.map((value) => {
         return (
           <Chip
             key={value.id}
