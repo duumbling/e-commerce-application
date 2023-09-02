@@ -1,13 +1,13 @@
 import React from "react";
 import { Breadcrumbs as MuiBreadcrumbs } from "@mui/material";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
-import { breadcrumbs } from "../model/model";
 import { Link } from "../../../shared/ui/Link";
 import { ThemeColors } from "../../../shared/constants/colors";
 import { MOBILE_MEDIA } from "../../../shared/constants/mediaQuery";
+import { categoriesData } from "../../../entities/category";
 
 export function Breadcrumbs() {
-  const breadcrumbsData = useBreadcrumbs(breadcrumbs);
+  const breadcrumbsData = useBreadcrumbs(categoriesData);
 
   return (
     <MuiBreadcrumbs>
