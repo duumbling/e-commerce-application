@@ -4,8 +4,14 @@ export const enum Paths {
   Register = "/register",
   NotFound = "*",
   Catalog = "/catalog",
-  CatalogMen = "/catalog/men",
-  CatalogWomen = "/catalog/women",
-  CatalogSale = "/catalog/sale",
   Profile = "/profile",
+}
+
+export const enum CatalogPaths {
+  Men = "men",
+  Women = "women",
+  Sale = "sale",
+  Sneakers = "sneakers",
+  Boots = "boots",
+  FlipFlops = "flip-flops",
 }

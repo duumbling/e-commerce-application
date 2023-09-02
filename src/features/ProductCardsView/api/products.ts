@@ -6,6 +6,8 @@ import {
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { type Filters, type ProductData } from "../model/types";
 
+const PRODUCTS_LIMIT = 30;
+
 const getAttributesFilterString = (
   name: string,
   values: string[],
@@ -22,11 +24,24 @@ const getAttributesFilterString = (
 const getCentAmount = (priceValue: number): number => Number(`${priceValue}00`);
 
 const getPriceFilterString = (min: number, max: number): string => {
-  return min !== 0 && max !== 0
-    ? `variants.price.centAmount:range (${getCentAmount(
-        min,
-      )} to ${getCentAmount(max + 1)})`
-    : "";
+  const minAmount = getCentAmount(min);
+  const maxAmount = getCentAmount(max);
+
+  const queryString = "variants.price.centAmount: range";
+
+  if (min !== 0 && max !== 0) {
+    return `${queryString} (${minAmount} to ${maxAmount + 1})`;
+  }
+
+  if (min !== 0) {
+    return `${queryString} (${minAmount} to *)`;
+  }
+
+  if (max !== 0) {
+    return `${queryString} (* to ${maxAmount})`;
+  }
+
+  return "";
 };
 
 const getPriceValue = (price: TypedMoney): number => {
@@ -109,6 +124,7 @@ export const getAllProductsByCategoryId = async (
         sort,
         markMatchingVariants: true,
         "text.ru-RU": searchValue,
+        limit: PRODUCTS_LIMIT,
       },
     })
     .execute();

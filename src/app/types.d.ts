@@ -1,4 +1,4 @@
-const store = (await import("./store")).store;
+const store = (await import("./store/store")).store;
 
 declare type AppDispatch = typeof store.dispatch;
 declare type RootState = ReturnType<typeof store.getState>;

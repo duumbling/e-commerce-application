@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import {
   Checkbox,
   type CheckboxProps,
 } from "../../../../../shared/ui/Checkbox";
 import { type FilterParamNames } from "../../../model/types";
 import { useCustomSearchParams } from "../../../../../shared/model/hooks";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { isPlainEnumValue } from "../../../lib/helpers";
 import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
-import { Paths } from "../../../../../shared/constants/paths";
 
 type FilterCHeckboxProps = CheckboxProps & {
   filterName: FilterParamNames;
@@ -27,19 +26,25 @@ export function FilterCheckbox({
 
   const navigate = useNavigate();
 
-  const [isChecked, setIsChecked] = useState(
-    searchParams.getAll(filterName).includes(currentValue),
-  );
+  const location = useLocation();
+
+  const isChecked = useRef(false);
+
+  if (searchParams.getAll(filterName).includes(currentValue)) {
+    isChecked.current = true;
+  } else {
+    isChecked.current = false;
+  }
 
   const handleChange = (checked: boolean): void => {
-    setIsChecked(checked);
+    isChecked.current = checked;
     if (checked) {
       searchParams.append(filterName, currentValue);
     } else {
       deleteValue(filterName, currentValue);
     }
     navigate({
-      pathname: Paths.Catalog,
+      pathname: location.pathname,
       search: searchParams.toString(),
     });
   };
@@ -48,7 +53,7 @@ export function FilterCheckbox({
     <Checkbox
       value={value}
       {...props}
-      checked={isChecked}
+      checked={isChecked.current}
       onChange={(event, checked) => {
         handleChange(checked);
       }}

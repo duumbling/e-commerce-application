@@ -1,32 +1,72 @@
-import React from "react";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Grid, Typography } from "@mui/material";
 import { ProductsSortSelect } from "../../../entities/products-sort-select";
 import { ProductsFilter } from "../../../entities/products-filter";
 import { ProductCardsView } from "../../../features/ProductCardsView";
-import { ProductsSearch } from "../../../entities/products-search";
+import {
+  MOBILE_MEDIA,
+  TABLET_MEDIA,
+} from "../../../shared/constants/mediaQuery";
+import { CategoryView } from "../../../entities/category/ui/CategoryView";
+import { useAppSelector } from "../../../shared/model/hooks";
 
 export function CategoryProductsWidget() {
+  const { currentCategory } = useAppSelector(
+    (state) => state.categoriesReducer,
+  );
+
+  const [categoryTitle, setCategoryTitle] = useState("Все товары");
+
+  useEffect(() => {
+    if (currentCategory?.description !== undefined) {
+      setCategoryTitle(currentCategory?.description["ru-RU"] ?? "");
+    } else {
+      setCategoryTitle("Все товары");
+    }
+  }, [currentCategory]);
+
   return (
-    <Container maxWidth="lg">
-      <ProductsSearch />
-      <Grid container justifyContent="space-between" sx={{ marginTop: 3 }}>
-        <Grid item sm={12} md={7}>
-          <Typography variant="h3" color="primary">
-            Текущая категория
-          </Typography>
-        </Grid>
-        <Grid item sm={1} md={5}>
-          <ProductsSortSelect />
-        </Grid>
-        <Grid item sm={1} md={1}>
-          <ProductsFilter />
-        </Grid>
-        <Grid item sm={12} md={11}>
-          <Box maxWidth={784} margin="auto">
-            <ProductCardsView />
-          </Box>
-        </Grid>
+    <Grid
+      container
+      justifyContent={{
+        md: "center",
+        sm: "space-between",
+        xs: "space-between",
+      }}
+      sx={{ marginTop: 3 }}
+    >
+      <Grid item md={12}>
+        <CategoryView />
       </Grid>
-    </Container>
+      <Grid item xs={12} sm={12} md={8} marginTop={{ md: 2 }}>
+        <Typography
+          variant="h3"
+          color="primary"
+          sx={{
+            fontSize: 40,
+            [TABLET_MEDIA]: {
+              fontSize: 30,
+              textAlign: "center",
+            },
+            [MOBILE_MEDIA]: {
+              fontSize: 25,
+            },
+          }}
+        >
+          {categoryTitle}
+        </Typography>
+      </Grid>
+      <Grid item sm={6} md={4} marginTop={{ md: 0, sm: 5, xs: 5 }}>
+        <ProductsSortSelect />
+      </Grid>
+      <Grid item sm={1} md={2} marginTop={{ md: 8, sm: 5, xs: 5 }}>
+        <ProductsFilter />
+      </Grid>
+      <Grid item sm={12} md={10} marginTop={7}>
+        <Box maxWidth={784} margin="auto">
+          <ProductCardsView />
+        </Box>
+      </Grid>
+    </Grid>
   );
 }

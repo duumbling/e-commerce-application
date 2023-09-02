@@ -27,6 +27,9 @@ export function useSearchProducts() {
   const debouncedSearchFunction = useRef(debounce(searchKeywords, 500)).current;
 
   useEffect(() => {
+    if (searchValue === "") {
+      return;
+    }
     void debouncedSearchFunction(searchValue);
 
     return () => {

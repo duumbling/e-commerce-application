@@ -36,10 +36,12 @@ export function HeaderDrawer({
 
   const handleLoginButtonCLick = () => {
     navigate(Paths.Login);
+    onClose();
   };
 
   const handleAccountButtonClick = () => {
     navigate(Paths.Profile);
+    onClose();
   };
 
   return (
@@ -67,7 +69,7 @@ export function HeaderDrawer({
               </IconButton>
             )}
 
-            <IconButton size="large">
+            <IconButton size="large" onClick={onClose}>
               <ShoppingCartOutlinedIcon />
             </IconButton>
           </Grid>
@@ -78,7 +80,11 @@ export function HeaderDrawer({
         <List>
           {navigationItems.map((item) => (
             <ListItem key={item.href} sx={{ justifyContent: "center" }}>
-              <Link href={item.href} color={ThemeColors.BLACK}>
+              <Link
+                href={item.href}
+                color={ThemeColors.BLACK}
+                onClick={onClose}
+              >
                 <ListItemText primary={item.value} sx={listItemTextStyle} />
               </Link>
             </ListItem>

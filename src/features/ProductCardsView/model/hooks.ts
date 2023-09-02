@@ -9,9 +9,9 @@ import { getSearchKeyword } from "../lib/helpers";
 import { FilterParamNames } from "../../../entities/products-filter/model/types";
 import { SortOptions } from "../../../entities/products-sort-select";
 
-export function useFetchProducts(categoryId: string): ProductsFetchResult {
-  const [isLoadingFirstTime, setIsLoadingFirstTime] = useState(true);
-  const [isFetching, setIsFetching] = useState(false);
+export function useFetchProducts(): ProductsFetchResult {
+  const [isCategoryUpdated, setIsCategoryUpdated] = useState(true);
+  const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
 
@@ -19,6 +19,10 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
 
   const searchKeywordsState = useAppSelector(
     (state) => state.searchKeywordsReducer,
+  );
+
+  const { currentCategory, isUpdated } = useAppSelector(
+    (state) => state.categoriesReducer,
   );
 
   useEffect(() => {
@@ -31,7 +35,7 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
         );
 
         const productsData = await getAllProductsByCategoryId(
-          categoryId,
+          currentCategory?.id ?? "",
           {
             brand: searchParams.getAll(FilterParamNames.BRAND),
             color: searchParams.getAll(FilterParamNames.COLOR),
@@ -51,14 +55,21 @@ export function useFetchProducts(categoryId: string): ProductsFetchResult {
         }
         setError(error);
       }
-      setIsLoadingFirstTime(false);
+      setIsCategoryUpdated(false);
       setIsFetching(false);
     })();
-  }, [categoryId, searchParams]);
+  }, [currentCategory, searchParams]);
+
+  useEffect(() => {
+    if (isFetching) {
+      return;
+    }
+    setIsCategoryUpdated(isUpdated);
+  }, [isFetching, isUpdated]);
 
   return {
     isFetching,
-    isLoadingFirstTime,
+    isCategoryUpdated,
     data: products,
     error,
   };

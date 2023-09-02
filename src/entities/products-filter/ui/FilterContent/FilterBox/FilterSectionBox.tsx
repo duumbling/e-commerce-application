@@ -1,47 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Box,
-  Typography,
-  type BoxProps,
-  Stack,
-  useMediaQuery,
+  List,
+  Collapse,
+  Grid,
+  ListItemButton,
+  ListItemText,
 } from "@mui/material";
 import { type AttributePlainEnumValue } from "@commercetools/platform-sdk";
 import { type FilterParamNames } from "../../../model/types";
 import { isPlainEnumValue } from "../../../lib/helpers";
 import { FilterCheckbox } from "./FilterCheckbox";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
-type FilterSectionBoxProps = BoxProps & {
+interface FilterSectionBoxProps {
   title: "Бренд" | "Размер" | "Цвет";
   filterName: FilterParamNames;
   values: AttributePlainEnumValue[] | number[];
-};
+}
 
 export function FilterSectionBox({
   title,
   values,
   filterName,
-  ...otherProps
 }: FilterSectionBoxProps) {
-  const tabletMedia = useMediaQuery("(max-width: 998px)");
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleExpandButtonClick = () => {
+    setIsExpanded((state) => !state);
+  };
 
   return (
-    <React.Fragment>
-      {values.length > 0 && (
-        <Box {...otherProps}>
-          <Typography>{title}</Typography>
-          <Stack direction={tabletMedia ? "row" : "column"} flexWrap="wrap">
-            {values.map((value) => (
+    <List disablePadding>
+      <ListItemButton onClick={handleExpandButtonClick}>
+        <ListItemText primary={title} />
+        {isExpanded ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+        <Grid container justifyContent="center">
+          {values.map((value) => (
+            <Grid
+              item
+              key={isPlainEnumValue(value) ? value.key : value}
+              md={12}
+            >
               <FilterCheckbox
                 filterName={filterName}
-                key={isPlainEnumValue(value) ? value.key : value}
                 label={isPlainEnumValue(value) ? value.label : value}
                 value={value}
               />
-            ))}
-          </Stack>
-        </Box>
-      )}
-    </React.Fragment>
+            </Grid>
+          ))}
+        </Grid>
+      </Collapse>
+    </List>
   );
 }
