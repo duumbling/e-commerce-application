@@ -18,7 +18,6 @@ export function CategoryProductsWidget() {
   const [categoryTitle, setCategoryTitle] = useState("Все товары");
 
   useEffect(() => {
-    console.log(currentCategory);
     if (currentCategory?.description !== undefined) {
       setCategoryTitle(currentCategory?.description["ru-RU"] ?? "");
     } else {
