@@ -4,6 +4,7 @@ import {
   Grid,
   Backdrop,
   CircularProgress,
+  Typography,
 } from "@mui/material";
 import { ProductCard } from "../../../entities/product-card";
 import { productsContainerProps } from "./style";
@@ -38,19 +39,27 @@ export function ProductCardsView({ sx }: ProductsViewProps) {
   }, [isCategoryUpdated]);
 
   return (
-    <Grid {...productsContainerProps} sx={sx}>
-      {data.map((product) => {
-        return (
-          <Grid key={product.id} item>
-            <ProductCard
-              title={product.title}
-              image={product.images[0]}
-              price={product.price}
-              discountPrice={product.discountPrice}
-            />
-          </Grid>
-        );
-      })}
+    <React.Fragment>
+      {data.length === 0 && !isFetching ? (
+        <Typography variant="h4" color="primary" textAlign="center">
+          Ничего не найдено{" "}
+        </Typography>
+      ) : (
+        <Grid {...productsContainerProps} sx={sx}>
+          {data.map((product) => {
+            return (
+              <Grid key={product.id} item>
+                <ProductCard
+                  title={product.title}
+                  image={product.images[0]}
+                  price={product.price}
+                  discountPrice={product.discountPrice}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
       <Backdrop
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isFetching}
@@ -64,6 +73,6 @@ export function ProductCardsView({ sx }: ProductsViewProps) {
         open={error !== null}
         message={`Ошибка: ${error?.message ?? ""}`}
       />
-    </Grid>
+    </React.Fragment>
   );
 }

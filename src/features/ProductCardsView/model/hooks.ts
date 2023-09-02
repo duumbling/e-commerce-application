@@ -11,7 +11,7 @@ import { SortOptions } from "../../../entities/products-sort-select";
 
 export function useFetchProducts(): ProductsFetchResult {
   const [isCategoryUpdated, setIsCategoryUpdated] = useState(true);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
 
