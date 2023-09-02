@@ -7,6 +7,7 @@ import {
   MOBILE_MEDIA,
   TABLET_MEDIA,
 } from "../../../shared/constants/mediaQuery";
+import { CategoryView } from "../../../entities/category/ui/CategoryView";
 
 export function CategoryProductsWidget() {
   return (
@@ -19,7 +20,10 @@ export function CategoryProductsWidget() {
       }}
       sx={{ marginTop: 3 }}
     >
-      <Grid item xs={12} sm={12} md={8}>
+      <Grid item md={12}>
+        <CategoryView />
+      </Grid>
+      <Grid item xs={12} sm={12} md={8} marginTop={{ md: 2 }}>
         <Typography
           variant="h3"
           color="primary"
