@@ -21,15 +21,11 @@ export function useFetchProducts(): ProductsFetchResult {
     (state) => state.searchKeywordsReducer,
   );
 
-  const { availableCategories: currentCategories, isUpdated } = useAppSelector(
+  const { currentCategory, isUpdated } = useAppSelector(
     (state) => state.categoriesReducer,
   );
 
   useEffect(() => {
-    if (currentCategories.length === 0) {
-      return;
-    }
-
     void (async () => {
       setIsFetching(true);
       try {
@@ -39,7 +35,7 @@ export function useFetchProducts(): ProductsFetchResult {
         );
 
         const productsData = await getAllProductsByCategoryId(
-          currentCategories,
+          currentCategory?.id ?? "",
           {
             brand: searchParams.getAll(FilterParamNames.BRAND),
             color: searchParams.getAll(FilterParamNames.COLOR),
@@ -62,7 +58,7 @@ export function useFetchProducts(): ProductsFetchResult {
       setIsCategoryUpdated(false);
       setIsFetching(false);
     })();
-  }, [currentCategories, searchParams]);
+  }, [currentCategory, searchParams]);
 
   useEffect(() => {
     if (isFetching) {

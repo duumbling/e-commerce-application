@@ -2,10 +2,11 @@ import {
   type ProductProjection,
   type TypedMoney,
   type ProductVariant,
-  type Category,
 } from "@commercetools/platform-sdk";
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { type Filters, type ProductData } from "../model/types";
+
+const PRODUCTS_LIMIT = 30;
 
 const getAttributesFilterString = (
   name: string,
@@ -19,9 +20,6 @@ const getAttributesFilterString = (
         .join()}`
     : "";
 };
-
-const getCategoriesFilterString = (categories: Category[]): string =>
-  `categories.id:${categories.map((value) => `"${value.id}"`).join()}`;
 
 const getCentAmount = (priceValue: number): number => Number(`${priceValue}00`);
 
@@ -104,7 +102,7 @@ export const searchByWord = async (word: string) => {
 };
 
 export const getAllProductsByCategoryId = async (
-  currentCategories: Category[],
+  categoryId: string,
   { brand, color, price, size }: Filters,
   searchValue: string,
   sort?: string,
@@ -117,7 +115,7 @@ export const getAllProductsByCategoryId = async (
     .get({
       queryArgs: {
         filter: [
-          getCategoriesFilterString(currentCategories),
+          categoryId !== "" ? `categories.id:"${categoryId}"` : "",
           getAttributesFilterString("brand", brand, "enum"),
           getAttributesFilterString("color", color, "enum"),
           getAttributesFilterString("sizes", size, "common"),
@@ -126,6 +124,7 @@ export const getAllProductsByCategoryId = async (
         sort,
         markMatchingVariants: true,
         "text.ru-RU": searchValue,
+        limit: PRODUCTS_LIMIT,
       },
     })
     .execute();
