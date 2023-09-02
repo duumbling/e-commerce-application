@@ -69,8 +69,8 @@ export function HeaderDrawer({
               </IconButton>
             )}
 
-            <IconButton size="large">
-              <ShoppingCartOutlinedIcon onClick={onClose} />
+            <IconButton size="large" onClick={onClose}>
+              <ShoppingCartOutlinedIcon />
             </IconButton>
           </Grid>
         </Grid>
