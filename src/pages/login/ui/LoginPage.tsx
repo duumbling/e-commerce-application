@@ -1,5 +1,4 @@
 import React from "react";
-import { Header } from "../../../widgets/Header";
 import { LoginForm } from "../../../widgets/login-form";
 import { Box, Grid } from "@mui/material";
 import { isUserAuthenticated } from "../../../shared/api";
@@ -13,7 +12,6 @@ export function LoginPage() {
 
   return (
     <Box>
-      <Header />
       <Box marginTop={20}>
         <Grid
           container
