@@ -1,4 +1,4 @@
-import { Paths } from "../../../shared/constants/paths";
+import { Paths, CatalogPaths } from "../../../shared/constants/paths";
 
 export const navigationItems = [
   {
@@ -6,15 +6,15 @@ export const navigationItems = [
     value: "Каталог",
   },
   {
-    href: `${Paths.Catalog}/${Paths.Men}`,
+    href: `${Paths.Catalog}/${CatalogPaths.Men}`,
     value: "Мужская",
   },
   {
-    href: `${Paths.Catalog}/${Paths.Women}`,
+    href: `${Paths.Catalog}/${CatalogPaths.Women}`,
     value: "Женская",
   },
   {
-    href: `${Paths.Catalog}/${Paths.Sale}`,
+    href: `${Paths.Catalog}/${CatalogPaths.Sale}`,
     value: "Распродажа",
   },
   {

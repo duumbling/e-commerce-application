@@ -1,6 +1,6 @@
 import React from "react";
 import { CatalogPage } from "../../pages/catalog";
-import { Paths } from "../../shared/constants/paths";
+import { Paths, CatalogPaths } from "../../shared/constants/paths";
 import { Route, Routes, type RouteObject } from "react-router-dom";
 import { LoginPage } from "../../pages/login";
 import { MainPage } from "../../pages/main";
@@ -10,15 +10,15 @@ import { Layout } from "./Layout";
 
 const shoesTypePaths: RouteObject[] = [
   {
-    path: Paths.Sneakers,
+    path: CatalogPaths.Sneakers,
     element: <CatalogPage />,
   },
   {
-    path: Paths.Boots,
+    path: CatalogPaths.Boots,
     element: <CatalogPage />,
   },
   {
-    path: Paths.FlipFlops,
+    path: CatalogPaths.FlipFlops,
     element: <CatalogPage />,
   },
 ];
@@ -32,17 +32,17 @@ export function AppRoutes() {
         <Route path={Paths.Register} element={<RegisterPage />} />
         <Route path={Paths.NotFound} element={<NotFoundPage />} />
         <Route path={Paths.Catalog} element={<CatalogPage />}>
-          <Route path={Paths.Men} element={<CatalogPage />}>
+          <Route path={CatalogPaths.Men} element={<CatalogPage />}>
             {shoesTypePaths.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />
             ))}
           </Route>
-          <Route path={Paths.Women} element={<CatalogPage />}>
+          <Route path={CatalogPaths.Women} element={<CatalogPage />}>
             {shoesTypePaths.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />
             ))}
           </Route>
-          <Route path={Paths.Sale} element={<CatalogPage />}>
+          <Route path={CatalogPaths.Sale} element={<CatalogPage />}>
             {shoesTypePaths.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />
             ))}
