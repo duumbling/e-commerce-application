@@ -19,7 +19,7 @@ export interface Filters {
 }
 
 export interface ProductsFetchResult {
-  isLoadingFirstTime: boolean;
+  isCategoryUpdated: boolean;
   isFetching: boolean;
   data: ProductData[];
   error: Error | null;

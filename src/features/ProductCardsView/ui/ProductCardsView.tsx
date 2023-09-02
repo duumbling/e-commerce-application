@@ -22,14 +22,11 @@ import { PRIMARY_COLOR } from "../../../shared/constants/colors";
 type ProductsViewProps = Pick<GridProps, "sx">;
 
 export function ProductCardsView({ sx }: ProductsViewProps) {
-  const { isLoadingFirstTime, isFetching, data, error } = useFetchProducts();
+  const { isCategoryUpdated, isFetching, data, error } = useFetchProducts();
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isLoadingFirstTime) {
-      return;
-    }
     dispatch(
       updateAvailableFilterValues({
         brands: getAvailableBrands(data),
@@ -38,7 +35,7 @@ export function ProductCardsView({ sx }: ProductsViewProps) {
         prices: getMinAndMaxPrices(data),
       }),
     );
-  }, [isLoadingFirstTime]);
+  }, [isCategoryUpdated]);
 
   return (
     <Grid {...productsContainerProps} sx={sx}>

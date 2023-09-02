@@ -10,7 +10,7 @@ import { FilterParamNames } from "../../../entities/products-filter/model/types"
 import { SortOptions } from "../../../entities/products-sort-select";
 
 export function useFetchProducts(): ProductsFetchResult {
-  const [isLoadingFirstTime, setIsLoadingFirstTime] = useState(true);
+  const [isCategoryUpdated, setIsCategoryUpdated] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -21,7 +21,7 @@ export function useFetchProducts(): ProductsFetchResult {
     (state) => state.searchKeywordsReducer,
   );
 
-  const { currentCategories } = useAppSelector(
+  const { availableCategories: currentCategories, isUpdated } = useAppSelector(
     (state) => state.categoriesReducer,
   );
 
@@ -59,14 +59,21 @@ export function useFetchProducts(): ProductsFetchResult {
         }
         setError(error);
       }
-      setIsLoadingFirstTime(false);
+      setIsCategoryUpdated(false);
       setIsFetching(false);
     })();
   }, [currentCategories, searchParams]);
 
+  useEffect(() => {
+    if (isFetching) {
+      return;
+    }
+    setIsCategoryUpdated(isUpdated);
+  }, [isFetching, isUpdated]);
+
   return {
     isFetching,
-    isLoadingFirstTime,
+    isCategoryUpdated,
     data: products,
     error,
   };

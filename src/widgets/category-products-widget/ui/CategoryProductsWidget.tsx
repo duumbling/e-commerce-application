@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { ProductsSortSelect } from "../../../entities/products-sort-select";
 import { ProductsFilter } from "../../../entities/products-filter";
@@ -8,8 +8,24 @@ import {
   TABLET_MEDIA,
 } from "../../../shared/constants/mediaQuery";
 import { CategoryView } from "../../../entities/category/ui/CategoryView";
+import { useAppSelector } from "../../../shared/model/hooks";
 
 export function CategoryProductsWidget() {
+  const { currentCategory } = useAppSelector(
+    (state) => state.categoriesReducer,
+  );
+
+  const [categoryTitle, setCategoryTitle] = useState("Все товары");
+
+  useEffect(() => {
+    console.log(currentCategory);
+    if (currentCategory?.description !== undefined) {
+      setCategoryTitle(currentCategory?.description["ru-RU"] ?? "");
+    } else {
+      setCategoryTitle("Все товары");
+    }
+  }, [currentCategory]);
+
   return (
     <Grid
       container
@@ -38,7 +54,7 @@ export function CategoryProductsWidget() {
             },
           }}
         >
-          Текущая категория
+          {categoryTitle}
         </Typography>
       </Grid>
       <Grid item sm={6} md={4} marginTop={{ md: 0, sm: 5, xs: 5 }}>
