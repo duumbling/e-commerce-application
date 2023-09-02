@@ -9,12 +9,8 @@ export type ValueOf<T> = T[keyof T];
 
 export type SortValue = ValueOf<typeof SortOptions>;
 
-export interface SortType {
-  name: keyof typeof SortOptions;
-  value: SortValue;
-}
-
 export interface SelectItem {
   label: string;
   index: number;
+  value: SortValue;
 }

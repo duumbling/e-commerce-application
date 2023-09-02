@@ -5,7 +5,7 @@ import {
 } from "../../../shared/constants/mediaQuery";
 
 export const rootStyle = {
-  marginLeft: "15%",
+  marginLeft: "10%",
   "@media (max-width: 950px)": {
     marginLeft: "5%",
   },
