@@ -10,8 +10,7 @@ import { useCustomSearchParams } from "../../../shared/model/hooks";
 import { rootStyle, selectItemStyle } from "./style";
 import CheckIcon from "@mui/icons-material/Check";
 import { SelectItemKeys, SelectItems } from "../model/select-items";
-import { Paths } from "../../../shared/constants/paths";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function ProductsSortSelect() {
   const [currentSelectedItemIndex, setCurrentSelectedItemIndex] = useState(
@@ -23,6 +22,8 @@ export function ProductsSortSelect() {
 
   const { searchParams } = useCustomSearchParams();
 
+  const { pathname } = useLocation();
+
   const navigate = useNavigate();
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -31,7 +32,7 @@ export function ProductsSortSelect() {
     setCurrentSelectedItemIndex(value.index);
     setCurrentValue(value);
     navigate({
-      pathname: Paths.Catalog,
+      pathname,
       search: searchParams.toString(),
     });
   };
