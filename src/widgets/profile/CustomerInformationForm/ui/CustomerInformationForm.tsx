@@ -7,19 +7,9 @@ import {
 } from "./style";
 import { FormProvider, type SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-// import { Backdrop, Box, CircularProgress, Grid } from "@mui/material";
 import { Backdrop, Box, CircularProgress, Grid } from "@mui/material";
-// import {
-//   AboutForm,
-//   type AboutFormValues,
-// } from "../../../../features/AboutForm";
-// import { PRIMARY_COLOR } from "../../../../shared/constants/colors";
 import { CustomButton } from "../../../../shared/ui/CustomButton";
-// import { CustomSnackBar } from "../../../../shared/ui/CustomSnackBar";
-// import { getErrorMessage } from "../../../login-form/lib/helpers";
-// import { type RegistrationFormValues } from "../../../registration-form/model/types";
 import { customerInformationSchema } from "../model/schema";
-// import { type CustomerData } from "../../../../shared/types/Customer";
 import { type CustomerProps } from "../../address-accordion/lib/types";
 import { updateCustomerPersonalInformation } from "../../../../shared/api/customers";
 import { PRIMARY_COLOR } from "../../../../shared/constants/colors";
