@@ -5,7 +5,7 @@ import { resolveSx } from "../../../lib/helpers/styles";
 export const favoriteButtonStyle: SxProps<Theme> = resolveSx(
   customButtonStyle.contained,
   {
-    p: ".25rem",
+    p: "0.25rem",
     fontSize: "2.5rem",
   },
 );

@@ -24,7 +24,7 @@ const shoesTypePaths: RouteObject[] = [
   },
 ];
 
-// TODO Изменить роутинг на страницу продукта
+// TODO Изменить роутинг на страницу продукта, когда решим "как"
 
 export function AppRoutes() {
   return (
