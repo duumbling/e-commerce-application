@@ -77,3 +77,13 @@ export const loginApiRoot = (
 
   return createApiBuilderWithProjectKey(client);
 };
+
+export const customerDataApiRoot = () => {
+  const client = new ClientBuilder()
+    .withExistingTokenFlow(`Bearer ${customerTokenCache.get().token}`, {
+      force: true,
+    })
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .build();
+  return createApiBuilderWithProjectKey(client);
+};
