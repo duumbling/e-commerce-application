@@ -6,16 +6,18 @@ export interface PriceTagProps {
   price: number;
   discountPrice?: number;
   currency?: string;
+  divider?: number;
 }
 
 export function PriceTag({
   price,
   discountPrice,
   currency = "Р",
+  divider = 100,
 }: PriceTagProps) {
   const hasDiscount = discountPrice !== undefined;
   const currentPrice = discountPrice ?? price;
-  const renderPrice = (price: number) => `${price} ${currency}`;
+  const renderPrice = (price: number) => `${price / divider} ${currency}`;
 
   return (
     <Typography {...priceStyle}>
