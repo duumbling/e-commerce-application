@@ -67,7 +67,6 @@ export function CustomerAddressForm({
   const [isShippingDefault, setIsShippingDefault] = useState(false);
   const [addressTypes, setAddressTypes] = useState<AddressInformation>();
   useEffect(() => {
-    console.log(currentVersion);
     if (addressData !== undefined) {
       const value = countries.find(
         (country) => country.name === addressData.country,
@@ -95,9 +94,6 @@ export function CustomerAddressForm({
     setCurrentVersion(customerVersion);
     setAddressTypes(defaultAddressTypes);
   }, []);
-  // const currentVersionUpdate = (count: number) => {
-  //   setCurrentVersion(count);
-  // };
 
   const {
     control,
