@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Dialog,
   type DialogProps,
@@ -7,7 +6,6 @@ import {
   IconButton,
   useMediaQuery,
 } from "@mui/material";
-
 import CloseIcon from "@mui/icons-material/Close";
 import {
   CustomSwiper,
