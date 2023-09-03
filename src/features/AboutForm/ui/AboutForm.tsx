@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { type ChangeEvent, useEffect } from "react";
 import {
   Box,
   FormLabel,
@@ -9,6 +9,7 @@ import {
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { useFormContext } from "react-hook-form";
 import { type AboutFormValues } from "../model/types";
+import { type CustomerData } from "../../../shared/types/Customer";
 
 type AboutFormProps = Pick<BoxProps, "sx"> & {
   title: string;
@@ -20,6 +21,8 @@ type AboutFormProps = Pick<BoxProps, "sx"> & {
   isContainEmail?: boolean;
   fieldLabelPosition?: "outside" | "inside";
   disabled?: boolean;
+  customerData?: CustomerData;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const AboutForm = ({
@@ -33,6 +36,8 @@ export const AboutForm = ({
   isContainEmail,
   fieldLabelPosition,
   disabled,
+  customerData,
+  onChange,
 }: AboutFormProps) => {
   const isEmailFieldVisible = isContainEmail ?? false;
 
@@ -61,6 +66,8 @@ export const AboutForm = ({
           {...register("firstName")}
           labelPosition={fieldLabelPosition}
           disabled={disabled}
+          value={customerData?.firstName}
+          onChange={onChange}
         />
         <CustomTextField
           label="Фамилия"
@@ -71,6 +78,8 @@ export const AboutForm = ({
           {...register("lastName")}
           labelPosition={fieldLabelPosition}
           disabled={disabled}
+          value={customerData?.lastName}
+          onChange={onChange}
         />
         <CustomTextField
           label="Дата рождения"
@@ -82,6 +91,8 @@ export const AboutForm = ({
           {...register("userBirthday")}
           labelPosition={fieldLabelPosition}
           disabled={disabled}
+          value={customerData?.dateOfBirth}
+          onChange={onChange}
         />
         {isEmailFieldVisible && (
           <CustomTextField
@@ -93,6 +104,8 @@ export const AboutForm = ({
             {...register("userEmail")}
             labelPosition={fieldLabelPosition}
             disabled={disabled}
+            value={customerData?.email}
+            onChange={onChange}
           />
         )}
       </Box>
