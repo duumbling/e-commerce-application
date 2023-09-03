@@ -4,6 +4,7 @@ import {
   gridContainerProps,
   rootStyle,
   textFieldStyle,
+  dateFieldStyle,
 } from "./style";
 import { FormProvider, type SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,8 +16,12 @@ import { CustomSnackBar } from "../../../../shared/ui/CustomSnackBar";
 import { getErrorMessage } from "../../../login-form/lib/helpers";
 import { formSchema } from "../../../registration-form/model/schema";
 import { type RegistrationFormValues } from "../../../registration-form/model/types";
+import { type CustomerProps } from "../../index";
 
-export function CustomerInformationForm() {
+export function CustomerInformationForm({
+  customerData,
+  setCustomerData,
+}: CustomerProps) {
   const methods = useForm<RegistrationFormValues>({
     resolver: yupResolver(formSchema),
     mode: "onChange",
@@ -29,7 +34,6 @@ export function CustomerInformationForm() {
   const [isMessageVisible, setMessageVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isEditMode, setEditMode] = useState(false);
-
   const onSubmit: SubmitHandler<RegistrationFormValues> = async (data) => {
     setLoading(true);
     try {
@@ -62,7 +66,7 @@ export function CustomerInformationForm() {
                   sx: textFieldStyle,
                 }}
                 userBirthDayProps={{
-                  sx: textFieldStyle,
+                  sx: dateFieldStyle,
                 }}
                 emailFieldProps={{
                   sx: textFieldStyle,
@@ -70,6 +74,7 @@ export function CustomerInformationForm() {
                 isContainEmail={true}
                 fieldLabelPosition="outside"
                 disabled={!isEditMode}
+                customerData={customerData}
               />
             </Grid>
             <Grid item sm={6} md={6}>
