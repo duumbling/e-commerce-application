@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { type ChangeEvent, useEffect } from "react";
 import {
   Box,
   FormLabel,
@@ -9,6 +9,7 @@ import {
 import { CustomTextField } from "../../../shared/ui/CustomTextField";
 import { useFormContext } from "react-hook-form";
 import { type AboutFormValues } from "../model/types";
+import { type CustomerData } from "../../../shared/types/Customer";
 
 type AboutFormProps = Pick<BoxProps, "sx"> & {
   title: string;
@@ -18,6 +19,10 @@ type AboutFormProps = Pick<BoxProps, "sx"> & {
   userBirthDayProps?: TextFieldProps;
   emailFieldProps?: TextFieldProps;
   isContainEmail?: boolean;
+  fieldLabelPosition?: "outside" | "inside";
+  disabled?: boolean;
+  customerData?: CustomerData;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const AboutForm = ({
@@ -29,6 +34,10 @@ export const AboutForm = ({
   userBirthDayProps,
   emailFieldProps,
   isContainEmail,
+  fieldLabelPosition,
+  disabled,
+  customerData,
+  onChange,
 }: AboutFormProps) => {
   const isEmailFieldVisible = isContainEmail ?? false;
 
@@ -55,6 +64,10 @@ export const AboutForm = ({
           error={errors.firstName !== undefined}
           helperText={errors.firstName?.message}
           {...register("firstName")}
+          labelPosition={fieldLabelPosition}
+          disabled={disabled}
+          value={customerData?.firstName}
+          onChange={onChange}
         />
         <CustomTextField
           label="Фамилия"
@@ -63,6 +76,10 @@ export const AboutForm = ({
           error={errors.lastName !== undefined}
           helperText={errors.lastName?.message}
           {...register("lastName")}
+          labelPosition={fieldLabelPosition}
+          disabled={disabled}
+          value={customerData?.lastName}
+          onChange={onChange}
         />
         <CustomTextField
           label="Дата рождения"
@@ -72,6 +89,10 @@ export const AboutForm = ({
           error={errors.userBirthday !== undefined}
           helperText={errors.userBirthday?.message}
           {...register("userBirthday")}
+          labelPosition={fieldLabelPosition}
+          disabled={disabled}
+          value={customerData?.dateOfBirth}
+          onChange={onChange}
         />
         {isEmailFieldVisible && (
           <CustomTextField
@@ -81,6 +102,10 @@ export const AboutForm = ({
             error={errors.userEmail !== undefined}
             helperText={errors.userBirthday?.message}
             {...register("userEmail")}
+            labelPosition={fieldLabelPosition}
+            disabled={disabled}
+            value={customerData?.email}
+            onChange={onChange}
           />
         )}
       </Box>

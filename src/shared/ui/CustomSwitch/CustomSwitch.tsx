@@ -12,7 +12,7 @@ import { bigSizeStyle, smallSizeStyle } from "./style";
 
 type CustomSwitchProps = Pick<
   SwitchProps,
-  "onChange" | "sx" | "name" | "checked"
+  "onChange" | "sx" | "name" | "checked" | "disabled"
 >;
 
 type MyCustomSwitchProps = CustomSwitchProps & {
@@ -34,6 +34,7 @@ export function CustomSwitch({
   labelStyle,
   customSize = CustomSize.SMALL,
   onChange,
+  disabled,
 }: MyCustomSwitchProps): JSX.Element {
   const style =
     customSize === CustomSize.BIG ? { ...bigSizeStyle } : { ...smallSizeStyle };
@@ -42,6 +43,7 @@ export function CustomSwitch({
       control={<Switch name={name} checked={checked} onChange={onChange} />}
       sx={{ ...style, ...sx }}
       label={<Typography sx={{ ...style, ...labelStyle }}>{label}</Typography>}
+      disabled={disabled}
     />
   );
 }
