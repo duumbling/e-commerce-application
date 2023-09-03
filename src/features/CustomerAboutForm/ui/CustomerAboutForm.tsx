@@ -49,7 +49,6 @@ export function CustomerAboutForm({
   } = useFormContext<CustomerAboutFormValues>();
   useEffect(() => {
     if (customerData != null) {
-      console.log(customerData.dateOfBirth ?? "");
       setValue("firstName", firstName ?? "");
       setValue("lastName", lastName ?? "");
       setValue("userEmail", email ?? "");
