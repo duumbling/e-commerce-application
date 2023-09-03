@@ -13,13 +13,7 @@ import {
   type SwiperProps,
   type SwiperSlideProps,
 } from "swiper/react";
-import {
-  Navigation,
-  EffectFade,
-  Pagination,
-  Thumbs,
-  FreeMode,
-} from "swiper/modules";
+import { Navigation, EffectFade, Pagination, Thumbs } from "swiper/modules";
 import { swiperSizeProps, swiperArrowStyle } from "./style";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -29,7 +23,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "swiper/css/thumbs";
-import "swiper/css/free-mode";
 
 import "./swiper-styles.css";
 
@@ -67,7 +60,6 @@ export function CustomSwiper({
     Pagination,
     EffectFade,
     Thumbs,
-    FreeMode,
     ...(swiperProps?.modules ?? []),
   ];
 
@@ -142,7 +134,7 @@ export function CustomSwiper({
             slidesPerView={4}
             freeMode={true}
             watchSlidesProgress={true}
-            modules={[FreeMode, Navigation, Thumbs]}
+            modules={[Navigation, Thumbs]}
             className="thumbs-swiper"
             {...thumbsSwiperProps?.swiperProps}
           >
