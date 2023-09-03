@@ -1,19 +1,41 @@
 import React, { useState } from "react";
 
-import { Dialog, IconButton } from "@mui/material";
+import {
+  Dialog,
+  type DialogProps,
+  Grid,
+  IconButton,
+  useMediaQuery,
+} from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { CustomSwiper } from "../../../shared/ui/CustomSwiper";
+import {
+  CustomSwiper,
+  type CustomSwiperProps,
+} from "../../../shared/ui/CustomSwiper";
+import { modalSwiperSizeStyle, iconButtonStyle } from "./style";
 
 export interface ImageSliderProps {
   imageUrls: string[];
+  mainSwiperProps?: CustomSwiperProps;
+  modalSwiperProps?: CustomSwiperProps;
+  modalDialogProps?: DialogProps;
 }
 
-export function ProductImageSlider({ imageUrls }: ImageSliderProps) {
+export function ProductImageSlider({
+  imageUrls,
+  mainSwiperProps,
+  modalDialogProps,
+  modalSwiperProps,
+}: ImageSliderProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const isMobileWidth = useMediaQuery("(max-width: 600px)");
+
   const onSliderClick = () => {
-    setIsModalOpen(true);
+    if (!isMobileWidth) {
+      setIsModalOpen(true);
+    }
   };
 
   const onFullscreenClose = () => {
@@ -27,31 +49,32 @@ export function ProductImageSlider({ imageUrls }: ImageSliderProps) {
         swiperProps={{ onClick: onSliderClick }}
         slideProps={{
           style: {
-            cursor: "pointer",
+            cursor: isMobileWidth ? "default" : "pointer",
           },
         }}
         withNavigation
-        withThumbs
+        {...mainSwiperProps}
       />
-      <Dialog open={isModalOpen}>
-        <IconButton
-          onClick={onFullscreenClose}
-          sx={{
-            position: "absolute",
-            right: 0,
-            top: 0,
-            zIndex: 100,
-          }}
-        >
+      <Dialog open={isModalOpen} {...modalDialogProps}>
+        <IconButton onClick={onFullscreenClose} sx={iconButtonStyle}>
           <CloseIcon sx={{ fontSize: 60 }} />
         </IconButton>
-        <CustomSwiper
-          images={imageUrls}
-          swiperProps={{
-            pagination: { clickable: true },
-            effect: "slide",
-          }}
-        />
+        <Grid container justifyContent="center">
+          <Grid item>
+            <CustomSwiper
+              images={imageUrls}
+              swiperProps={{
+                pagination: { clickable: true },
+                effect: "slide",
+              }}
+              width={modalSwiperSizeStyle.width}
+              imageProps={modalSwiperSizeStyle}
+              thumbsSwiperProps={modalSwiperSizeStyle}
+              withThumbs
+              {...modalSwiperProps}
+            />
+          </Grid>
+        </Grid>
       </Dialog>
     </>
   );
