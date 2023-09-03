@@ -1,30 +1,29 @@
-import React, { useEffect } from "react";
-import { Header } from "../../../shared/ui/Header";
+import React from "react";
 import { LoginForm } from "../../../widgets/login-form";
 import { Box, Grid } from "@mui/material";
-import { gridContainerProps, gridItemProps, gridHeaderProps } from "./style";
-import { useNavigate } from "react-router-dom";
+import { isUserAuthenticated } from "../../../shared/api";
+import { Navigate } from "react-router-dom";
 import { Paths } from "../../../shared/constants/paths";
-import { customerTokenCache } from "../../../shared/api/";
 
 export function LoginPage() {
-  const cachedToken = customerTokenCache.get().token;
-  const navigate = useNavigate();
-  useEffect((): void => {
-    if (cachedToken !== "") {
-      navigate(Paths.Main);
-    }
-  }, [cachedToken]);
+  if (isUserAuthenticated()) {
+    return <Navigate replace to={Paths.Main} />;
+  }
+
   return (
     <Box>
-      <Grid {...gridContainerProps}>
-        <Grid {...gridHeaderProps} {...gridItemProps}>
-          <Header>Вход на сайт</Header>
+      <Box marginTop={20}>
+        <Grid
+          container
+          rowSpacing={{ xs: "20%", sm: "15%", md: "10%" }}
+          columns={4}
+          justifyContent="center"
+        >
+          <Grid item xs={4} sm={4} md={4}>
+            <LoginForm />
+          </Grid>
         </Grid>
-        <Grid {...gridItemProps}>
-          <LoginForm />
-        </Grid>
-      </Grid>
+      </Box>
     </Box>
   );
 }
