@@ -32,13 +32,13 @@ export function ProductImageSlider({
 
   const isMobileWidth = useMediaQuery("(max-width: 600px)");
 
-  const onSliderClick = () => {
+  const handleSliderClick = () => {
     if (!isMobileWidth) {
       setIsModalOpen(true);
     }
   };
 
-  const onFullscreenClose = () => {
+  const handleCloseButtonClick = () => {
     setIsModalOpen(false);
   };
 
@@ -46,7 +46,7 @@ export function ProductImageSlider({
     <>
       <CustomSwiper
         images={imageUrls}
-        swiperProps={{ onClick: onSliderClick }}
+        swiperProps={{ onClick: handleSliderClick }}
         slideProps={{
           style: {
             cursor: isMobileWidth ? "default" : "pointer",
@@ -56,7 +56,7 @@ export function ProductImageSlider({
         {...mainSwiperProps}
       />
       <Dialog open={isModalOpen} {...modalDialogProps}>
-        <IconButton onClick={onFullscreenClose} sx={iconButtonStyle}>
+        <IconButton onClick={handleCloseButtonClick} sx={iconButtonStyle}>
           <CloseIcon sx={{ fontSize: 60 }} />
         </IconButton>
         <Grid container justifyContent="center">
