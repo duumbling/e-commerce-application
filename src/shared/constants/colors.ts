@@ -2,6 +2,7 @@ export const PRIMARY_COLOR = "#F7D22D";
 export const ERROR_COLOR = "#FF2E65";
 export const DEFAULT_SWITCH_COLOR = "#E2E2E9";
 export const FORMS_HEADER_BORDER_COLOR = "#ECECF1";
+export const PAGINATION_FILLED_COLOR = "#E3ECF5";
 
 export const enum ButtonColors {
   CONTAINED_BUTTON_BG_HOVER = "#EFCC00",
