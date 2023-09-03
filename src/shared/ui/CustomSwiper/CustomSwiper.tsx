@@ -1,5 +1,10 @@
 import React, { useRef, useState } from "react";
-import { Box, IconButton, type BoxProps } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  type BoxProps,
+  type SvgIconProps,
+} from "@mui/material";
 import { ThemeColors } from "../../constants/colors";
 import type SwiperCore from "swiper";
 import {
@@ -31,17 +36,25 @@ import "./swiper-styles.css";
 export type CustomSwiperProps = BoxProps & {
   imageUrls: string[];
   swiperProps?: SwiperProps;
-  swiperSlideProps?: SwiperSlideProps;
-  withPagination?: boolean;
+  imageProps?: BoxProps;
+  slideProps?: SwiperSlideProps;
+  navigationArrowStyle?: SvgIconProps;
+  thumbsSwiperProps?: BoxProps &
+    Pick<CustomSwiperProps, "swiperProps" | "slideProps" | "imageProps">;
   withNavigation?: boolean;
+  withThumbs?: boolean;
 };
 
 export function CustomSwiper({
   imageUrls,
   swiperProps,
-  swiperSlideProps,
-  withPagination,
+  imageProps,
+  slideProps,
+  thumbsSwiperProps,
   withNavigation,
+  withThumbs,
+  navigationArrowStyle,
+  width,
   ...otherProps
 }: CustomSwiperProps) {
   const leftArrowElement = useRef<HTMLElement | null>(null);
@@ -51,81 +64,106 @@ export function CustomSwiper({
 
   const modules = [
     Navigation,
+    Pagination,
     EffectFade,
     Thumbs,
     FreeMode,
     ...(swiperProps?.modules ?? []),
   ];
 
-  if (withPagination ?? false) {
-    modules.push(Pagination);
-  }
-
   return (
-    <Box {...swiperSizeProps} {...otherProps} position="relative">
-      <Box sx={swiperArrowStyle} left={5} ref={leftArrowElement}>
-        <IconButton color={ThemeColors.PRIMARY}>
-          <ArrowBackIosNewIcon />
-        </IconButton>
-      </Box>
-      <Box sx={swiperArrowStyle} right={5} ref={rightArrowElement}>
-        <IconButton color={ThemeColors.PRIMARY}>
-          <ArrowForwardIosIcon />
-        </IconButton>
-      </Box>
-      <Swiper
-        modules={modules}
-        pagination={withPagination ?? false ? { clickable: true } : undefined}
-        navigation={
-          withNavigation ?? false
-            ? {
-                prevEl: leftArrowElement?.current,
-                nextEl: rightArrowElement?.current,
-                enabled: true,
-              }
-            : undefined
-        }
-        thumbs={{
-          swiper:
-            thumbsSwiper !== null && !thumbsSwiper.destroyed
-              ? thumbsSwiper
-              : null,
-        }}
-        slidesPerView={1}
-        loop
-        centeredSlides
-        effect="fade"
-        {...swiperProps}
+    <>
+      <Box
+        {...otherProps}
+        width={width ?? swiperSizeProps.width}
+        position="relative"
       >
-        {imageUrls.map((value) => (
-          <SwiperSlide
-            key={value}
-            style={{ cursor: "pointer" }}
-            {...swiperSlideProps}
+        {withNavigation !== undefined && (
+          <>
+            <Box sx={swiperArrowStyle} left={5} ref={leftArrowElement}>
+              <IconButton color={ThemeColors.PRIMARY}>
+                <ArrowBackIosNewIcon
+                  fontSize="large"
+                  {...navigationArrowStyle}
+                />
+              </IconButton>
+            </Box>
+            <Box sx={swiperArrowStyle} right={5} ref={rightArrowElement}>
+              <IconButton color={ThemeColors.PRIMARY}>
+                <ArrowForwardIosIcon
+                  fontSize="large"
+                  {...navigationArrowStyle}
+                />
+              </IconButton>
+            </Box>
+          </>
+        )}
+
+        <Swiper
+          modules={modules}
+          navigation={
+            withNavigation ?? false
+              ? {
+                  prevEl: leftArrowElement?.current,
+                  nextEl: rightArrowElement?.current,
+                  enabled: true,
+                }
+              : undefined
+          }
+          thumbs={{
+            swiper:
+              thumbsSwiper !== null && !thumbsSwiper.destroyed
+                ? thumbsSwiper
+                : null,
+          }}
+          slidesPerView={1}
+          centeredSlides
+          effect="fade"
+          {...swiperProps}
+        >
+          {imageUrls.map((value) => (
+            <SwiperSlide key={value} {...slideProps}>
+              <Box
+                component="img"
+                src={value}
+                alt="product image"
+                {...imageProps}
+                width={imageProps?.width ?? swiperSizeProps.width}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Box>
+
+      {withThumbs !== undefined && (
+        <Box {...swiperSizeProps} {...thumbsSwiperProps}>
+          <Swiper
+            onSwiper={setThumbsSwiper}
+            slidesPerView={4}
+            freeMode={true}
+            watchSlidesProgress={true}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="thumbs-swiper"
+            {...thumbsSwiperProps?.swiperProps}
           >
-            <Box
-              component="img"
-              src={value}
-              alt="product image"
-              {...swiperSizeProps}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <Swiper
-        onSwiper={setThumbsSwiper}
-        slidesPerView={4}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="thumbs-swiper"
-      >
-        {imageUrls.map((value) => (
-          <SwiperSlide key={value} style={{ cursor: "pointer" }}>
-            <Box component="img" src={value} alt="product image" width="100%" />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </Box>
+            {imageUrls.map((value) => (
+              <SwiperSlide
+                key={value}
+                style={{ cursor: "pointer" }}
+                {...thumbsSwiperProps?.slideProps}
+              >
+                <Box
+                  component="img"
+                  src={value}
+                  alt="product image"
+                  width="100%"
+                  {...thumbsSwiperProps?.imageProps}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </Box>
+      )}
+    </>
   );
 }
