@@ -24,14 +24,15 @@ const shoesTypePaths: RouteObject[] = [
   },
 ];
 
-// TODO Изменить роутинг на страницу продукта
-
 export function AppRoutes() {
   return (
     <Routes>
       <Route path={Paths.Main} element={<Layout />}>
         <Route index element={<MainPage />} />
-        <Route path={"product"} element={<DetailedProductPage />} />
+        <Route
+          path={`${Paths.Product}/:id`}
+          element={<DetailedProductPage />}
+        />
         <Route path={Paths.Login} element={<LoginPage />} />
         <Route path={Paths.Register} element={<RegisterPage />} />
         <Route path={Paths.NotFound} element={<NotFoundPage />} />
