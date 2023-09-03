@@ -23,7 +23,7 @@ export function ProductImageSlider({ imageUrls }: ImageSliderProps) {
   return (
     <>
       <CustomSwiper
-        imageUrls={imageUrls}
+        images={imageUrls}
         swiperProps={{ onClick: onSliderClick }}
         slideProps={{
           style: {
@@ -46,7 +46,7 @@ export function ProductImageSlider({ imageUrls }: ImageSliderProps) {
           <CloseIcon sx={{ fontSize: 60 }} />
         </IconButton>
         <CustomSwiper
-          imageUrls={imageUrls}
+          images={imageUrls}
           swiperProps={{
             pagination: { clickable: true },
             effect: "slide",

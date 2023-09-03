@@ -34,7 +34,7 @@ import "swiper/css/free-mode";
 import "./swiper-styles.css";
 
 export type CustomSwiperProps = BoxProps & {
-  imageUrls: string[];
+  images: string[];
   swiperProps?: SwiperProps;
   imageProps?: BoxProps;
   slideProps?: SwiperSlideProps;
@@ -46,7 +46,7 @@ export type CustomSwiperProps = BoxProps & {
 };
 
 export function CustomSwiper({
-  imageUrls,
+  images,
   swiperProps,
   imageProps,
   slideProps,
@@ -121,7 +121,7 @@ export function CustomSwiper({
           effect="fade"
           {...swiperProps}
         >
-          {imageUrls.map((value) => (
+          {images.map((value) => (
             <SwiperSlide key={value} {...slideProps}>
               <Box
                 component="img"
@@ -146,7 +146,7 @@ export function CustomSwiper({
             className="thumbs-swiper"
             {...thumbsSwiperProps?.swiperProps}
           >
-            {imageUrls.map((value) => (
+            {images.map((value) => (
               <SwiperSlide
                 key={value}
                 style={{ cursor: "pointer" }}
