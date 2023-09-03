@@ -1,54 +1,84 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   formGridItemProps,
   gridContainerProps,
   rootStyle,
   textFieldStyle,
-  dateFieldStyle,
 } from "./style";
 import { FormProvider, type SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+// import { Backdrop, Box, CircularProgress, Grid } from "@mui/material";
 import { Backdrop, Box, CircularProgress, Grid } from "@mui/material";
-import { AboutForm } from "../../../../features/AboutForm";
-import { PRIMARY_COLOR } from "../../../../shared/constants/colors";
+// import {
+//   AboutForm,
+//   type AboutFormValues,
+// } from "../../../../features/AboutForm";
+// import { PRIMARY_COLOR } from "../../../../shared/constants/colors";
 import { CustomButton } from "../../../../shared/ui/CustomButton";
+// import { CustomSnackBar } from "../../../../shared/ui/CustomSnackBar";
+// import { getErrorMessage } from "../../../login-form/lib/helpers";
+// import { type RegistrationFormValues } from "../../../registration-form/model/types";
+import { customerInformationSchema } from "../model/schema";
+// import { type CustomerData } from "../../../../shared/types/Customer";
+import { type CustomerProps } from "../../address-accordion/lib/types";
+import { updateCustomerPersonalInformation } from "../../../../shared/api/customers";
+import { PRIMARY_COLOR } from "../../../../shared/constants/colors";
 import { CustomSnackBar } from "../../../../shared/ui/CustomSnackBar";
-import { getErrorMessage } from "../../../login-form/lib/helpers";
-import { formSchema } from "../../../registration-form/model/schema";
-import { type RegistrationFormValues } from "../../../registration-form/model/types";
-import { type CustomerProps } from "../../index";
+import { getErrorMessage } from "../../../registration-form/lib/helpers";
+import {
+  CustomerAboutForm,
+  type CustomerAboutFormValues,
+} from "../../../../features/CustomerAboutForm";
 
 export function CustomerInformationForm({
   customerData,
   setCustomerData,
 }: CustomerProps) {
-  const methods = useForm<RegistrationFormValues>({
-    resolver: yupResolver(formSchema),
+  const methods = useForm<CustomerAboutFormValues>({
+    resolver: yupResolver(customerInformationSchema),
     mode: "onChange",
     shouldUnregister: true,
   });
 
   const { handleSubmit } = methods;
   const [isLoading, setLoading] = useState(false);
-  const [isRegistrationSuccess, setSuccess] = useState(false);
+  const [isEditSuccess, setIsEditSuccess] = useState(false);
   const [isMessageVisible, setMessageVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isEditMode, setEditMode] = useState(false);
-  const onSubmit: SubmitHandler<RegistrationFormValues> = async (data) => {
+  const [currentVersion, setCurrentVersion] = useState<number>(0);
+  const onSubmit: SubmitHandler<CustomerAboutFormValues> = async (data) => {
     setLoading(true);
+    console.log(data.firstName);
     try {
-      /* empty */
+      console.log(data.firstName);
+      const response = await updateCustomerPersonalInformation(
+        currentVersion,
+        data.userEmail,
+        data.firstName,
+        data.lastName,
+        data.userBirthday,
+      );
+      setCurrentVersion(response.body.version);
+      console.log(response);
+      setEditMode(false);
+      setIsEditSuccess(true);
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
-      setSuccess(false);
+      setIsEditSuccess(false);
     }
     setLoading(false);
     setMessageVisible(true);
   };
+  useEffect(() => {
+    if (customerData !== undefined) {
+      setCurrentVersion(customerData.version);
+    }
+  }, [customerData]);
   return (
     <FormProvider {...methods}>
       <form
-        id="registration-form"
+        id="personal-information"
         onSubmit={(...args) => {
           void handleSubmit(onSubmit)(...args);
         }}
@@ -56,7 +86,7 @@ export function CustomerInformationForm({
         <Box sx={rootStyle}>
           <Grid {...gridContainerProps} sx={{ flexDirection: "column" }}>
             <Grid {...formGridItemProps}>
-              <AboutForm
+              <CustomerAboutForm
                 title="Личные данные"
                 titleProps={{}}
                 firstNameFieldProps={{
@@ -66,7 +96,7 @@ export function CustomerInformationForm({
                   sx: textFieldStyle,
                 }}
                 userBirthDayProps={{
-                  sx: dateFieldStyle,
+                  sx: textFieldStyle,
                 }}
                 emailFieldProps={{
                   sx: textFieldStyle,
@@ -81,10 +111,12 @@ export function CustomerInformationForm({
               <Box>
                 <CustomButton
                   type="submit"
-                  form="registration-form"
+                  form="personal-information"
                   onClick={(event) => {
-                    event.preventDefault();
-                    setEditMode(!isEditMode);
+                    if (!isEditMode) {
+                      event.preventDefault();
+                    }
+                    setEditMode(true);
                   }}
                 >
                   {isEditMode ? "Сохранить" : "Редактировать"}
@@ -100,16 +132,14 @@ export function CustomerInformationForm({
           <CircularProgress sx={{ color: PRIMARY_COLOR }} />
         </Backdrop>
         <CustomSnackBar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          severity={isRegistrationSuccess ? "success" : "error"}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          severity={isEditSuccess ? "success" : "error"}
           autoHideDuration={2000}
           open={isMessageVisible}
           onClose={() => {
             setMessageVisible(false);
           }}
-          message={
-            isRegistrationSuccess ? "Регистрация завершена" : errorMessage
-          }
+          message={isEditSuccess ? "Данные изменены" : errorMessage}
         />
       </form>
     </FormProvider>

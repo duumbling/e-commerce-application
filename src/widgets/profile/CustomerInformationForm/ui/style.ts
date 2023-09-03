@@ -1,9 +1,4 @@
-import { inputBaseClasses } from "@mui/material";
 import { ThemeColors } from "../../../../shared/constants/colors";
-
-const classes = {
-  disabled: `.${inputBaseClasses.root}.${inputBaseClasses.disabled} input`,
-};
 
 export const rootStyle = {
   marginTop: "25px",
@@ -51,11 +46,4 @@ export const cardsGridItemProps = {
 export const textFieldStyle = {
   marginBottom: 2.75,
   width: "255px",
-};
-
-export const dateFieldStyle = {
-  [classes.disabled]: {
-    color: "#bdbdbd !important",
-    WebkitTextFillColor: "#bdbdbd !important",
-  },
 };
