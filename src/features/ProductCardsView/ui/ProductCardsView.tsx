@@ -50,6 +50,7 @@ export function ProductCardsView({ sx }: ProductsCardsViewProps) {
             return (
               <Grid key={product.id} item>
                 <ProductCard
+                  id={product.id}
                   title={product.title}
                   image={product.images[0]}
                   price={product.price}
