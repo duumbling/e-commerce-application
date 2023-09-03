@@ -7,6 +7,7 @@ import { MainPage } from "../../pages/main";
 import { NotFoundPage } from "../../pages/notFound";
 import { RegisterPage } from "../../pages/register";
 import { Layout } from "./Layout";
+import { DetailedProductPage } from "../../pages/detailedProduct";
 
 const shoesTypePaths: RouteObject[] = [
   {
@@ -28,6 +29,10 @@ export function AppRoutes() {
     <Routes>
       <Route path={Paths.Main} element={<Layout />}>
         <Route index element={<MainPage />} />
+        <Route
+          path={`${Paths.Product}/:id`}
+          element={<DetailedProductPage />}
+        />
         <Route path={Paths.Login} element={<LoginPage />} />
         <Route path={Paths.Register} element={<RegisterPage />} />
         <Route path={Paths.NotFound} element={<NotFoundPage />} />
