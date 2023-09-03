@@ -1,17 +1,25 @@
 import React from "react";
-
-// import {} from "./style";
-
 import { Header } from "../../../shared/ui/Header";
-import BonusesList from "../../../widgets/bonuses-list/ui/BonusesList";
-import { ProfileForm } from "../../../widgets/profile-form/ui/ProfileForm";
+import { BonusesList } from "../../../widgets/bonuses-list/";
+import { Navigate } from "react-router-dom";
+import { Paths } from "../../../shared/constants/paths";
+import {
+  CustomerInformationForm,
+  AddressAccordion,
+} from "../../../widgets/profile/";
 
 export function ProfilePage() {
+  const isAuthenticated = localStorage.getItem("fo-user_token") !== null;
+  if (!isAuthenticated) {
+    return <Navigate replace to={Paths.Main} />;
+  }
+
   return (
     <div>
       <Header>Profile page</Header>
       <BonusesList />
-      <ProfileForm />
+      <CustomerInformationForm />
+      <AddressAccordion />
     </div>
   );
 }
