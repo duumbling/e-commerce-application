@@ -18,6 +18,6 @@ export const swiperSizeProps = {
   width: {
     md: 520,
     sm: 452,
-    xs: 250,
+    xs: "90vw",
   },
 };
