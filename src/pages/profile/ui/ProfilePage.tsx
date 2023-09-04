@@ -6,15 +6,17 @@ import {
   CustomerInformationForm,
   AddressAccordion,
 } from "../../../widgets/profile/";
+import { isUserAuthenticated } from "../../../shared/api";
+import { Header } from "../../../widgets/Header";
 
 export function ProfilePage() {
-  const isAuthenticated = localStorage.getItem("fo-user_token") !== null;
-  if (!isAuthenticated) {
+  if (!isUserAuthenticated()) {
     return <Navigate replace to={Paths.Login} />;
   }
 
   return (
     <div>
+      <Header />
       <BonusesList />
       <CustomerInformationForm />
       <AddressAccordion />
