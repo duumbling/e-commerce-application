@@ -1,0 +1,7 @@
+.thumbs-swiper .swiper-slide {
+  opacity: 0.4;
+}
+.thumbs-swiper .swiper-slide-thumb-active {
+  opacity: 1;
+  border-color: #000;
+}

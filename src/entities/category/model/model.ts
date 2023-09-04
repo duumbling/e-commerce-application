@@ -1,4 +1,4 @@
-import { Paths } from "../../../shared/constants/paths";
+import { Paths, CatalogPaths } from "../../../shared/constants/paths";
 
 interface ProductCategory {
   path: string;
@@ -6,20 +6,20 @@ interface ProductCategory {
   slug: string;
 }
 
-const getShoesTypeBreadcrumbs = (parent: Paths): ProductCategory[] => {
+const getShoesTypeBreadcrumbs = (parent: CatalogPaths): ProductCategory[] => {
   return [
     {
-      path: `${Paths.Catalog}/${parent}/${Paths.Sneakers}`,
+      path: `${Paths.Catalog}/${parent}/${CatalogPaths.Sneakers}`,
       breadcrumb: "Кроссовки",
       slug: `${parent}-sneakers`,
     },
     {
-      path: `${Paths.Catalog}/${parent}/${Paths.Boots}`,
+      path: `${Paths.Catalog}/${parent}/${CatalogPaths.Boots}`,
       breadcrumb: "Ботинки",
       slug: `${parent}-boots`,
     },
     {
-      path: `${Paths.Catalog}/${parent}/${Paths.FlipFlops}`,
+      path: `${Paths.Catalog}/${parent}/${CatalogPaths.FlipFlops}`,
       breadcrumb: "Шлепанцы",
       slug: `${parent}-flip-flops`,
     },
@@ -38,21 +38,21 @@ export const categoriesData: ProductCategory[] = [
     slug: "",
   },
   {
-    path: `${Paths.Catalog}/${Paths.Men}`,
+    path: `${Paths.Catalog}/${CatalogPaths.Men}`,
     breadcrumb: "Мужская обувь",
     slug: "men",
   },
   {
-    path: `${Paths.Catalog}/${Paths.Women}`,
+    path: `${Paths.Catalog}/${CatalogPaths.Women}`,
     breadcrumb: "Женская обувь",
     slug: "women",
   },
   {
-    path: `${Paths.Catalog}/${Paths.Sale}`,
+    path: `${Paths.Catalog}/${CatalogPaths.Sale}`,
     breadcrumb: "Распродажа",
     slug: "sale",
   },
-  ...getShoesTypeBreadcrumbs(Paths.Men),
-  ...getShoesTypeBreadcrumbs(Paths.Women),
-  ...getShoesTypeBreadcrumbs(Paths.Sale),
+  ...getShoesTypeBreadcrumbs(CatalogPaths.Men),
+  ...getShoesTypeBreadcrumbs(CatalogPaths.Women),
+  ...getShoesTypeBreadcrumbs(CatalogPaths.Sale),
 ];

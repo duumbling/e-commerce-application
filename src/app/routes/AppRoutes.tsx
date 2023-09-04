@@ -1,6 +1,6 @@
 import React from "react";
 import { CatalogPage } from "../../pages/catalog";
-import { Paths } from "../../shared/constants/paths";
+import { Paths, CatalogPaths } from "../../shared/constants/paths";
 import { Route, Routes, type RouteObject } from "react-router-dom";
 import { LoginPage } from "../../pages/login";
 import { MainPage } from "../../pages/main";
@@ -11,42 +11,43 @@ import { DetailedProductPage } from "../../pages/detailedProduct";
 
 const shoesTypePaths: RouteObject[] = [
   {
-    path: Paths.Sneakers,
+    path: CatalogPaths.Sneakers,
     element: <CatalogPage />,
   },
   {
-    path: Paths.Boots,
+    path: CatalogPaths.Boots,
     element: <CatalogPage />,
   },
   {
-    path: Paths.FlipFlops,
+    path: CatalogPaths.FlipFlops,
     element: <CatalogPage />,
   },
 ];
-
-// TODO Изменить роутинг на страницу продукта, когда решим "как"
 
 export function AppRoutes() {
   return (
     <Routes>
       <Route path={Paths.Main} element={<Layout />}>
         <Route index element={<MainPage />} />
-        <Route path={"product"} element={<DetailedProductPage />} />
+        <Route
+          path={`${Paths.Product}/:id`}
+          element={<DetailedProductPage />}
+        />
         <Route path={Paths.Login} element={<LoginPage />} />
         <Route path={Paths.Register} element={<RegisterPage />} />
         <Route path={Paths.NotFound} element={<NotFoundPage />} />
         <Route path={Paths.Catalog} element={<CatalogPage />}>
-          <Route path={Paths.Men} element={<CatalogPage />}>
+          <Route path={CatalogPaths.Men} element={<CatalogPage />}>
             {shoesTypePaths.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />
             ))}
           </Route>
-          <Route path={Paths.Women} element={<CatalogPage />}>
+          <Route path={CatalogPaths.Women} element={<CatalogPage />}>
             {shoesTypePaths.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />
             ))}
           </Route>
-          <Route path={Paths.Sale} element={<CatalogPage />}>
+          <Route path={CatalogPaths.Sale} element={<CatalogPage />}>
             {shoesTypePaths.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />
             ))}
