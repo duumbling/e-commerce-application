@@ -9,7 +9,6 @@ import {
   titleStyle,
 } from "./style";
 import { setAddressInformation } from "./lib/helpers";
-// import { type Customer } from "@commercetools/platform-sdk";
 import { getCustomerData } from "../../../shared/api/customers";
 import { AddButton } from "../../../shared/ui/addButton/AddButton";
 import { CustomerAddressForm, type CustomerProps } from "../index";
@@ -18,7 +17,6 @@ export function AddressAccordion({
   customerData,
   setCustomerData,
 }: CustomerProps) {
-  // const [customerData, setCustomerData] = useState<Customer>();
   const [addAddressMode, setAddAddressMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -30,18 +28,7 @@ export function AddressAccordion({
   ) => {
     setCurrentPage(value);
   };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await getCustomerData();
-  //       setCustomerData(response.body);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   void fetchData();
-  // }, []);
+  
   const updateCardsList = async (): Promise<void> => {
     const response = await getCustomerData();
     setCustomerData(response.body);
