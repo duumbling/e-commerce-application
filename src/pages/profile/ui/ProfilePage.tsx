@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../../../shared/ui/Header";
 import { BonusesList } from "../../../widgets/bonuses-list/";
 import { Navigate } from "react-router-dom";
 import { Paths } from "../../../shared/constants/paths";
@@ -29,7 +28,6 @@ export function ProfilePage() {
   }, []);
   return (
     <div>
-      <Header>Profile page</Header>
       <BonusesList />
       <CustomerInformationForm
         customerData={customerData}
