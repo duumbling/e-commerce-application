@@ -10,9 +10,9 @@ interface HeaderProfileMenuProps {
 }
 
 export function HeaderProfileMenu({ onHeaderClose }: HeaderProfileMenuProps) {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
-  const isMenuOpen = anchorEl !== null;
+  const isMenuOpen = anchorElement !== null;
 
   const navigate = useNavigate();
 
@@ -21,11 +21,11 @@ export function HeaderProfileMenu({ onHeaderClose }: HeaderProfileMenuProps) {
   const handleAccountButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorElement(event.currentTarget);
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
+    setAnchorElement(null);
     onHeaderClose();
   };
 
@@ -54,7 +54,7 @@ export function HeaderProfileMenu({ onHeaderClose }: HeaderProfileMenuProps) {
       </IconButton>
       <Menu
         id="basic-menu"
-        anchorEl={anchorEl}
+        anchorEl={anchorElement}
         open={isMenuOpen}
         onClose={handleMenuClose}
         MenuListProps={{
