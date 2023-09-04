@@ -5,108 +5,109 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Divider,
   FormControlLabel,
   Grid,
   Radio,
   RadioGroup,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { ThemeColors } from "../../shared/constants/colors";
 import { PriceTag } from "../../shared/ui/PriceTag";
 import { ProductImageSlider } from "../../entities/product-image-slider";
+import { radioStyle } from "./style";
 import { useFetchProduct } from "./model/hooks";
+import { Header } from "../../widgets/Header";
 
 export function DetailedProductPage() {
-  const { product } = useFetchProduct();
+  const { product, isFetching, currentVariant, setCurrentVariant } =
+    useFetchProduct();
+
   return (
-    <Grid container spacing={2} m={2} component={"main"}>
-      <Grid item xs={12} md={6}>
-        <ProductImageSlider imageUrls={product?.images} />
-      </Grid>
+    <Box>
+      <Header />
+      <Grid container spacing={2} m={2} component={"main"}>
+        <Grid item xs={12} md={6}>
+          <ProductImageSlider imageUrls={product?.images} />
+        </Grid>
 
-      <Grid item xs={12} md={6}>
-        <Stack divider={<Divider />} gap={2} useFlexGap>
-          <Stack>
-            <Typography component={"h2"} variant="h5">
-              {product?.title}{" "}
-              <Typography component={"span"} color={ThemeColors.GREY}>
-                Артикул
-              </Typography>
-            </Typography>
-            <PriceTag
-              price={product?.price ?? 0}
-              discountPrice={product?.discountPrice}
-            />
-          </Stack>
-          <Stack>
-            <div>
-              Цвет:{" "}
-              <RadioGroup name="product-color" row>
-                {colors.map((color) => {
-                  return (
-                    <FormControlLabel
-                      key={color}
-                      value={color}
-                      label={""}
-                      control={
-                        <Radio
-                          sx={{
-                            outline: `solid .1rem #888`,
-                            outlineOffset: "-0.5rem",
-                            color,
-                            "&.Mui-checked": {
-                              color,
-                            },
-                          }}
-                        />
-                      }
-                    />
-                  );
-                })}
-              </RadioGroup>
-            </div>
-            <div>
-              <p>Размер:</p>
-              <RadioGroup name="product-size" row>
-                {sizes.map((size) => {
-                  const sizeString = size.toString();
-                  return (
-                    <FormControlLabel
-                      key={sizeString}
-                      value={sizeString}
-                      label={sizeString}
-                      control={<Radio />}
-                    />
-                  );
-                })}
-              </RadioGroup>
-            </div>
-          </Stack>
-          <Accordion defaultExpanded>
-            <AccordionSummary>Описание:</AccordionSummary>
-            <AccordionDetails>
-              <Stack gap={1} useFlexGap>
-                <Typography>Артикул: 00000</Typography>
-                <Typography>Коллекция: Лето 2022-2023</Typography>
-                <Typography>
-                  Состав: Верх: 100% Полиуретан; Подкладка: 100% Полиэстер; Низ:
-                  100% Термопластичная резина
+        <Grid item xs={12} md={6}>
+          <Stack divider={<Divider />} gap={2} useFlexGap>
+            <Stack>
+              <Typography component={"h2"} variant="h5">
+                {product?.title}{" "}
+                <Typography component={"span"} color={ThemeColors.GREY}>
+                  Артикул
                 </Typography>
-                <Typography>Пол: Мужской</Typography>
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-        </Stack>
-      </Grid>
+              </Typography>
+              <PriceTag
+                price={product?.price ?? 0}
+                discountPrice={product?.discountPrice}
+              />
+            </Stack>
+            <Stack>
+              <div>
+                Цвет:{" "}
+                <RadioGroup
+                  name="product-color"
+                  row
+                  defaultValue={1}
+                  onChange={({ target: { value } }) => {
+                    setCurrentVariant(product.allVariants[+value - 1]);
+                  }}
+                >
+                  {!isFetching &&
+                    product.allVariants.map(({ id, attributes }) => {
+                      const { key: color, label } = attributes.color;
+                      return (
+                        <Tooltip title={label} key={color} arrow>
+                          <FormControlLabel
+                            value={id}
+                            label={""}
+                            control={<Radio sx={radioStyle(color)} />}
+                          />
+                        </Tooltip>
+                      );
+                    })}
+                </RadioGroup>
+              </div>
+              <div>
+                <p>Размер:</p>
+                <RadioGroup name="product-size" row>
+                  {!isFetching &&
+                    currentVariant?.attributes.sizes.label.map((size) => {
+                      const sizeString = size.toString();
+                      return (
+                        <FormControlLabel
+                          key={sizeString}
+                          value={sizeString}
+                          label={sizeString}
+                          control={<Radio />}
+                        />
+                      );
+                    })}
+                </RadioGroup>
+              </div>
+            </Stack>
+            <Accordion defaultExpanded>
+              <AccordionSummary>Описание:</AccordionSummary>
+              <AccordionDetails>
+                <Typography>{product.description}</Typography>
+              </AccordionDetails>
+            </Accordion>
+          </Stack>
+        </Grid>
 
-      <Grid item xs={12}>
-        <Stack justifyContent={"center"} direction={"row"} gap={2} useFlexGap>
-          <CustomButton>В корзину</CustomButton>
-          <FavoriteButton />
-        </Stack>
+        <Grid item xs={12}>
+          <Stack justifyContent={"center"} direction={"row"} gap={2} useFlexGap>
+            <CustomButton>В корзину</CustomButton>
+            <FavoriteButton />
+          </Stack>
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 }
