@@ -1,5 +1,4 @@
 import React from "react";
-import { Header } from "../../../shared/ui/Header";
 import { BonusesList } from "../../../widgets/bonuses-list/";
 import { Navigate } from "react-router-dom";
 import { Paths } from "../../../shared/constants/paths";
@@ -7,6 +6,7 @@ import {
   CustomerInformationForm,
   AddressAccordion,
 } from "../../../widgets/profile/";
+import { Header } from "../../../widgets/Header";
 
 export function ProfilePage() {
   const isAuthenticated = localStorage.getItem("fo-user_token") !== null;
@@ -16,7 +16,7 @@ export function ProfilePage() {
 
   return (
     <div>
-      <Header>Profile page</Header>
+      <Header />
       <BonusesList />
       <CustomerInformationForm />
       <AddressAccordion />
