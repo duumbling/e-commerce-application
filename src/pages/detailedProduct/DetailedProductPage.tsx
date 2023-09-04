@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ThemeColors } from "../../shared/constants/colors";
+import { PriceTag } from "../../shared/ui/PriceTag";
 import { useFetchProduct } from "./model/hooks";
 
 export function DetailedProductPage() {
@@ -33,9 +34,10 @@ export function DetailedProductPage() {
                 Артикул
               </Typography>
             </Typography>
-            <Typography variant="h4" fontWeight={"bold"}>
-              9999 Р
-            </Typography>
+            <PriceTag
+              price={product?.price ?? 0}
+              discountPrice={product?.discountPrice}
+            />
           </Stack>
           <Stack>
             <div>
