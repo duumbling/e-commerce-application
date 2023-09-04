@@ -6,15 +6,15 @@ import {
   CustomerInformationForm,
   AddressAccordion,
 } from "../../../widgets/profile/";
+import { isUserAuthenticated } from "../../../shared/api";
+import { Header } from "../../../widgets/Header";
 import { type Customer } from "@commercetools/platform-sdk";
 import { getCustomerData } from "../../../shared/api/customers";
 import { Grid } from "@mui/material";
 import { ChangePasswordAccordion } from "../../../features/ChangePasswordAccordion";
-
 export function ProfilePage() {
   const [customerData, setCustomerData] = useState<Customer>();
-  const isAuthenticated = localStorage.getItem("fo-user_token") !== null;
-  if (!isAuthenticated) {
+  if (!isUserAuthenticated()) {
     return <Navigate replace to={Paths.Login} />;
   }
 
@@ -31,6 +31,7 @@ export function ProfilePage() {
   }, []);
   return (
     <div>
+      <Header />
       <BonusesList />
       <CustomerInformationForm
         customerData={customerData}

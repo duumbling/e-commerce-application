@@ -14,13 +14,13 @@ import { navigationItems } from "../../model/items";
 import LoginIcon from "@mui/icons-material/Login";
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { listItemTextStyle, rootStyle } from "./style";
 import { Link } from "../../../../shared/ui/Link";
 import { Logo } from "../../../../shared/ui/Logo";
 import { ThemeColors } from "../../../../shared/constants/colors";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../../../../shared/constants/paths";
+import { HeaderProfileMenu } from "./ProfileMenu";
 
 type HeaderDrawerProps = DrawerProps & {
   isUserAuthenticated: boolean;
@@ -36,11 +36,6 @@ export function HeaderDrawer({
 
   const handleLoginButtonCLick = () => {
     navigate(Paths.Login);
-    onClose();
-  };
-
-  const handleAccountButtonClick = () => {
-    navigate(Paths.Profile);
     onClose();
   };
 
@@ -60,9 +55,7 @@ export function HeaderDrawer({
           </Grid>
           <Grid item>
             {isUserAuthenticated ? (
-              <IconButton size="large" onClick={handleAccountButtonClick}>
-                <AccountCircleIcon />
-              </IconButton>
+              <HeaderProfileMenu onHeaderClose={onClose} />
             ) : (
               <IconButton size="large" onClick={handleLoginButtonCLick}>
                 <LoginIcon />
