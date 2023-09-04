@@ -9,26 +9,21 @@ import { Paths } from "../../../shared/constants/paths";
 import { Logo } from "../../../shared/ui/Logo";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
   authContainerStyle,
   burgerMenuButtonStyle,
   navigationContainerStyle,
   rootStyle,
 } from "./style";
-import { useNavigate } from "react-router-dom";
+import { HeaderProfileMenu } from "./HeaderDrawer/ProfileMenu";
 
 export function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const navigate = useNavigate();
+  const isAuthenticated = isUserAuthenticated();
 
-  const handleDrawerToggle = () => {
+  const handleDrawerToggle = (): void => {
     setIsDrawerOpen((state) => !state);
-  };
-
-  const onAccountButtonClick = () => {
-    navigate(Paths.Profile);
   };
 
   return (
@@ -59,11 +54,13 @@ export function Header() {
             sm={4}
             sx={authContainerStyle}
           >
-            {isUserAuthenticated() ? (
+            {isAuthenticated ? (
               <Grid item>
-                <IconButton size="large" onClick={onAccountButtonClick}>
-                  <AccountCircleIcon />
-                </IconButton>
+                <HeaderProfileMenu
+                  onHeaderClose={() => {
+                    setIsDrawerOpen(false);
+                  }}
+                />
               </Grid>
             ) : (
               <Grid item>
@@ -92,7 +89,7 @@ export function Header() {
         <HeaderDrawer
           open={isDrawerOpen}
           onClose={handleDrawerToggle}
-          isUserAuthenticated={isUserAuthenticated()}
+          isUserAuthenticated={isAuthenticated}
         />
       </nav>
     </header>
