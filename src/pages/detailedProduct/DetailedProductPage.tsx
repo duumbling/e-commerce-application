@@ -31,7 +31,9 @@ export function DetailedProductPage() {
       <Header />
       <Grid container spacing={2} m={2} component={"main"}>
         <Grid item xs={12} md={6}>
-          <ProductImageSlider imageUrls={product?.images} />
+          <ProductImageSlider
+            imageUrls={currentVariant?.images?.map(({ url }) => url) ?? []}
+          />
         </Grid>
 
         <Grid item xs={12} md={6}>
