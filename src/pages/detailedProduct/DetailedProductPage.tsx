@@ -14,11 +14,10 @@ import {
   Typography,
 } from "@mui/material";
 import { ThemeColors } from "../../shared/constants/colors";
-
-const sizes = [38, 40, 41];
-const colors = ["#ffffff", "#000000", "#ff00ff"];
+import { useFetchProduct } from "./model/hooks";
 
 export function DetailedProductPage() {
+  const { product } = useFetchProduct();
   return (
     <Grid container spacing={2} m={2} component={"main"}>
       <Grid item xs={12} md={6}>
@@ -29,7 +28,7 @@ export function DetailedProductPage() {
         <Stack divider={<Divider />} gap={2} useFlexGap>
           <Stack>
             <Typography component={"h2"} variant="h5">
-              Название продукта{" "}
+              {product?.title}{" "}
               <Typography component={"span"} color={ThemeColors.GREY}>
                 Артикул
               </Typography>
