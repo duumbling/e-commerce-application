@@ -46,6 +46,7 @@ export function DetailedProductPage() {
               <PriceTag
                 price={product?.price ?? 0}
                 discountPrice={product?.discountPrice}
+                divider={1}
               />
             </Stack>
             <Stack>
