@@ -15,6 +15,9 @@ import {
 } from "@mui/material";
 import { ThemeColors } from "../../shared/constants/colors";
 
+const sizes = [38, 40, 41];
+const colors = ["#ffffff", "#000000", "#ff00ff"];
+
 export function DetailedProductPage() {
   return (
     <Grid container spacing={2} m={2} component={"main"}>
@@ -39,7 +42,7 @@ export function DetailedProductPage() {
             <div>
               Цвет:{" "}
               <RadioGroup name="product-color" row>
-                {["#ffffff", "#000000", "#ff00ff"].map((color) => {
+                {colors.map((color) => {
                   return (
                     <FormControlLabel
                       key={color}
@@ -49,7 +52,7 @@ export function DetailedProductPage() {
                         <Radio
                           sx={{
                             outline: `solid .1rem #888`,
-                            outlineOffset: "-.5rem",
+                            outlineOffset: "-0.5rem",
                             color,
                             "&.Mui-checked": {
                               color,
@@ -65,7 +68,7 @@ export function DetailedProductPage() {
             <div>
               <p>Размер:</p>
               <RadioGroup name="product-size" row>
-                {[38, 40, 41].map((size) => {
+                {sizes.map((size) => {
                   const sizeString = size.toString();
                   return (
                     <FormControlLabel
