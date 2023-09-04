@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { ThemeColors } from "../../shared/constants/colors";
 import { PriceTag } from "../../shared/ui/PriceTag";
+import { ProductImageSlider } from "../../entities/product-image-slider";
 import { useFetchProduct } from "./model/hooks";
 
 export function DetailedProductPage() {
@@ -22,7 +23,7 @@ export function DetailedProductPage() {
   return (
     <Grid container spacing={2} m={2} component={"main"}>
       <Grid item xs={12} md={6}>
-        Слайдер
+        <ProductImageSlider imageUrls={product?.images} />
       </Grid>
 
       <Grid item xs={12} md={6}>
