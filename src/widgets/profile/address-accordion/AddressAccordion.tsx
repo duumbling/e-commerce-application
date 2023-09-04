@@ -1,5 +1,5 @@
 import { Box, Grid, Pagination, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AddressCard } from "../../../features/AddressCard";
 import {
   gridContainerProps,
@@ -9,13 +9,14 @@ import {
   titleStyle,
 } from "./style";
 import { setAddressInformation } from "./lib/helpers";
-import { type Customer } from "@commercetools/platform-sdk";
 import { getCustomerData } from "../../../shared/api/customers";
 import { AddButton } from "../../../shared/ui/addButton/AddButton";
-import { CustomerAddressForm } from "../index";
+import { CustomerAddressForm, type CustomerProps } from "../index";
 
-export function AddressAccordion() {
-  const [customerData, setCustomerData] = useState<Customer>();
+export function AddressAccordion({
+  customerData,
+  setCustomerData,
+}: CustomerProps) {
   const [addAddressMode, setAddAddressMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -27,18 +28,7 @@ export function AddressAccordion() {
   ) => {
     setCurrentPage(value);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getCustomerData();
-        setCustomerData(response.body);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    void fetchData();
-  }, []);
+  
   const updateCardsList = async (): Promise<void> => {
     const response = await getCustomerData();
     setCustomerData(response.body);

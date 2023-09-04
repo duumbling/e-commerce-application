@@ -1,6 +1,12 @@
+import { ThemeColors } from "../../../../shared/constants/colors";
+
 export const rootStyle = {
   marginTop: "25px",
   textAlign: "left",
+};
+
+export const formStyle = {
+  color: ThemeColors.GREY,
 };
 
 export const gridContainerProps = {
