@@ -8,6 +8,8 @@ import {
 } from "../../../widgets/profile/";
 import { type Customer } from "@commercetools/platform-sdk";
 import { getCustomerData } from "../../../shared/api/customers";
+import { Grid } from "@mui/material";
+import { ChangePasswordAccordion } from "../../../features/ChangePasswordAccordion";
 
 export function ProfilePage() {
   const [customerData, setCustomerData] = useState<Customer>();
@@ -15,6 +17,7 @@ export function ProfilePage() {
   if (!isAuthenticated) {
     return <Navigate replace to={Paths.Login} />;
   }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,6 +36,11 @@ export function ProfilePage() {
         customerData={customerData}
         setCustomerData={setCustomerData}
       />
+      <Grid container justifyContent="center">
+        <Grid item>
+          <ChangePasswordAccordion />
+        </Grid>
+      </Grid>
       <AddressAccordion
         customerData={customerData}
         setCustomerData={setCustomerData}
