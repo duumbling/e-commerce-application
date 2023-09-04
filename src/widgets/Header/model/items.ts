@@ -18,7 +18,7 @@ export const navigationItems = [
     value: "Распродажа",
   },
   {
-    href: Paths.Main,
-    value: "О нас",
+    href: `${Paths.Profile}`,
+    value: "Профиль",
   },
 ];
