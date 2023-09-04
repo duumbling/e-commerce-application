@@ -13,7 +13,7 @@ export function ProfilePage() {
   const [customerData, setCustomerData] = useState<Customer>();
   const isAuthenticated = localStorage.getItem("fo-user_token") !== null;
   if (!isAuthenticated) {
-    return <Navigate replace to={Paths.Main} />;
+    return <Navigate replace to={Paths.Login} />;
   }
   useEffect(() => {
     const fetchData = async () => {

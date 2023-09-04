@@ -5,7 +5,7 @@ import {
 } from "../../../shared/constants/mediaQuery";
 
 export const rootStyle = {
-  marginLeft: "15%",
+  marginLeft: "10%",
   "@media (max-width: 950px)": {
     marginLeft: "5%",
   },
@@ -100,5 +100,31 @@ export const linkStyle = {
 
   [MOBILE_MEDIA]: {
     fontSize: 8,
+  },
+};
+
+const defaultAddressSwitchStyle = {
+  marginTop: 3.5,
+
+  [MOBILE_MEDIA]: {
+    marginTop: 2.2,
+  },
+};
+
+export const shippingAddressSwitchStyle = {
+  ...defaultAddressSwitchStyle,
+  maxWidth: 273,
+
+  [TABLET_MEDIA]: {
+    maxWidth: 190,
+  },
+};
+
+export const billingAddressSwitchStyle = {
+  ...defaultAddressSwitchStyle,
+  maxWidth: 320,
+
+  [TABLET_MEDIA]: {
+    maxWidth: 230,
   },
 };

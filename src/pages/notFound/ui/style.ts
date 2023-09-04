@@ -26,6 +26,9 @@ export const gridContainerProps = {
   rowSpacing: { xs: "20%", sm: "10%", md: "10%" },
   columns: 4,
   justifyContent: "center",
+  sx: {
+    textAlign: "center",
+  },
 };
 export const gridItemProps = {
   item: true,
