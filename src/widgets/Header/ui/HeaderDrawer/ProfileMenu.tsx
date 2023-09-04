@@ -53,13 +53,9 @@ export function HeaderProfileMenu({ onHeaderClose }: HeaderProfileMenuProps) {
         <AccountCircleIcon />
       </IconButton>
       <Menu
-        id="basic-menu"
         anchorEl={anchorElement}
         open={isMenuOpen}
         onClose={handleMenuClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
       >
         <MenuItem onClick={handleProfileClick}>Профиль</MenuItem>
         <MenuItem onClick={handleLogoutClick}>Выйти</MenuItem>
