@@ -28,7 +28,7 @@ export function AddressAccordion({
   ) => {
     setCurrentPage(value);
   };
-  
+
   const updateCardsList = async (): Promise<void> => {
     const response = await getCustomerData();
     setCustomerData(response.body);
