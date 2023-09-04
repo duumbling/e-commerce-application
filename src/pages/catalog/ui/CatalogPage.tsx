@@ -3,10 +3,12 @@ import { CategoryProductsWidget } from "../../../widgets/category-products-widge
 import { Grid } from "@mui/material";
 import { Breadcrumbs } from "../../../features/Breadcrumbs";
 import { ProductsSearch } from "../../../entities/products-search";
+import { Header } from "../../../widgets/Header";
 
 export function CatalogPage() {
   return (
     <>
+      <Header />
       <Grid
         container
         justifyContent={{
