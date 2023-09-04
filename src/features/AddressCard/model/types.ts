@@ -10,7 +10,7 @@ export interface AddressInformation {
 
 export interface ProductCardProps {
   id: string | undefined;
-  addressTitle: string | undefined;
+  addressTitle: string;
   addressInfo: AddressInformation;
   addressData: AddressFormValues & {
     version: number;
