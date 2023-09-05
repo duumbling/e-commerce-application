@@ -3,7 +3,11 @@ import {
   type AttributePlainEnumValue,
 } from "@commercetools/platform-sdk";
 import { type ProductData } from "../model/types";
-import { type PriceValue } from "../../../entities/products-filter";
+import {
+  FilterParamNames,
+  type PriceValue,
+} from "../../../entities/products-filter";
+import { PRODUCTS_LIMIT } from "../api/products";
 
 const getEnumValueFromVariant = (
   name: "brand" | "color",
@@ -52,6 +56,42 @@ export const getMinAndMaxPrices = (products: ProductData[]): PriceValue => {
   return { min: Math.min(...prices), max: Math.max(...prices) };
 };
 
+const getAttributesFilterString = (
+  name: string,
+  values: string[],
+  type: "enum" | "common",
+): string => {
+  const queryVariant = type === "enum" ? ".key" : "";
+  return values.length > 0
+    ? `variants.attributes.${name}${queryVariant}:${values
+        .map((value) => `"${value}"`)
+        .join()}`
+    : "";
+};
+
+const getCentAmount = (priceValue: number): number => Number(`${priceValue}00`);
+
+const getPriceFilterString = (min: number, max: number): string => {
+  const minAmount = getCentAmount(min);
+  const maxAmount = getCentAmount(max);
+
+  const queryString = "variants.price.centAmount: range";
+
+  if (min !== 0 && max !== 0) {
+    return `${queryString} (${minAmount} to ${maxAmount + 1})`;
+  }
+
+  if (min !== 0) {
+    return `${queryString} (${minAmount} to *)`;
+  }
+
+  if (max !== 0) {
+    return `${queryString} (* to ${maxAmount})`;
+  }
+
+  return "";
+};
+
 export const getSearchKeyword = (
   keywords: string[],
   searchValue: string,
@@ -74,4 +114,29 @@ export const getSearchKeyword = (
   const keywordsCopy = [...keywords];
   keywordsCopy.sort((first, second) => first.length - second.length);
   return keywordsCopy[0];
+};
+
+export const getFiltersArray = (
+  categoryId: string,
+  searchParams: URLSearchParams,
+): string[] => {
+  const brandFilters = searchParams.getAll(FilterParamNames.BRAND);
+  const colorFilters = searchParams.getAll(FilterParamNames.COLOR);
+  const sizeFilters = searchParams.getAll(FilterParamNames.SIZE);
+  const minPriceFilter = Number(searchParams.get(FilterParamNames.PRICE_MIN));
+  const maxPriceFilter = Number(searchParams.get(FilterParamNames.PRICE_MAX));
+
+  return [
+    categoryId !== "" ? `categories.id:"${categoryId}"` : "",
+    getAttributesFilterString("brand", brandFilters, "enum"),
+    getAttributesFilterString("color", colorFilters, "enum"),
+    getAttributesFilterString("sizes", sizeFilters, "common"),
+    getPriceFilterString(minPriceFilter, maxPriceFilter),
+  ];
+};
+
+export const getProductsOffset = (searchParams: URLSearchParams): number => {
+  const page = Number(searchParams.get("page")) - 1;
+  const offset = page >= 0 ? page * PRODUCTS_LIMIT : 0;
+  return offset;
 };

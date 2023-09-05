@@ -4,45 +4,9 @@ import {
   type ProductVariant,
 } from "@commercetools/platform-sdk";
 import { apiRoot } from "../../../shared/api/apiRoot";
-import { type Filters, type ProductData } from "../model/types";
+import { type ProductsResponse, type ProductData } from "../model/types";
 
-const PRODUCTS_LIMIT = 30;
-
-const getAttributesFilterString = (
-  name: string,
-  values: string[],
-  type: "enum" | "common",
-): string => {
-  const queryVariant = type === "enum" ? ".key" : "";
-  return values.length > 0
-    ? `variants.attributes.${name}${queryVariant}:${values
-        .map((value) => `"${value}"`)
-        .join()}`
-    : "";
-};
-
-const getCentAmount = (priceValue: number): number => Number(`${priceValue}00`);
-
-const getPriceFilterString = (min: number, max: number): string => {
-  const minAmount = getCentAmount(min);
-  const maxAmount = getCentAmount(max);
-
-  const queryString = "variants.price.centAmount: range";
-
-  if (min !== 0 && max !== 0) {
-    return `${queryString} (${minAmount} to ${maxAmount + 1})`;
-  }
-
-  if (min !== 0) {
-    return `${queryString} (${minAmount} to *)`;
-  }
-
-  if (max !== 0) {
-    return `${queryString} (* to ${maxAmount})`;
-  }
-
-  return "";
-};
+export const PRODUCTS_LIMIT = 4;
 
 const getPriceValue = (price: TypedMoney): number => {
   const priceStr = price.centAmount.toString();
@@ -101,32 +65,28 @@ export const searchByWord = async (word: string) => {
     .execute();
 };
 
-export const getAllProductsByCategoryId = async (
-  categoryId: string,
-  { brand, color, price, size }: Filters,
+export const getAllProductsByFiltersAndSearchValue = async (
+  filters: string[],
   searchValue: string,
   sort?: string,
-): Promise<ProductData[]> => {
-  const {
-    body: { results },
-  } = await apiRoot()
+  offset: number = 0,
+): Promise<ProductsResponse> => {
+  const { body } = await apiRoot()
     .productProjections()
     .search()
     .get({
       queryArgs: {
-        filter: [
-          categoryId !== "" ? `categories.id:"${categoryId}"` : "",
-          getAttributesFilterString("brand", brand, "enum"),
-          getAttributesFilterString("color", color, "enum"),
-          getAttributesFilterString("sizes", size, "common"),
-          getPriceFilterString(price.min, price.max),
-        ],
+        filter: filters,
         sort,
         markMatchingVariants: true,
         "text.ru-RU": searchValue,
         limit: PRODUCTS_LIMIT,
+        offset,
       },
     })
     .execute();
-  return results.map(getProductData);
+  return {
+    data: body.results.map(getProductData),
+    total: body.total ?? 0,
+  };
 };
