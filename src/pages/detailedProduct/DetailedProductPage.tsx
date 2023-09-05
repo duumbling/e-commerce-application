@@ -15,7 +15,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { ThemeColors } from "../../shared/constants/colors";
 import { PriceTag } from "../../shared/ui/PriceTag";
 import { ProductImageSlider } from "../../entities/product-image-slider";
 import { radioStyle } from "./style";
@@ -31,17 +30,16 @@ export function DetailedProductPage() {
       <Header />
       <Grid container spacing={2} m={2} component={"main"}>
         <Grid item xs={12} md={6}>
-          <ProductImageSlider imageUrls={product?.images} />
+          <ProductImageSlider
+            imageUrls={currentVariant?.images?.map(({ url }) => url) ?? []}
+          />
         </Grid>
 
         <Grid item xs={12} md={6}>
           <Stack divider={<Divider />} gap={2} useFlexGap>
             <Stack>
               <Typography component={"h2"} variant="h5">
-                {product?.title}{" "}
-                <Typography component={"span"} color={ThemeColors.GREY}>
-                  Артикул
-                </Typography>
+                {product?.title}
               </Typography>
               <PriceTag
                 price={product?.price ?? 0}
