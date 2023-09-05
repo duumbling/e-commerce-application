@@ -9,6 +9,7 @@ import { RegisterPage } from "../../pages/register";
 import { Layout } from "./Layout";
 import { DetailedProductPage } from "../../pages/detailedProduct";
 import { ProfilePage } from "../../pages/profile";
+import { CartPage } from "../../pages/cart";
 
 const shoesTypePaths: RouteObject[] = [
   {
@@ -38,6 +39,7 @@ export function AppRoutes() {
         <Route path={Paths.Register} element={<RegisterPage />} />
         <Route path={Paths.Profile} element={<ProfilePage />} />
         <Route path={Paths.NotFound} element={<NotFoundPage />} />
+        <Route path={Paths.Cart} element={<CartPage />} />
         <Route path={Paths.Catalog} element={<CatalogPage />}>
           <Route path={CatalogPaths.Men} element={<CatalogPage />}>
             {shoesTypePaths.map(({ path, element }) => (
