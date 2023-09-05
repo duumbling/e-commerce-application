@@ -9,11 +9,8 @@ import {
 } from "@mui/material";
 import { ProductCard } from "../../../entities/product-card";
 import { productsContainerProps } from "./style";
-import { useFetchProducts } from "../model/hooks";
-import {
-  useAppDispatch,
-  useCustomSearchParams,
-} from "../../../shared/model/hooks";
+import { PAGE_LIMIT, useFetchProducts } from "../model/hooks";
+import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
 import { updateAvailableFilterValues } from "../../../entities/products-filter";
 import {
   getAvailableBrands,
@@ -23,49 +20,45 @@ import {
 } from "../lib/helpers";
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
 import { PRIMARY_COLOR, ThemeColors } from "../../../shared/constants/colors";
-import { useNavigate, useLocation } from "react-router-dom";
 
 type ProductsCardsViewProps = Pick<GridProps, "sx">;
 
 export function ProductCardsView({ sx }: ProductsCardsViewProps) {
-  const { isCategoryUpdated, isFetching, data, pagesCount, error } =
-    useFetchProducts();
+  const { isFetching, data, pagesCount, error } = useFetchProducts();
   const [currentPage, setCurrentPage] = useState(1);
-
-  const { searchParams } = useCustomSearchParams();
-
-  const navigate = useNavigate();
-
-  const location = useLocation();
+  const [offset, setOffset] = useState(0);
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
     value: number,
   ) => {
     setCurrentPage(value);
-    if (value === 1) {
-      searchParams.delete("page");
-    } else {
-      searchParams.set("page", value.toString());
-    }
-    navigate({
-      pathname: location.pathname,
-      search: searchParams.toString(),
-    });
+    setOffset((value - 1) * PAGE_LIMIT);
   };
+
+  const { isUpdated } = useAppSelector((state) => state.categoriesReducer);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(
-      updateAvailableFilterValues({
-        brands: getAvailableBrands(data),
-        colors: getAvailableColors(data),
-        sizes: getAvailableSizes(data),
-        prices: getMinAndMaxPrices(data),
-      }),
-    );
-  }, [isCategoryUpdated]);
+    if (isFetching) {
+      return;
+    }
+
+    setCurrentPage(1);
+    setOffset(1);
+
+    if (isUpdated) {
+      dispatch(
+        updateAvailableFilterValues({
+          brands: getAvailableBrands(data),
+          colors: getAvailableColors(data),
+          sizes: getAvailableSizes(data),
+          prices: getMinAndMaxPrices(data),
+        }),
+      );
+    }
+  }, [isFetching]);
 
   return (
     <React.Fragment>
@@ -76,7 +69,7 @@ export function ProductCardsView({ sx }: ProductsCardsViewProps) {
       ) : (
         <>
           <Grid {...productsContainerProps} sx={sx}>
-            {data.map((product) => {
+            {data.slice(offset, offset + PAGE_LIMIT).map((product) => {
               return (
                 <Grid key={product.id} item>
                   <ProductCard
