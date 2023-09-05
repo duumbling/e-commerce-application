@@ -10,11 +10,6 @@ export interface ProductData {
   discountPrice?: number;
 }
 
-export interface ProductsResponse {
-  data: ProductData[];
-  total: number;
-}
-
 export interface ProductsFetchResult {
   isFetching: boolean;
   pagesCount: number;

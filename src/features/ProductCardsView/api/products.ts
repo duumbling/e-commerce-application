@@ -4,7 +4,7 @@ import {
   type ProductVariant,
 } from "@commercetools/platform-sdk";
 import { apiRoot } from "../../../shared/api/apiRoot";
-import { type ProductsResponse, type ProductData } from "../model/types";
+import { type ProductData } from "../model/types";
 
 export const PRODUCTS_LIMIT = 30;
 
@@ -69,8 +69,10 @@ export const getAllProductsByFiltersAndSearchValue = async (
   filters: string[],
   searchValue: string,
   sort?: string,
-): Promise<ProductsResponse> => {
-  const { body } = await apiRoot()
+): Promise<ProductData[]> => {
+  const {
+    body: { results },
+  } = await apiRoot()
     .productProjections()
     .search()
     .get({
@@ -83,8 +85,5 @@ export const getAllProductsByFiltersAndSearchValue = async (
       },
     })
     .execute();
-  return {
-    data: body.results.map(getProductData),
-    total: body.total ?? 0,
-  };
+  return results.map(getProductData);
 };

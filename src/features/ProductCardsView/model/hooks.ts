@@ -35,14 +35,13 @@ export function useFetchProducts(): ProductsFetchResult {
           searchParams.get("text")?.toLowerCase() ?? "",
         );
 
-        const { data: productsData, total } =
-          await getAllProductsByFiltersAndSearchValue(
-            getFiltersArray(currentCategory?.id ?? "", searchParams),
-            searchValue,
-            searchParams.get("sort") ?? SortOptions.PRICE_ASC,
-          );
+        const productsData = await getAllProductsByFiltersAndSearchValue(
+          getFiltersArray(currentCategory?.id ?? "", searchParams),
+          searchValue,
+          searchParams.get("sort") ?? SortOptions.PRICE_ASC,
+        );
 
-        setPagesCount(Math.ceil(total / PAGE_LIMIT));
+        setPagesCount(Math.ceil(productsData.length / PAGE_LIMIT));
 
         setProducts(productsData);
       } catch (error) {
