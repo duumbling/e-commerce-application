@@ -4,19 +4,13 @@ import {
   useAppSelector,
   useCustomSearchParams,
 } from "../../../shared/model/hooks";
-import {
-  PRODUCTS_LIMIT,
-  getAllProductsByFiltersAndSearchValue,
-} from "../api/products";
-import {
-  getFiltersArray,
-  getProductsOffset,
-  getSearchKeyword,
-} from "../lib/helpers";
+import { getAllProductsByFiltersAndSearchValue } from "../api/products";
+import { getFiltersArray, getSearchKeyword } from "../lib/helpers";
 import { SortOptions } from "../../../entities/products-sort-select";
 
+export const PAGE_LIMIT = 4;
+
 export function useFetchProducts(): ProductsFetchResult {
-  const [isCategoryUpdated, setIsCategoryUpdated] = useState(true);
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -28,7 +22,7 @@ export function useFetchProducts(): ProductsFetchResult {
     (state) => state.searchKeywordsReducer,
   );
 
-  const { currentCategory, isUpdated } = useAppSelector(
+  const { currentCategory } = useAppSelector(
     (state) => state.categoriesReducer,
   );
 
@@ -41,17 +35,14 @@ export function useFetchProducts(): ProductsFetchResult {
           searchParams.get("text")?.toLowerCase() ?? "",
         );
 
-        const offset = getProductsOffset(searchParams);
-
         const { data: productsData, total } =
           await getAllProductsByFiltersAndSearchValue(
             getFiltersArray(currentCategory?.id ?? "", searchParams),
             searchValue,
             searchParams.get("sort") ?? SortOptions.PRICE_ASC,
-            offset,
           );
 
-        setPagesCount(Math.ceil(total / PRODUCTS_LIMIT));
+        setPagesCount(Math.ceil(total / PAGE_LIMIT));
 
         setProducts(productsData);
       } catch (error) {
@@ -60,21 +51,12 @@ export function useFetchProducts(): ProductsFetchResult {
         }
         setError(error);
       }
-      setIsCategoryUpdated(false);
       setIsFetching(false);
     })();
   }, [currentCategory, searchParams]);
 
-  useEffect(() => {
-    if (isFetching) {
-      return;
-    }
-    setIsCategoryUpdated(isUpdated);
-  }, [isFetching, isUpdated]);
-
   return {
     isFetching,
-    isCategoryUpdated,
     data: products,
     pagesCount,
     error,

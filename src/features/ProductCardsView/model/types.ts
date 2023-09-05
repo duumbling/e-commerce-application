@@ -16,7 +16,6 @@ export interface ProductsResponse {
 }
 
 export interface ProductsFetchResult {
-  isCategoryUpdated: boolean;
   isFetching: boolean;
   pagesCount: number;
   data: ProductData[];
