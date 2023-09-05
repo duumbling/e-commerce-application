@@ -65,7 +65,7 @@ export const searchByWord = async (word: string) => {
     .execute();
 };
 
-export const getAllProductsByFiltersAndSearchValue = async (
+export const getFilteredProducts = async (
   filters: string[],
   searchValue: string,
   sort?: string,
