@@ -4,7 +4,7 @@ import {
   useAppSelector,
   useCustomSearchParams,
 } from "../../../shared/model/hooks";
-import { getAllProductsByFiltersAndSearchValue } from "../api/products";
+import { getFilteredProducts } from "../api/products";
 import { getFiltersArray, getSearchKeyword } from "../lib/helpers";
 import { SortOptions } from "../../../entities/products-sort-select";
 
@@ -35,7 +35,7 @@ export function useFetchProducts(): ProductsFetchResult {
           searchParams.get("text")?.toLowerCase() ?? "",
         );
 
-        const productsData = await getAllProductsByFiltersAndSearchValue(
+        const productsData = await getFilteredProducts(
           getFiltersArray(currentCategory?.id ?? "", searchParams),
           searchValue,
           searchParams.get("sort") ?? SortOptions.PRICE_ASC,
