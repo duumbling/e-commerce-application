@@ -116,6 +116,9 @@ export const getSearchKeyword = (
   return keywordsCopy[0];
 };
 
+export const getCategoryFilter = (categoryId: string): string =>
+  categoryId !== "" ? `categories.id:"${categoryId}"` : "";
+
 export const getFiltersArray = (
   categoryId: string,
   searchParams: URLSearchParams,
@@ -127,7 +130,7 @@ export const getFiltersArray = (
   const maxPriceFilter = Number(searchParams.get(FilterParamNames.PRICE_MAX));
 
   return [
-    categoryId !== "" ? `categories.id:"${categoryId}"` : "",
+    getCategoryFilter(categoryId),
     getAttributesFilterString("brand", brandFilters, "enum"),
     getAttributesFilterString("color", colorFilters, "enum"),
     getAttributesFilterString("sizes", sizeFilters, "common"),
