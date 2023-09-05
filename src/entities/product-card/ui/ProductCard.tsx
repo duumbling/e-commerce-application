@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardActionArea,
@@ -6,6 +6,7 @@ import {
   CardMedia,
   Typography,
   Grid,
+  Collapse,
 } from "@mui/material";
 import {
   rootStyle,
@@ -18,6 +19,7 @@ import {
 import { ThemeColors } from "../../../shared/constants/colors";
 import { Paths } from "../../../shared/constants/paths";
 import { Link } from "../../../shared/ui/Link";
+import { CustomButton } from "../../../shared/ui/CustomButton";
 
 interface ProductCardProps {
   id: string;
@@ -34,8 +36,18 @@ export const ProductCard = ({
   price,
   discountPrice,
 }: ProductCardProps) => {
+  const [isExpanded, setExpanded] = useState(false);
+
   return (
-    <Card sx={rootStyle}>
+    <Card
+      sx={rootStyle}
+      onMouseEnter={() => {
+        setExpanded(true);
+      }}
+      onMouseLeave={() => {
+        setExpanded(false);
+      }}
+    >
       <CardActionArea sx={cardActionsStyle}>
         <Link
           href={`${Paths.Product}/${id}`}
@@ -87,6 +99,13 @@ export const ProductCard = ({
           </CardContent>
         </Link>
       </CardActionArea>
+      <Collapse in={isExpanded} unmountOnExit>
+        <Grid container justifyContent="center" marginTop={2} marginBottom={2}>
+          <Grid item>
+            <CustomButton>В корзину</CustomButton>
+          </Grid>
+        </Grid>
+      </Collapse>
     </Card>
   );
 };
