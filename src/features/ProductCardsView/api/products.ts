@@ -6,7 +6,7 @@ import {
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { type ProductData } from "../model/types";
 
-export const PRODUCTS_LIMIT = 30;
+const PRODUCTS_LIMIT = 30;
 
 const getPriceValue = (price: TypedMoney): number => {
   const priceStr = price.centAmount.toString();
