@@ -7,7 +7,6 @@ import {
   FilterParamNames,
   type PriceValue,
 } from "../../../entities/products-filter";
-import { PRODUCTS_LIMIT } from "../api/products";
 
 const getEnumValueFromVariant = (
   name: "brand" | "color",
@@ -136,10 +135,4 @@ export const getFiltersArray = (
     getAttributesFilterString("sizes", sizeFilters, "common"),
     getPriceFilterString(minPriceFilter, maxPriceFilter),
   ];
-};
-
-export const getProductsOffset = (searchParams: URLSearchParams): number => {
-  const page = Number(searchParams.get("page")) - 1;
-  const offset = page >= 0 ? page * PRODUCTS_LIMIT : 0;
-  return offset;
 };
