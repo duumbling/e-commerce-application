@@ -87,3 +87,11 @@ export const customerDataApiRoot = () => {
     .build();
   return createApiBuilderWithProjectKey(client);
 };
+
+export const anonymousApiRoot = () => {
+  const client = new ClientBuilder()
+    .withAnonymousSessionFlow(authMiddlewareOptions)
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .build();
+  return createApiBuilderWithProjectKey(client);
+};
