@@ -8,6 +8,7 @@ import {
 } from "@commercetools/platform-sdk";
 
 import { apiRoot, customerDataApiRoot, loginApiRoot } from "./apiRoot";
+import { getUserBirthdayFormattedString } from "../../widgets/registration-form/lib/helpers";
 
 export const createCustomer = async (
   customerData: CustomerDraft,
@@ -186,4 +187,35 @@ export const setDefaultShippingAddress = async (
       response?.body.version ?? 0,
     );
   }
+};
+
+export const updateCustomerPersonalInformation = async (
+  version: number,
+  email: string,
+  firstName: string,
+  lastName: string,
+  date: Date | null,
+) => {
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: "changeEmail",
+        email,
+      },
+      {
+        action: "setFirstName",
+        firstName,
+      },
+      {
+        action: "setLastName",
+        lastName,
+      },
+      {
+        action: "setDateOfBirth",
+        dateOfBirth: getUserBirthdayFormattedString(date),
+      },
+    ],
+  };
+  return await customerDataApiRoot().me().post({ body }).execute();
 };

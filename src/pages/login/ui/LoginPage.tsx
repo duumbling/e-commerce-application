@@ -4,6 +4,7 @@ import { Box, Grid } from "@mui/material";
 import { isUserAuthenticated } from "../../../shared/api";
 import { Navigate } from "react-router-dom";
 import { Paths } from "../../../shared/constants/paths";
+import { Header } from "../../../widgets/Header";
 
 export function LoginPage() {
   if (isUserAuthenticated()) {
@@ -12,6 +13,7 @@ export function LoginPage() {
 
   return (
     <Box>
+      <Header />
       <Box marginTop={20}>
         <Grid
           container
