@@ -46,7 +46,7 @@ export function ProductCardsView({ sx }: ProductsCardsViewProps) {
     }
 
     setCurrentPage(1);
-    setOffset(1);
+    setOffset(0);
 
     if (isUpdated) {
       dispatch(
