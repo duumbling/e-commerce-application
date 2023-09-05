@@ -69,7 +69,6 @@ export const getAllProductsByFiltersAndSearchValue = async (
   filters: string[],
   searchValue: string,
   sort?: string,
-  offset: number = 0,
 ): Promise<ProductsResponse> => {
   const { body } = await apiRoot()
     .productProjections()
@@ -81,7 +80,6 @@ export const getAllProductsByFiltersAndSearchValue = async (
         markMatchingVariants: true,
         "text.ru-RU": searchValue,
         limit: PRODUCTS_LIMIT,
-        offset,
       },
     })
     .execute();
