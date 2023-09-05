@@ -4,7 +4,7 @@ import {
   type ProductVariant as SdkProductVariant,
   type Attribute,
 } from "@commercetools/platform-sdk";
-import { customerDataApiRoot } from "./apiRoot";
+import { apiRoot } from "./apiRoot";
 import type {
   ProductAttribute,
   ProductAttributeValue,
@@ -84,7 +84,7 @@ export const getProductData = ({
 };
 
 export const getProductById = async (id: string) => {
-  return await customerDataApiRoot()
+  return await apiRoot()
     .productProjections()
     .withId({ ID: id })
     .get({ queryArgs: {} })
