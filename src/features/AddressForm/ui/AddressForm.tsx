@@ -38,6 +38,7 @@ type AddressFormProps = Pick<BoxProps, "sx"> & {
   streetFieldProps?: TextFieldProps;
   postalCodeFieldProps?: TextFieldProps;
   switchProps?: SwitchProps;
+  disabled?: boolean;
 };
 
 export const AddressForm = ({
@@ -52,6 +53,7 @@ export const AddressForm = ({
   streetFieldProps,
   postalCodeFieldProps,
   switchProps,
+  disabled,
 }: AddressFormProps) => {
   const {
     control,
@@ -97,6 +99,7 @@ export const AddressForm = ({
         name={`${addressType}.country`}
         render={({ field }) => (
           <Autocomplete
+            disabled={disabled}
             options={countries}
             sx={autocompleteStyle}
             getOptionLabel={(option) => option.name}
@@ -143,6 +146,7 @@ export const AddressForm = ({
           );
           setAddressValue(field, target.value);
         }}
+        disabled={disabled}
       />
       <CustomTextField
         type="text"
@@ -164,6 +168,7 @@ export const AddressForm = ({
           );
           setAddressValue(field, target.value);
         }}
+        disabled={disabled}
       />
       <CustomTextField
         type="number"
@@ -189,11 +194,13 @@ export const AddressForm = ({
           ...numberFieldStyle,
           ...postalCodeFieldProps?.sx,
         }}
+        disabled={disabled}
       />
       <CustomSwitch
         label={`${title} по умолчанию`}
         labelStyle={defaultSwitchStyle}
         {...switchProps}
+        disabled={disabled}
       />
     </Box>
   );

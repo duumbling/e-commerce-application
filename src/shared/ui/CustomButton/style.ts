@@ -9,6 +9,7 @@ export const style = {
     "&:hover": {
       backgroundColor: ButtonColors.CONTAINED_BUTTON_BG_HOVER,
     },
+    textTransform: "none",
   },
   text: {
     color: ButtonColors.TEXT_BUTTON,

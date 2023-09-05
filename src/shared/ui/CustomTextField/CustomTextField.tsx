@@ -21,6 +21,7 @@ export const CustomTextField = forwardRef<HTMLDivElement, CustomTextFieldProps>(
       sx,
       label,
       labelPosition,
+      disabled,
       ...otherProps
     },
     ref,
@@ -50,6 +51,7 @@ export const CustomTextField = forwardRef<HTMLDivElement, CustomTextFieldProps>(
           }}
           sx={sx}
           label={isLabelOutside ? "" : label}
+          disabled={disabled}
         />
       </React.Fragment>
     );
