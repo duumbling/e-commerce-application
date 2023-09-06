@@ -7,6 +7,7 @@ export const enum Paths {
   Catalog = "/catalog",
   Product = "/product",
   Cart = "/cart",
+  About = "/about",
 }
 
 export const enum CatalogPaths {
