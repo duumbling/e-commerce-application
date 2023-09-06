@@ -9,14 +9,16 @@ import type { ByProjectKeyRequestBuilder } from "@commercetools/platform-sdk/dis
 const getApiRoot = (): (() => ByProjectKeyRequestBuilder) =>
   isUserAuthenticated() ? customerDataApiRoot : anonymousApiRoot;
 
-export const getActiveCart = async () => {
+export const getActiveCart = async (): Promise<Cart> => {
   const api = getApiRoot();
-  return await api().me().activeCart().get().execute();
+  const { body } = await api().me().activeCart().get().execute();
+  return body;
 };
 
-export const createCart = async () => {
+export const createCart = async (): Promise<Cart> => {
   const api = getApiRoot();
-  return await api()
+
+  const { body } = await api()
     .me()
     .carts()
     .post({
@@ -26,15 +28,16 @@ export const createCart = async () => {
       },
     })
     .execute();
+
+  return body;
 };
 
 export const getCurrentCart = async (): Promise<Cart> => {
   try {
-    const { body } = await getActiveCart();
-    return body;
+    const cart = await getActiveCart();
+    return cart;
   } catch {
-    const { body } = await createCart();
-    return body;
+    return await createCart();
   }
 };
 
@@ -59,6 +62,51 @@ export const addProductToCart = async (
           },
         ],
         version: cart.version,
+      },
+    })
+    .execute();
+  return body;
+};
+
+export const removeLineItemFromCart = async (
+  lineItemId: string,
+): Promise<Cart> => {
+  const api = getApiRoot();
+
+  const { id, version } = await getActiveCart();
+
+  const { body } = await api()
+    .me()
+    .carts()
+    .withId({ ID: id })
+    .post({
+      body: {
+        actions: [
+          {
+            action: "removeLineItem",
+            lineItemId,
+          },
+        ],
+        version,
+      },
+    })
+    .execute();
+
+  return body;
+};
+
+export const removeCart = async (): Promise<Cart> => {
+  const { id, version } = await getActiveCart();
+
+  const api = getApiRoot();
+
+  const { body } = await api()
+    .me()
+    .carts()
+    .withId({ ID: id })
+    .delete({
+      queryArgs: {
+        version,
       },
     })
     .execute();
