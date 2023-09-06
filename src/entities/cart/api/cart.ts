@@ -5,7 +5,7 @@ import {
   customerDataApiRoot,
 } from "../../../shared/api/apiRoot";
 
-export const getCarts = async () => {
+export const getActiveCart = async () => {
   const api = isUserAuthenticated() ? customerDataApiRoot : anonymousApiRoot;
   return await api().me().activeCart().get().execute();
 };
@@ -24,17 +24,24 @@ export const createCart = async () => {
     .execute();
 };
 
+export const getCurrentCart = async (): Promise<Cart> => {
+  try {
+    const { body } = await getActiveCart();
+    return body;
+  } catch {
+    const { body } = await createCart();
+    return body;
+  }
+};
+
 export const addProductToCart = async (
+  cart: Cart,
   productId: string,
   variantId?: number,
-  cart?: Cart,
-) => {
+): Promise<Cart> => {
   const api = isUserAuthenticated() ? customerDataApiRoot : anonymousApiRoot;
-  if (cart === undefined) {
-    const createdCartResponse = await createCart();
-    cart = createdCartResponse.body;
-  }
-  return await api()
+
+  const { body } = await api()
     .me()
     .carts()
     .withId({ ID: cart.id })
@@ -51,4 +58,5 @@ export const addProductToCart = async (
       },
     })
     .execute();
+  return body;
 };
