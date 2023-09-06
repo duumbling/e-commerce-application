@@ -112,7 +112,7 @@ export function Footer() {
         </Stack>
         <Stack {...footerContactsSocialButtonsContainerStyleProps}>
           {socialButtons}
-          <SocialButton href={Paths.NotFound} sx={socialButtonStyle.textButton}>
+          <SocialButton href={Paths.About} sx={socialButtonStyle.textButton}>
             Написать нам
           </SocialButton>
         </Stack>
