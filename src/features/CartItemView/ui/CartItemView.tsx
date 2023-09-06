@@ -73,7 +73,7 @@ export function CartItemView({
           />
         </Grid>
         <Grid item>
-          <Stack>
+          <Stack spacing={2}>
             <Typography sx={titleStyle}>{title}</Typography>
             <PriceTag price={price} discountPrice={discountPrice} divider={1} />
             <Typography sx={itemAttributeStyle} color={ThemeColors.GREY}>
@@ -86,18 +86,19 @@ export function CartItemView({
         </Grid>
       </Grid>
       <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item>
-          <Stack direction="row" alignItems="center">
+        <Grid item marginLeft={{ md: 40, sm: 0 }}>
+          <Stack direction="row" alignItems="center" spacing={2}>
             <IconButton
               size="large"
               disabled={counter === 1}
               onClick={handleRemoveButtonClick}
+              color={ThemeColors.PRIMARY}
             >
               <RemoveCircleOutlineOutlinedIcon />
             </IconButton>
             <Typography sx={itemCounterStyle}>{counter}</Typography>
             <IconButton size="large" onClick={handleAddButtonClick}>
-              <AddCircleOutlineOutlinedIcon />
+              <AddCircleOutlineOutlinedIcon color={ThemeColors.PRIMARY} />
             </IconButton>
           </Stack>
         </Grid>
