@@ -8,7 +8,7 @@ import {
 } from "@commercetools/sdk-client-v2";
 import { createApiBuilderFromCtpClient } from "@commercetools/platform-sdk";
 import { type ByProjectKeyRequestBuilder } from "@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder";
-import { customerTokenCache } from "./tokens/tokens";
+import { anonymousTokenCache, customerTokenCache } from "./tokens/tokens";
 
 const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: process.env.REACT_APP_CTP_AUTH_URL ?? "",
@@ -88,9 +88,24 @@ export const customerDataApiRoot = () => {
   return createApiBuilderWithProjectKey(client);
 };
 
+export const refreshTokenApiRoot = () => {
+  const client = new ClientBuilder()
+    .withRefreshTokenFlow({
+      ...authMiddlewareOptions,
+      refreshToken: customerTokenCache.get().refreshToken ?? "",
+      tokenCache: customerTokenCache,
+    })
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .build();
+  return createApiBuilderWithProjectKey(client);
+};
+
 export const anonymousApiRoot = () => {
   const client = new ClientBuilder()
-    .withAnonymousSessionFlow(authMiddlewareOptions)
+    .withAnonymousSessionFlow({
+      ...authMiddlewareOptions,
+      tokenCache: anonymousTokenCache,
+    })
     .withHttpMiddleware(httpMiddlewareOptions)
     .build();
   return createApiBuilderWithProjectKey(client);
