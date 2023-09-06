@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { FavoriteButton } from "../../shared/ui/FavoriteButton";
 import { CustomButton } from "../../shared/ui/CustomButton";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Backdrop,
   Box,
+  CircularProgress,
   Divider,
   FormControlLabel,
   Grid,
@@ -20,10 +22,28 @@ import { ProductImageSlider } from "../../entities/product-image-slider";
 import { radioStyle } from "./style";
 import { useFetchProduct } from "./model/hooks";
 import { Header } from "../../widgets/Header";
+import { useCart } from "../../entities/cart";
+import { PRIMARY_COLOR } from "../../shared/constants/colors";
+import { CustomSnackBar } from "../../shared/ui/CustomSnackBar";
 
 export function DetailedProductPage() {
+  const [isMessageVisible, setIsMessageVisible] = useState(false);
+
   const { product, isFetching, currentVariant, setCurrentVariant } =
     useFetchProduct();
+
+  const { addProduct, isLoading } = useCart();
+
+  const handleAddButtonClick = () => {
+    void (async () => {
+      try {
+        await addProduct(product.id, currentVariant?.id);
+        setIsMessageVisible(true);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  };
 
   return (
     <Box>
@@ -102,11 +122,29 @@ export function DetailedProductPage() {
 
         <Grid item xs={12}>
           <Stack justifyContent={"center"} direction={"row"} gap={2} useFlexGap>
-            <CustomButton>В корзину</CustomButton>
+            <CustomButton onClick={handleAddButtonClick}>
+              В корзину
+            </CustomButton>
             <FavoriteButton />
           </Stack>
         </Grid>
       </Grid>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading || isFetching}
+      >
+        <CircularProgress sx={{ color: PRIMARY_COLOR }} />
+      </Backdrop>
+      <CustomSnackBar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        severity="success"
+        autoHideDuration={500}
+        open={isMessageVisible}
+        onClose={() => {
+          setIsMessageVisible(false);
+        }}
+        message={"Товар добавлен в корзину"}
+      />
     </Box>
   );
 }
