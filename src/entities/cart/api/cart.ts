@@ -4,14 +4,18 @@ import {
   anonymousApiRoot,
   customerDataApiRoot,
 } from "../../../shared/api/apiRoot";
+import type { ByProjectKeyRequestBuilder } from "@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder";
+
+const getApiRoot = (): (() => ByProjectKeyRequestBuilder) =>
+  isUserAuthenticated() ? customerDataApiRoot : anonymousApiRoot;
 
 export const getActiveCart = async () => {
-  const api = isUserAuthenticated() ? customerDataApiRoot : anonymousApiRoot;
+  const api = getApiRoot();
   return await api().me().activeCart().get().execute();
 };
 
 export const createCart = async () => {
-  const api = isUserAuthenticated() ? customerDataApiRoot : anonymousApiRoot;
+  const api = getApiRoot();
   return await api()
     .me()
     .carts()
@@ -39,7 +43,7 @@ export const addProductToCart = async (
   productId: string,
   variantId?: number,
 ): Promise<Cart> => {
-  const api = isUserAuthenticated() ? customerDataApiRoot : anonymousApiRoot;
+  const api = getApiRoot();
 
   const { body } = await api()
     .me()
