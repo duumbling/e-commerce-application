@@ -3,7 +3,7 @@ import React from "react";
 import { CustomButton } from "../../../shared/ui/CustomButton";
 import { buttonStyle, priceProps, rootStyle, titleProps } from "./style";
 
-export function Order() {
+export function OrderSummary() {
   return (
     <Paper variant="outlined" sx={rootStyle}>
       <Stack spacing={2}>
