@@ -14,6 +14,9 @@ export const cartSlice = createSlice({
     setCurrentCart(state, { payload }: PayloadAction<Cart>) {
       state.current = payload;
     },
+    resetCurrentCart(state) {
+      state.current = undefined;
+    },
   },
 });
 
