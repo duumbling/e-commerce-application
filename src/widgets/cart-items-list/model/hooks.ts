@@ -19,7 +19,7 @@ export function useFetchCartItems() {
 
   useEffect(() => {
     void (async () => {
-      // setIsLoading(true);
+      setIsLoading(true);
 
       try {
         const cart = await getCurrentCart();
