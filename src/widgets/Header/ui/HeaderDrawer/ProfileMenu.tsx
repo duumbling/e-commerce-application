@@ -4,7 +4,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Paths } from "../../../../shared/constants/paths";
 import { useLocation, useNavigate } from "react-router-dom";
 import { resetCustomerTokenCache } from "../../../../shared/api/tokens/helpers";
-import { useCart } from "../../../../entities/cart";
 
 interface HeaderProfileMenuProps {
   onHeaderClose: () => void;
@@ -12,8 +11,6 @@ interface HeaderProfileMenuProps {
 
 export function HeaderProfileMenu({ onHeaderClose }: HeaderProfileMenuProps) {
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
-
-  const { resetCart } = useCart();
 
   const navigate = useNavigate();
 
@@ -39,7 +36,6 @@ export function HeaderProfileMenu({ onHeaderClose }: HeaderProfileMenuProps) {
 
   const handleLogoutClick = () => {
     resetCustomerTokenCache();
-    resetCart();
 
     handleMenuClose();
 
