@@ -125,7 +125,7 @@ export const removeCart = async (): Promise<Cart> => {
 
 export const changeLineItemQuantity = async (
   lineItemId: string,
-  method: "add" | "remove",
+  action: "add" | "remove",
 ): Promise<Cart> => {
   const { id, version, lineItems } = await getActiveCart();
 
@@ -143,7 +143,7 @@ export const changeLineItemQuantity = async (
           {
             action: "changeLineItemQuantity",
             lineItemId,
-            quantity: method === "add" ? quantity + 1 : quantity - 1,
+            quantity: action === "add" ? quantity + 1 : quantity - 1,
           },
         ],
         version,
