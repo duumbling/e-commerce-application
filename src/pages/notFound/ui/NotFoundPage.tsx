@@ -6,7 +6,6 @@ import {
   goBackButtonStyle,
   firstLineStyle,
   secondLineStyle,
-  backgroundImageStyle,
 } from "./style";
 import { CustomButton } from "../../../shared/ui/CustomButton";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +15,7 @@ export function NotFoundPage() {
   return (
     <Box marginTop="10%">
       <Grid {...gridContainerProps}>
-        <Grid {...gridItemProps} sx={backgroundImageStyle}>
+        <Grid {...gridItemProps}>
           <Typography variant="h1" component="p" {...firstLineStyle}>
             404
           </Typography>
