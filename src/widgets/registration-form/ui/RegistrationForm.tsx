@@ -37,6 +37,7 @@ import { CustomSwitch } from "../../../shared/ui/CustomSwitch/CustomSwitch";
 import { registerCustomer } from "../api/registration";
 import { Paths } from "../../../shared/constants/paths";
 import { loginCustomer } from "../../../shared/api";
+import { getCurrentCart } from "../../../entities/cart";
 
 export const RegistrationForm = () => {
   const methods = useForm<RegistrationFormValues>({
@@ -74,10 +75,14 @@ export const RegistrationForm = () => {
         isDefaultShippingAddressChecked,
         isDefaultBillingAddressChecked,
       );
-      await loginCustomer({
-        email: data.email,
-        password: data.password,
-      });
+      const cart = await getCurrentCart();
+      await loginCustomer(
+        {
+          email: data.email,
+          password: data.password,
+        },
+        cart.id,
+      );
       setSuccess(true);
       const timeout = 1000;
       setTimeout(() => {

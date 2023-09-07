@@ -23,17 +23,29 @@ export const createCustomer = async (
 
 export const loginCustomer = async (
   loginData: MyCustomerSignin,
+  cartId: string,
 ): Promise<ClientResponse<CustomerSignInResult>> => {
   const response = await loginApiRoot(loginData.email, loginData.password)
-    .me()
     .login()
-    .post({ body: loginData })
+    .post({
+      body: {
+        ...loginData,
+        updateProductData: true,
+        anonymousCart: {
+          id: cartId,
+          typeId: "cart",
+        },
+      },
+    })
     .execute();
+  console.log(response);
   return response;
 };
 
 export const getCustomerData = async () => {
-  return await customerDataApiRoot().me().get().execute();
+  const data = await customerDataApiRoot().me().get().execute();
+  console.log(data);
+  return data;
 };
 
 export const addAddress = async (
