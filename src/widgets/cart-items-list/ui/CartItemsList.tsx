@@ -5,24 +5,14 @@ import { CartItemView } from "../../../features/CartItemView";
 import { ThemeColors } from "../../../shared/constants/colors";
 
 export function CartItemsList() {
-  const { isLoading, products } = useFetchCartItems();
+  const { isLoading, items } = useFetchCartItems();
 
   return (
     <>
       <Stack spacing={2}>
-        {products.map(
-          ({ title, image, price, discountPrice, id, color, size }) => (
-            <CartItemView
-              key={id}
-              title={title}
-              image={image}
-              price={price}
-              discountPrice={discountPrice}
-              color={color}
-              size={size}
-            />
-          ),
-        )}
+        {items.map((item) => (
+          <CartItemView key={item.id} itemData={item} />
+        ))}
       </Stack>
       <Backdrop
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}

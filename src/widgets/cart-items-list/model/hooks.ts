@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { getCurrentCart } from "../../../entities/cart/api/cart";
-import type { CartProductData } from "./types";
 import { getCartProductData } from "../lib/helpers";
+import type { CartItemData } from "../../../features/CartItemView";
+import { useAppSelector } from "../../../shared/model/hooks";
 
 export function useFetchCartItems() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const [carItems, setProducts] = useState<CartProductData[]>([]);
+  const [carItems, setProducts] = useState<CartItemData[]>([]);
+
+  const cartState = useAppSelector((state) => state.cartReducer);
 
   useEffect(() => {
     void (async () => {
@@ -22,10 +25,10 @@ export function useFetchCartItems() {
 
       setIsLoading(false);
     })();
-  }, []);
+  }, [cartState]);
 
   return {
     isLoading,
-    products: carItems,
+    items: carItems,
   };
 }
