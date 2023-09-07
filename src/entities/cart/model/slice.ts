@@ -16,7 +16,11 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    updateItemsIds(state, { payload }: PayloadAction<string>) {
+    updateItemsIds(state, { payload }: PayloadAction<string | string[]>) {
+      if (Array.isArray(payload)) {
+        state.ids = payload;
+        return;
+      }
       if (state.ids.includes(payload)) {
         state.ids = state.ids.filter((id) => id !== payload);
       } else {
