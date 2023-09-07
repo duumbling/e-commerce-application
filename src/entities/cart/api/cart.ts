@@ -32,7 +32,7 @@ const createCart = async (): Promise<Cart> => {
   return body;
 };
 
-const getCurrentCart = async (): Promise<Cart> => {
+export const getCurrentCart = async (): Promise<Cart> => {
   try {
     const cart = await getActiveCart();
     return cart;
