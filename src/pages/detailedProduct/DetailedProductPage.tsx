@@ -28,6 +28,7 @@ import { CustomSnackBar } from "../../shared/ui/CustomSnackBar";
 
 export function DetailedProductPage() {
   const [isMessageVisible, setIsMessageVisible] = useState(false);
+  const [currentSize, setCurrentSize] = useState(0);
 
   const { product, isFetching, currentVariant, setCurrentVariant } =
     useFetchProduct();
@@ -37,7 +38,10 @@ export function DetailedProductPage() {
   const handleAddButtonClick = () => {
     void (async () => {
       try {
-        await addProduct(product.id, currentVariant?.id);
+        await addProduct(product.id, currentVariant?.id ?? 1, {
+          color: currentVariant?.attributes.color.label ?? "",
+          size: currentSize,
+        });
         setIsMessageVisible(true);
       } catch (error) {
         console.error(error);
@@ -75,6 +79,7 @@ export function DetailedProductPage() {
                   row
                   defaultValue={1}
                   onChange={({ target: { value } }) => {
+                    console.log(value);
                     setCurrentVariant(product.allVariants[+value - 1]);
                   }}
                 >
@@ -95,7 +100,14 @@ export function DetailedProductPage() {
               </div>
               <div>
                 <p>Размер:</p>
-                <RadioGroup name="product-size" row>
+                <RadioGroup
+                  name="product-size"
+                  row
+                  value={currentSize}
+                  onChange={(event) => {
+                    setCurrentSize(Number(event.target.value));
+                  }}
+                >
                   {!isFetching &&
                     currentVariant?.attributes.sizes.label.map((size) => {
                       const sizeString = size.toString();
