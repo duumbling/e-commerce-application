@@ -24,6 +24,7 @@ import {
   changeLineItemQuantity,
   cartSlice,
   getCurrentLineItem,
+  removeLineItemFromCart,
 } from "../../../entities/cart";
 import { getPriceValue } from "../../../shared/api/product";
 import { useAppDispatch } from "../../../shared/model/hooks";
@@ -55,7 +56,7 @@ export function CartItemView({
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  const { updateTotalPrice } = cartSlice.actions;
+  const { updateTotalPrice, updateItemsIds } = cartSlice.actions;
 
   const dispatch = useAppDispatch();
 
@@ -76,6 +77,14 @@ export function CartItemView({
       dispatch(updateTotalPrice(cartTotalPrice));
 
       setIsButtonDisabled(false);
+    })();
+  };
+
+  const deleteItem = () => {
+    void (async () => {
+      const cart = await removeLineItemFromCart(id);
+      const newIds = cart.lineItems.map((item) => item.productId);
+      dispatch(updateItemsIds(newIds));
     })();
   };
 
@@ -142,7 +151,12 @@ export function CartItemView({
         </Grid>
       </Grid>
 
-      <IconButton size="large" sx={deleteIconButtonStyle}>
+      <IconButton
+        size="large"
+        sx={deleteIconButtonStyle}
+        onClick={deleteItem}
+        disabled={isButtonDisabled}
+      >
         <DeleteOutlinedIcon />
       </IconButton>
     </Paper>
