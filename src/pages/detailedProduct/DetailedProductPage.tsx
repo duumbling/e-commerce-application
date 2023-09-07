@@ -79,7 +79,6 @@ export function DetailedProductPage() {
                   row
                   defaultValue={1}
                   onChange={({ target: { value } }) => {
-                    console.log(value);
                     setCurrentVariant(product.allVariants[+value - 1]);
                   }}
                 >
