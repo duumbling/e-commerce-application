@@ -7,7 +7,6 @@ import { isUserAuthenticated } from "../../../shared/api";
 import { ThemeColors } from "../../../shared/constants/colors";
 import { Paths } from "../../../shared/constants/paths";
 import { Logo } from "../../../shared/ui/Logo";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   authContainerStyle,
@@ -16,6 +15,7 @@ import {
   rootStyle,
 } from "./style";
 import { HeaderProfileMenu } from "./HeaderDrawer/ProfileMenu";
+import { HeaderCartButton } from "./HeaderCartButton/HeaderCartButton";
 
 export function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -70,9 +70,7 @@ export function Header() {
               </Grid>
             )}
             <Grid item>
-              <IconButton size="large">
-                <ShoppingCartOutlinedIcon />
-              </IconButton>
+              <HeaderCartButton />
             </Grid>
           </Grid>
 
