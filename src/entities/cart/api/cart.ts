@@ -1,4 +1,4 @@
-import { type Cart } from "@commercetools/platform-sdk";
+import type { Cart, FieldContainer } from "@commercetools/platform-sdk";
 import { isUserAuthenticated } from "../../../shared/api";
 import {
   anonymousApiRoot,
@@ -9,13 +9,13 @@ import type { ByProjectKeyRequestBuilder } from "@commercetools/platform-sdk/dis
 const getApiRoot = (): (() => ByProjectKeyRequestBuilder) =>
   isUserAuthenticated() ? customerDataApiRoot : anonymousApiRoot;
 
-export const getActiveCart = async (): Promise<Cart> => {
+const getActiveCart = async (): Promise<Cart> => {
   const api = getApiRoot();
   const { body } = await api().me().activeCart().get().execute();
   return body;
 };
 
-export const createCart = async (): Promise<Cart> => {
+const createCart = async (): Promise<Cart> => {
   const api = getApiRoot();
 
   const { body } = await api()
@@ -32,7 +32,7 @@ export const createCart = async (): Promise<Cart> => {
   return body;
 };
 
-export const getCurrentCart = async (): Promise<Cart> => {
+const getCurrentCart = async (): Promise<Cart> => {
   try {
     const cart = await getActiveCart();
     return cart;
@@ -42,16 +42,18 @@ export const getCurrentCart = async (): Promise<Cart> => {
 };
 
 export const addProductToCart = async (
-  cart: Cart,
   productId: string,
-  variantId?: number,
+  variantId: number,
+  attributes: FieldContainer,
 ): Promise<Cart> => {
+  const { id, version } = await getCurrentCart();
+
   const api = getApiRoot();
 
   const { body } = await api()
     .me()
     .carts()
-    .withId({ ID: cart.id })
+    .withId({ ID: id })
     .post({
       body: {
         actions: [
@@ -59,9 +61,16 @@ export const addProductToCart = async (
             action: "addLineItem",
             productId,
             variantId,
+            custom: {
+              type: {
+                typeId: "type",
+                key: "lineItemAttributes",
+              },
+              fields: attributes,
+            },
           },
         ],
-        version: cart.version,
+        version,
       },
     })
     .execute();

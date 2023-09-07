@@ -1,21 +1,25 @@
-import { type Cart } from "@commercetools/platform-sdk";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface CartState {
-  current?: Cart;
+  itemsCount: number;
+  ids: string[];
 }
 
-const initialState: CartState = {};
+const initialState: CartState = {
+  itemsCount: 0,
+  ids: [],
+};
 
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    setCurrentCart(state, { payload }: PayloadAction<Cart>) {
-      state.current = payload;
-    },
-    resetCurrentCart(state) {
-      state.current = undefined;
+    updateItemsIds(state, { payload }: PayloadAction<string>) {
+      if (state.ids.includes(payload)) {
+        state.ids = state.ids.filter((id) => id !== payload);
+      } else {
+        state.ids.push(payload);
+      }
     },
   },
 });
