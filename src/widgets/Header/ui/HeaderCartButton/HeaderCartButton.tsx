@@ -5,7 +5,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../../../../shared/constants/paths";
 
-export function HeaderCartButton({ onClick }: IconButtonProps) {
+export function HeaderCartButton({ onClick, ...buttonProps }: IconButtonProps) {
   const navigate = useNavigate();
 
   const handleClick = (
@@ -18,7 +18,7 @@ export function HeaderCartButton({ onClick }: IconButtonProps) {
   };
 
   return (
-    <IconButton size="large" onClick={handleClick}>
+    <IconButton size="large" {...buttonProps} onClick={handleClick}>
       <Badge badgeContent={1} color={ThemeColors.PRIMARY}>
         <ShoppingCartOutlinedIcon />
       </Badge>
