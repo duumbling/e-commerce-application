@@ -19,38 +19,64 @@ import {
   titleStyle,
 } from "./style";
 import { ThemeColors } from "../../../shared/constants/colors";
+import type { CartItemData } from "../model/types";
+import {
+  changeLineItemQuantity,
+  cartSlice,
+  getCurrentLineItem,
+} from "../../../entities/cart";
+import { getPriceValue } from "../../../shared/api/product";
+import { useAppDispatch } from "../../../shared/model/hooks";
 
 export type CartItemViewProps = PaperProps & {
-  image: string;
-  title: string;
-  price: number;
-  color: string;
-  size: number;
-  discountPrice?: number;
+  itemData: CartItemData;
 };
 
 export function CartItemView({
-  image,
-  title,
-  price,
-  discountPrice,
-  color,
-  size,
+  itemData,
   sx,
   ...paperProps
 }: CartItemViewProps) {
-  const [totalPrice, setTotalPrice] = useState(discountPrice ?? price);
+  const {
+    id,
+    title,
+    image,
+    price,
+    discountPrice,
+    color,
+    size,
+    quantity,
+    totalPrice,
+  } = itemData;
 
-  const [counter, setCounter] = useState(1);
+  const [totalPriceValue, setTotalPriceValue] = useState(totalPrice);
 
-  const handleRemoveButtonClick = () => {
-    setCounter((counter) => counter - 1);
-    setTotalPrice(totalPrice - (discountPrice ?? price));
-  };
+  const [counter, setCounter] = useState(quantity);
 
-  const handleAddButtonClick = () => {
-    setCounter((counter) => counter + 1);
-    setTotalPrice(totalPrice + (discountPrice ?? price));
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const { updateTotalPrice } = cartSlice.actions;
+
+  const dispatch = useAppDispatch();
+
+  const updateItemQuantity = (action: "add" | "remove") => {
+    void (async () => {
+      setIsButtonDisabled(true);
+
+      const cart = await changeLineItemQuantity(id, action);
+
+      const currentLineItem = getCurrentLineItem(cart.lineItems, id);
+
+      setCounter(currentLineItem.quantity);
+
+      setTotalPriceValue(getPriceValue(currentLineItem.totalPrice));
+
+      const cartTotalPrice = getPriceValue(cart.totalPrice);
+
+      dispatch(updateTotalPrice(cartTotalPrice));
+
+      setIsButtonDisabled(false);
+    })();
   };
 
   return (
@@ -90,20 +116,29 @@ export function CartItemView({
           <Stack direction="row" alignItems="center" spacing={2}>
             <IconButton
               size="large"
-              disabled={counter === 1}
-              onClick={handleRemoveButtonClick}
+              disabled={counter === 1 || isButtonDisabled}
+              onClick={() => {
+                updateItemQuantity("remove");
+              }}
               color={ThemeColors.PRIMARY}
             >
               <RemoveCircleOutlineOutlinedIcon />
             </IconButton>
             <Typography sx={itemCounterStyle}>{counter}</Typography>
-            <IconButton size="large" onClick={handleAddButtonClick}>
-              <AddCircleOutlineOutlinedIcon color={ThemeColors.PRIMARY} />
+            <IconButton
+              size="large"
+              onClick={() => {
+                updateItemQuantity("add");
+              }}
+              color={ThemeColors.PRIMARY}
+              disabled={isButtonDisabled}
+            >
+              <AddCircleOutlineOutlinedIcon />
             </IconButton>
           </Stack>
         </Grid>
         <Grid item marginRight={7}>
-          <PriceTag price={totalPrice} divider={1} />
+          <PriceTag price={totalPriceValue} divider={1} />
         </Grid>
       </Grid>
 
