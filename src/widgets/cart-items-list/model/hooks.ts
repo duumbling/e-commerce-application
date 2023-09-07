@@ -9,7 +9,7 @@ export function useFetchCartItems() {
 
   const [carItems, setProducts] = useState<CartItemData[]>([]);
 
-  const cartState = useAppSelector((state) => state.cartReducer);
+  const { ids } = useAppSelector((state) => state.cartReducer);
 
   useEffect(() => {
     void (async () => {
@@ -25,7 +25,7 @@ export function useFetchCartItems() {
 
       setIsLoading(false);
     })();
-  }, [cartState]);
+  }, [ids]);
 
   return {
     isLoading,
