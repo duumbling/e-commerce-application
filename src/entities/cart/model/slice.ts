@@ -2,11 +2,13 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface CartState {
   itemsCount: number;
+  totalPrice: number;
   ids: string[];
 }
 
 const initialState: CartState = {
   itemsCount: 0,
+  totalPrice: 0,
   ids: [],
 };
 
@@ -20,6 +22,9 @@ export const cartSlice = createSlice({
       } else {
         state.ids.push(payload);
       }
+    },
+    updateTotalPrice(state, { payload }: PayloadAction<number>) {
+      state.totalPrice = payload;
     },
   },
 });
