@@ -24,6 +24,7 @@ import {
   changeCartProductQuantity,
   cartSlice,
   getCurrentLineItem,
+  useCart,
 } from "../../../entities/cart";
 import { getPriceValue } from "../../../shared/api/product";
 import { useAppDispatch } from "../../../shared/model/hooks";
@@ -51,9 +52,8 @@ export function CartProductView({
   const [totalPriceValue, setTotalPriceValue] = useState(totalPrice);
   const [counter, setCounter] = useState(quantity);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  const { updateTotalPrice } = cartSlice.actions;
-
+  const { updateTotalPrice, updateProductsIds } = cartSlice.actions;
+  const { removeProduct } = useCart();
   const dispatch = useAppDispatch();
 
   const updateProductQuantity = (action: "add" | "remove") => {
@@ -74,9 +74,8 @@ export function CartProductView({
 
   const deleteItem = () => {
     void (async () => {
-      // const cart = await removeLineItemFromCart(id);
-      // const newIds = cart.lineItems.map((item) => item.productId);
-      // dispatch(updateItemsIds(newIds));
+      await removeProduct(id);
+      dispatch(updateProductsIds(id));
     })();
   };
 
