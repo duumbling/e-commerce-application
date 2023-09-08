@@ -29,19 +29,24 @@ import { CustomSnackBar } from "../../shared/ui/CustomSnackBar";
 export function DetailedProductPage() {
   const [isMessageVisible, setIsMessageVisible] = useState(false);
   const [currentSize, setCurrentSize] = useState(0);
-
   const { product, isFetching, currentVariant, setCurrentVariant } =
     useFetchProduct();
-
-  const { addProduct, isLoading } = useCart();
+  const { addProduct, removeProduct, isLoading, isProductAdded } = useCart();
+  const [isAdded, setIsAdded] = useState(isProductAdded(product.id));
 
   const handleAddButtonClick = () => {
     void (async () => {
       try {
-        await addProduct(product.id, currentVariant?.id ?? 1, {
-          color: currentVariant?.attributes.color.label ?? "",
-          size: currentSize,
-        });
+        if (!isAdded) {
+          await addProduct(product.id, currentVariant?.id ?? 1, {
+            color: currentVariant?.attributes.color.label ?? "",
+            size: currentSize,
+          });
+          setIsAdded(true);
+        } else {
+          await removeProduct(product.id);
+          setIsAdded(false);
+        }
         setIsMessageVisible(true);
       } catch (error) {
         console.error(error);
@@ -80,6 +85,7 @@ export function DetailedProductPage() {
                   defaultValue={1}
                   onChange={({ target: { value } }) => {
                     setCurrentVariant(product.allVariants[+value - 1]);
+                    setCurrentSize(0);
                   }}
                 >
                   {!isFetching &&
@@ -133,8 +139,11 @@ export function DetailedProductPage() {
 
         <Grid item xs={12}>
           <Stack justifyContent={"center"} direction={"row"} gap={2} useFlexGap>
-            <CustomButton onClick={handleAddButtonClick}>
-              В корзину
+            <CustomButton
+              onClick={handleAddButtonClick}
+              disabled={!isAdded && currentSize === 0}
+            >
+              {!isAdded ? "Добавить в корзину" : "Удалить из корзины"}
             </CustomButton>
             <FavoriteButton />
           </Stack>
@@ -154,7 +163,9 @@ export function DetailedProductPage() {
         onClose={() => {
           setIsMessageVisible(false);
         }}
-        message={"Товар добавлен в корзину"}
+        message={
+          isAdded ? "Товар добавлен в корзину" : "Товар удален из корзины"
+        }
       />
     </Box>
   );
