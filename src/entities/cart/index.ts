@@ -1,2 +1,4 @@
 export * from "./model/hooks";
-export { cartReducer } from "./model/slice";
+export * from "./api/cart";
+export { cartReducer, cartSlice } from "./model/slice";
+export { getCurrentLineItem } from "./lib/helpers";

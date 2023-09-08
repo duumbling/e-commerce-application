@@ -7,4 +7,6 @@ export type CartProductData = Omit<
   image: string;
   color: string;
   size: number;
+  totalPrice: number;
+  quantity: number;
 };
