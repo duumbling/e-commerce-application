@@ -42,11 +42,10 @@ export function DetailedProductPage() {
             color: currentVariant?.attributes.color.label ?? "",
             size: currentSize,
           });
-          setIsAdded(true);
         } else {
           await removeProduct(product.id);
-          setIsAdded(false);
         }
+        setIsAdded(!isAdded);
         setIsMessageVisible(true);
       } catch (error) {
         console.error(error);
