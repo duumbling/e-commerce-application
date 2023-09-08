@@ -48,13 +48,9 @@ export function CartProductView({
     quantity,
     totalPrice,
   } = data;
-
   const [totalPriceValue, setTotalPriceValue] = useState(totalPrice);
-
   const [counter, setCounter] = useState(quantity);
-
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
   const { updateTotalPrice } = cartSlice.actions;
 
   const dispatch = useAppDispatch();
