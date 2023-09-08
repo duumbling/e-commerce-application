@@ -16,7 +16,7 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    updateItemsIds(state, { payload }: PayloadAction<string | string[]>) {
+    updateProductsIds(state, { payload }: PayloadAction<string | string[]>) {
       if (Array.isArray(payload)) {
         state.ids = payload;
         return;
