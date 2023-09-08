@@ -74,6 +74,7 @@ export function ProductCardsView({ sx }: ProductsCardsViewProps) {
                 <Grid key={product.id} item>
                   <ProductCard
                     id={product.id}
+                    variant={product.currentVariant}
                     title={product.title}
                     image={product.images[0]}
                     price={product.price}
