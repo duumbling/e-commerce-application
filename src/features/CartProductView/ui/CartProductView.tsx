@@ -14,14 +14,14 @@ import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOut
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import {
   deleteIconButtonStyle,
-  itemAttributeStyle,
-  itemCounterStyle,
+  attributeStyle,
+  counterStyle,
   titleStyle,
 } from "./style";
 import { ThemeColors } from "../../../shared/constants/colors";
-import type { CartItemData } from "../model/types";
+import type { CartProductData } from "../model/types";
 import {
-  changeLineItemQuantity,
+  changeCartProductQuantity,
   cartSlice,
   getCurrentLineItem,
   removeLineItemFromCart,
@@ -29,15 +29,15 @@ import {
 import { getPriceValue } from "../../../shared/api/product";
 import { useAppDispatch } from "../../../shared/model/hooks";
 
-export type CartItemViewProps = PaperProps & {
-  itemData: CartItemData;
+export type CartProductViewProps = PaperProps & {
+  data: CartProductData;
 };
 
-export function CartItemView({
-  itemData,
+export function CartProductView({
+  data,
   sx,
   ...paperProps
-}: CartItemViewProps) {
+}: CartProductViewProps) {
   const {
     id,
     title,
@@ -48,34 +48,27 @@ export function CartItemView({
     size,
     quantity,
     totalPrice,
-  } = itemData;
-
+  } = data;
   const [totalPriceValue, setTotalPriceValue] = useState(totalPrice);
-
   const [counter, setCounter] = useState(quantity);
-
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const { updateTotalPrice, updateItemsIds } = cartSlice.actions;
 
   const dispatch = useAppDispatch();
 
-  const updateItemQuantity = (action: "add" | "remove") => {
+  const updateProductQuantity = (action: "add" | "remove") => {
     void (async () => {
       setIsButtonDisabled(true);
 
-      const cart = await changeLineItemQuantity(id, action);
-
+      const cart = await changeCartProductQuantity(id, action);
       const currentLineItem = getCurrentLineItem(cart.lineItems, id);
-
-      setCounter(currentLineItem.quantity);
-
-      setTotalPriceValue(getPriceValue(currentLineItem.totalPrice));
-
       const cartTotalPrice = getPriceValue(cart.totalPrice);
 
       dispatch(updateTotalPrice(cartTotalPrice));
 
+      setCounter(currentLineItem.quantity);
+      setTotalPriceValue(getPriceValue(currentLineItem.totalPrice));
       setIsButtonDisabled(false);
     })();
   };
@@ -111,10 +104,10 @@ export function CartItemView({
           <Stack spacing={2}>
             <Typography sx={titleStyle}>{title}</Typography>
             <PriceTag price={price} discountPrice={discountPrice} divider={1} />
-            <Typography sx={itemAttributeStyle} color={ThemeColors.GREY}>
+            <Typography sx={attributeStyle} color={ThemeColors.GREY}>
               Цвет: {color}
             </Typography>
-            <Typography sx={itemAttributeStyle} color={ThemeColors.GREY}>
+            <Typography sx={attributeStyle} color={ThemeColors.GREY}>
               Размер: {size}
             </Typography>
           </Stack>
@@ -127,17 +120,17 @@ export function CartItemView({
               size="large"
               disabled={counter === 1 || isButtonDisabled}
               onClick={() => {
-                updateItemQuantity("remove");
+                updateProductQuantity("remove");
               }}
               color={ThemeColors.PRIMARY}
             >
               <RemoveCircleOutlineOutlinedIcon />
             </IconButton>
-            <Typography sx={itemCounterStyle}>{counter}</Typography>
+            <Typography sx={counterStyle}>{counter}</Typography>
             <IconButton
               size="large"
               onClick={() => {
-                updateItemQuantity("add");
+                updateProductQuantity("add");
               }}
               color={ThemeColors.PRIMARY}
               disabled={isButtonDisabled}

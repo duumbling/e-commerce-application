@@ -27,7 +27,7 @@ export const deleteIconButtonStyle = {
   },
 };
 
-export const itemCounterStyle = {
+export const counterStyle = {
   fontSize: 40,
   fontWeight: 700,
 
@@ -40,7 +40,7 @@ export const itemCounterStyle = {
   },
 };
 
-export const itemAttributeStyle = {
+export const attributeStyle = {
   fontSize: 25,
 
   [MOBILE_MEDIA]: {

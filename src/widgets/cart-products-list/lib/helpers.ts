@@ -1,6 +1,6 @@
 import type { LineItem } from "@commercetools/platform-sdk";
 import { getDiscountPrice, getPriceValue } from "../../../shared/api/product";
-import type { CartItemData } from "../../../features/CartItemView";
+import type { CartProductData } from "../../../features/CartProductView";
 
 export const getCartProductData = ({
   id,
@@ -10,7 +10,7 @@ export const getCartProductData = ({
   custom,
   quantity,
   totalPrice,
-}: LineItem): CartItemData => {
+}: LineItem): CartProductData => {
   return {
     id,
     title: name["ru-RU"],

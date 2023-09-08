@@ -48,7 +48,6 @@ export const addProductToCart = async (
   attributes: FieldContainer,
 ): Promise<Cart> => {
   const { id, version } = await getCurrentCart();
-
   const api = getApiRoot();
 
   const { body } = await api()
@@ -78,12 +77,11 @@ export const addProductToCart = async (
   return body;
 };
 
-export const removeLineItemFromCart = async (
+export const removeProductFromCart = async (
   lineItemId: string,
 ): Promise<Cart> => {
-  const api = getApiRoot();
-
   const { id, version } = await getActiveCart();
+  const api = getApiRoot();
 
   const { body } = await api()
     .me()
@@ -105,9 +103,8 @@ export const removeLineItemFromCart = async (
   return body;
 };
 
-export const removeCart = async (): Promise<Cart> => {
+export const removeAllCartProducts = async (): Promise<Cart> => {
   const { id, version } = await getActiveCart();
-
   const api = getApiRoot();
 
   const { body } = await api()
@@ -123,14 +120,12 @@ export const removeCart = async (): Promise<Cart> => {
   return body;
 };
 
-export const changeLineItemQuantity = async (
+export const changeCartProductQuantity = async (
   lineItemId: string,
   action: "add" | "remove",
 ): Promise<Cart> => {
   const { id, version, lineItems } = await getActiveCart();
-
   const { quantity } = getCurrentLineItem(lineItems, lineItemId);
-
   const api = getApiRoot();
 
   const { body } = await api()
