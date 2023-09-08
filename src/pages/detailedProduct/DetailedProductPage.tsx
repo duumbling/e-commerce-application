@@ -34,7 +34,7 @@ export function DetailedProductPage() {
   const { addProduct, removeProduct, isLoading, isProductAdded } = useCart();
   const [isAdded, setIsAdded] = useState(isProductAdded(product.id));
 
-  const handleAddButtonClick = () => {
+  const handleCartButtonClick = () => {
     void (async () => {
       try {
         if (!isAdded) {
@@ -139,7 +139,7 @@ export function DetailedProductPage() {
         <Grid item xs={12}>
           <Stack justifyContent={"center"} direction={"row"} gap={2} useFlexGap>
             <CustomButton
-              onClick={handleAddButtonClick}
+              onClick={handleCartButtonClick}
               disabled={!isAdded && currentSize === 0}
             >
               {!isAdded ? "Добавить в корзину" : "Удалить из корзины"}
