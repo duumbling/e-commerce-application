@@ -27,15 +27,11 @@ export function CartClearButton({ onClick, ...otherProps }: CustomButtonProps) {
   const clearCart = () => {
     closeDialog();
     void (async () => {
-      try {
-        await removeAllCartProducts();
-        setIsMessageVisible(true);
-        /* TODO: 08.09.23 прикрутить обновление стейта корзины,
-        когда будут готовы необходимые данные в стейте cartReducer
+      await removeAllCartProducts();
+      setIsMessageVisible(true);
+      /* TODO: 08.09.23 update cart state,
+        when there will be necessary data in state cartReducer
         */
-      } catch {
-        // do nothing;
-      }
     })();
   };
 
