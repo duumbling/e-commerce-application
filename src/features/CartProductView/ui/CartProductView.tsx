@@ -28,15 +28,15 @@ import {
 import { getPriceValue } from "../../../shared/api/product";
 import { useAppDispatch } from "../../../shared/model/hooks";
 
-export type CartItemViewProps = PaperProps & {
+export type CartProductViewProps = PaperProps & {
   itemData: CartProductData;
 };
 
-export function CartItemView({
+export function CartProductView({
   itemData,
   sx,
   ...paperProps
-}: CartItemViewProps) {
+}: CartProductViewProps) {
   const {
     id,
     title,

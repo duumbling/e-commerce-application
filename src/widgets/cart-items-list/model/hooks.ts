@@ -4,7 +4,7 @@ import { getCartProductData } from "../lib/helpers";
 import type { CartProductData } from "../../../features/CartProductView";
 import { useAppSelector } from "../../../shared/model/hooks";
 
-export function useFetchCartItems() {
+export function useFetchCartProducts() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [carItems, setProducts] = useState<CartProductData[]>([]);
