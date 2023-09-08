@@ -64,17 +64,13 @@ export function CartProductView({
       setIsButtonDisabled(true);
 
       const cart = await changeCartProductQuantity(id, action);
-
       const currentLineItem = getCurrentLineItem(cart.lineItems, id);
-
-      setCounter(currentLineItem.quantity);
-
-      setTotalPriceValue(getPriceValue(currentLineItem.totalPrice));
-
       const cartTotalPrice = getPriceValue(cart.totalPrice);
 
       dispatch(updateTotalPrice(cartTotalPrice));
 
+      setCounter(currentLineItem.quantity);
+      setTotalPriceValue(getPriceValue(currentLineItem.totalPrice));
       setIsButtonDisabled(false);
     })();
   };
