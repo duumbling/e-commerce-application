@@ -59,8 +59,8 @@ export const ProductCard = ({
           color: variant.attributes.color.label,
           size: currentSize,
         });
+        setIsAdded(true);
       })();
-      setIsAdded(true);
     }
   };
 
@@ -130,25 +130,23 @@ export const ProductCard = ({
           <Grid container justifyContent="center">
             <Grid item>
               <ButtonGroup size="small">
-                {variant.attributes.sizes.label.map((size) => {
-                  return (
-                    <CustomButton
-                      key={size}
-                      variant="text"
-                      onClick={() => {
-                        setCurrentSize(size);
-                      }}
-                      sx={{
-                        color:
-                          size === currentSize
-                            ? ThemeColors.PRIMARY
-                            : ThemeColors.BLACK,
-                      }}
-                    >
-                      {size}
-                    </CustomButton>
-                  );
-                })}
+                {variant.attributes.sizes.label.map((size) => (
+                  <CustomButton
+                    key={size}
+                    variant="text"
+                    onClick={() => {
+                      setCurrentSize(size);
+                    }}
+                    sx={{
+                      color:
+                        size === currentSize
+                          ? ThemeColors.PRIMARY
+                          : ThemeColors.BLACK,
+                    }}
+                  >
+                    {size}
+                  </CustomButton>
+                ))}
               </ButtonGroup>
             </Grid>
           </Grid>
