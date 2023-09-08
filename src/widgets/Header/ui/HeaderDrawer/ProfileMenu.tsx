@@ -12,11 +12,11 @@ interface HeaderProfileMenuProps {
 export function HeaderProfileMenu({ onHeaderClose }: HeaderProfileMenuProps) {
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
-  const isMenuOpen = anchorElement !== null;
-
   const navigate = useNavigate();
 
   const location = useLocation();
+
+  const isMenuOpen = anchorElement !== null;
 
   const handleAccountButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -36,6 +36,7 @@ export function HeaderProfileMenu({ onHeaderClose }: HeaderProfileMenuProps) {
 
   const handleLogoutClick = () => {
     resetCustomerTokenCache();
+
     handleMenuClose();
 
     const isMainPage = location.pathname === Paths.Main;
