@@ -5,13 +5,13 @@ import { CartProductView } from "../../../features/CartProductView";
 import { ThemeColors } from "../../../shared/constants/colors";
 
 export function CartProductsList() {
-  const { isLoading, items } = useFetchCartProducts();
+  const { isLoading, cartProducts } = useFetchCartProducts();
 
   return (
     <>
       <Stack spacing={2}>
-        {items.map((item) => (
-          <CartProductView key={item.id} itemData={item} />
+        {cartProducts.map((product) => (
+          <CartProductView key={product.id} data={product} />
         ))}
       </Stack>
       <Backdrop

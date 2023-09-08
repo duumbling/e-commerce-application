@@ -7,7 +7,7 @@ import { useAppSelector } from "../../../shared/model/hooks";
 export function useFetchCartProducts() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const [carItems, setProducts] = useState<CartProductData[]>([]);
+  const [cartProducts, setCartProducts] = useState<CartProductData[]>([]);
 
   const cartState = useAppSelector((state) => state.cartReducer);
 
@@ -17,8 +17,8 @@ export function useFetchCartProducts() {
 
       try {
         const cart = await getCurrentCart();
-        const items = cart.lineItems.map(getCartProductData);
-        setProducts(items);
+        const products = cart.lineItems.map(getCartProductData);
+        setCartProducts(products);
       } catch {
         // do nothing
       }
@@ -29,6 +29,6 @@ export function useFetchCartProducts() {
 
   return {
     isLoading,
-    items: carItems,
+    cartProducts,
   };
 }

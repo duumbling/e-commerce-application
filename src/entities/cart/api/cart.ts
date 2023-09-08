@@ -123,7 +123,7 @@ export const removeAllCartProducts = async (): Promise<Cart> => {
   return body;
 };
 
-export const changeLineItemQuantity = async (
+export const changeCartProductQuantity = async (
   lineItemId: string,
   action: "add" | "remove",
 ): Promise<Cart> => {

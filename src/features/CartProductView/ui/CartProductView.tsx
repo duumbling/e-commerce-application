@@ -14,14 +14,14 @@ import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOut
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import {
   deleteIconButtonStyle,
-  itemAttributeStyle,
-  itemCounterStyle,
+  attributeStyle,
+  counterStyle,
   titleStyle,
 } from "./style";
 import { ThemeColors } from "../../../shared/constants/colors";
 import type { CartProductData } from "../model/types";
 import {
-  changeLineItemQuantity,
+  changeCartProductQuantity,
   cartSlice,
   getCurrentLineItem,
 } from "../../../entities/cart";
@@ -29,11 +29,11 @@ import { getPriceValue } from "../../../shared/api/product";
 import { useAppDispatch } from "../../../shared/model/hooks";
 
 export type CartProductViewProps = PaperProps & {
-  itemData: CartProductData;
+  data: CartProductData;
 };
 
 export function CartProductView({
-  itemData,
+  data,
   sx,
   ...paperProps
 }: CartProductViewProps) {
@@ -47,7 +47,7 @@ export function CartProductView({
     size,
     quantity,
     totalPrice,
-  } = itemData;
+  } = data;
 
   const [totalPriceValue, setTotalPriceValue] = useState(totalPrice);
 
@@ -59,11 +59,11 @@ export function CartProductView({
 
   const dispatch = useAppDispatch();
 
-  const updateItemQuantity = (action: "add" | "remove") => {
+  const updateProductQuantity = (action: "add" | "remove") => {
     void (async () => {
       setIsButtonDisabled(true);
 
-      const cart = await changeLineItemQuantity(id, action);
+      const cart = await changeCartProductQuantity(id, action);
 
       const currentLineItem = getCurrentLineItem(cart.lineItems, id);
 
@@ -102,10 +102,10 @@ export function CartProductView({
           <Stack spacing={2}>
             <Typography sx={titleStyle}>{title}</Typography>
             <PriceTag price={price} discountPrice={discountPrice} divider={1} />
-            <Typography sx={itemAttributeStyle} color={ThemeColors.GREY}>
+            <Typography sx={attributeStyle} color={ThemeColors.GREY}>
               Цвет: {color}
             </Typography>
-            <Typography sx={itemAttributeStyle} color={ThemeColors.GREY}>
+            <Typography sx={attributeStyle} color={ThemeColors.GREY}>
               Размер: {size}
             </Typography>
           </Stack>
@@ -118,17 +118,17 @@ export function CartProductView({
               size="large"
               disabled={counter === 1 || isButtonDisabled}
               onClick={() => {
-                updateItemQuantity("remove");
+                updateProductQuantity("remove");
               }}
               color={ThemeColors.PRIMARY}
             >
               <RemoveCircleOutlineOutlinedIcon />
             </IconButton>
-            <Typography sx={itemCounterStyle}>{counter}</Typography>
+            <Typography sx={counterStyle}>{counter}</Typography>
             <IconButton
               size="large"
               onClick={() => {
-                updateItemQuantity("add");
+                updateProductQuantity("add");
               }}
               color={ThemeColors.PRIMARY}
               disabled={isButtonDisabled}
