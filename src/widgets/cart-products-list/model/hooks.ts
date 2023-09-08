@@ -15,14 +15,10 @@ export function useFetchCartProducts() {
     void (async () => {
       setIsLoading(true);
 
-      try {
-        const cart = await getCurrentCart();
-        const products = cart.lineItems.map(getCartProductData);
-        setCartProducts(products);
-      } catch {
-        // do nothing
-      }
+      const cart = await getCurrentCart();
+      const products = cart.lineItems.map(getCartProductData);
 
+      setCartProducts(products);
       setIsLoading(false);
     })();
   }, [cartState]);
