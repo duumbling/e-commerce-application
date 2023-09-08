@@ -6,9 +6,7 @@ import { useAppSelector } from "../../../shared/model/hooks";
 
 export function useFetchCartProducts() {
   const [isLoading, setIsLoading] = useState(false);
-
   const [cartProducts, setCartProducts] = useState<CartProductData[]>([]);
-
   const cartState = useAppSelector((state) => state.cartReducer);
 
   useEffect(() => {
