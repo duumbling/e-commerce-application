@@ -13,7 +13,6 @@ import {
 import { navigationItems } from "../../model/items";
 import LoginIcon from "@mui/icons-material/Login";
 import CloseIcon from "@mui/icons-material/Close";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { listItemTextStyle, rootStyle } from "./style";
 import { Link } from "../../../../shared/ui/Link";
 import { Logo } from "../../../../shared/ui/Logo";
@@ -21,6 +20,7 @@ import { ThemeColors } from "../../../../shared/constants/colors";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../../../../shared/constants/paths";
 import { HeaderProfileMenu } from "./ProfileMenu";
+import { HeaderCartButton } from "../HeaderCartButton/HeaderCartButton";
 
 type HeaderDrawerProps = DrawerProps & {
   isUserAuthenticated: boolean;
@@ -62,9 +62,7 @@ export function HeaderDrawer({
               </IconButton>
             )}
 
-            <IconButton size="large" onClick={onClose}>
-              <ShoppingCartOutlinedIcon />
-            </IconButton>
+            <HeaderCartButton onClick={onClose} />
           </Grid>
         </Grid>
 
