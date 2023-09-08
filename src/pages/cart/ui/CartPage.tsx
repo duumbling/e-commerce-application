@@ -1,12 +1,12 @@
 import React from "react";
 import { Header } from "../../../widgets/Header";
-import { CartItemsList } from "../../../widgets/cart-items-list";
+import { CartProductsList } from "../../../widgets/cart-products-list";
 
 export function CartPage() {
   return (
     <div>
       <Header />
-      <CartItemsList />
+      <CartProductsList />
     </div>
   );
 }

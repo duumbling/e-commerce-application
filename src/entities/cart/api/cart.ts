@@ -5,6 +5,7 @@ import {
   customerDataApiRoot,
 } from "../../../shared/api/apiRoot";
 import type { ByProjectKeyRequestBuilder } from "@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder";
+import { getCurrentLineItem } from "../lib/helpers";
 
 const getApiRoot = (): (() => ByProjectKeyRequestBuilder) =>
   isUserAuthenticated() ? customerDataApiRoot : anonymousApiRoot;
@@ -47,7 +48,6 @@ export const addProductToCart = async (
   attributes: FieldContainer,
 ): Promise<Cart> => {
   const { id, version } = await getCurrentCart();
-
   const api = getApiRoot();
 
   const { body } = await api()
@@ -80,9 +80,8 @@ export const addProductToCart = async (
 export const removeProductFromCart = async (
   lineItemId: string,
 ): Promise<Cart> => {
-  const api = getApiRoot();
-
   const { id, version } = await getActiveCart();
+  const api = getApiRoot();
 
   const { body } = await api()
     .me()
@@ -106,7 +105,6 @@ export const removeProductFromCart = async (
 
 export const removeAllCartProducts = async (): Promise<Cart> => {
   const { id, version } = await getActiveCart();
-
   const api = getApiRoot();
 
   const { body } = await api()
@@ -119,5 +117,34 @@ export const removeAllCartProducts = async (): Promise<Cart> => {
       },
     })
     .execute();
+  return body;
+};
+
+export const changeCartProductQuantity = async (
+  lineItemId: string,
+  action: "add" | "remove",
+): Promise<Cart> => {
+  const { id, version, lineItems } = await getActiveCart();
+  const { quantity } = getCurrentLineItem(lineItems, lineItemId);
+  const api = getApiRoot();
+
+  const { body } = await api()
+    .me()
+    .carts()
+    .withId({ ID: id })
+    .post({
+      body: {
+        actions: [
+          {
+            action: "changeLineItemQuantity",
+            lineItemId,
+            quantity: action === "add" ? quantity + 1 : quantity - 1,
+          },
+        ],
+        version,
+      },
+    })
+    .execute();
+
   return body;
 };
