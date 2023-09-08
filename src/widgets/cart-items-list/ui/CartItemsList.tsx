@@ -1,7 +1,7 @@
 import React from "react";
 import { Backdrop, CircularProgress, Stack } from "@mui/material";
 import { useFetchCartItems } from "../model/hooks";
-import { CartItemView } from "../../../features/CartItemView";
+import { CartItemView } from "../../../features/CartProductView";
 import { ThemeColors } from "../../../shared/constants/colors";
 
 export function CartItemsList() {

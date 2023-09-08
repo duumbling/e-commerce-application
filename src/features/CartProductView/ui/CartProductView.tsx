@@ -19,7 +19,7 @@ import {
   titleStyle,
 } from "./style";
 import { ThemeColors } from "../../../shared/constants/colors";
-import type { CartItemData } from "../model/types";
+import type { CartProductData } from "../model/types";
 import {
   changeLineItemQuantity,
   cartSlice,
@@ -29,7 +29,7 @@ import { getPriceValue } from "../../../shared/api/product";
 import { useAppDispatch } from "../../../shared/model/hooks";
 
 export type CartItemViewProps = PaperProps & {
-  itemData: CartItemData;
+  itemData: CartProductData;
 };
 
 export function CartItemView({
