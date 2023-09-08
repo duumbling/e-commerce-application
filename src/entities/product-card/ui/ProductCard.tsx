@@ -26,6 +26,7 @@ import { CustomButton } from "../../../shared/ui/CustomButton";
 import { useCart } from "../../cart";
 import type { ProductVariant } from "../../../shared/types/product";
 import { useNavigate } from "react-router-dom";
+import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
 
 interface ProductCardProps {
   id: string;
@@ -48,6 +49,7 @@ export const ProductCard = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentSize, setCurrentSize] = useState(0);
   const [isAdded, setIsAdded] = useState(isProductAdded(id));
+  const [isMessageVisible, setIsMessageVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -60,6 +62,7 @@ export const ProductCard = ({
           size: currentSize,
         });
         setIsAdded(true);
+        setIsMessageVisible(true);
       })();
     }
   };
@@ -168,6 +171,16 @@ export const ProductCard = ({
       >
         <CircularProgress color={ThemeColors.PRIMARY} />
       </Backdrop>
+      <CustomSnackBar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        severity="success"
+        autoHideDuration={500}
+        open={isMessageVisible}
+        onClose={() => {
+          setIsMessageVisible(false);
+        }}
+        message={"Товар добавлен в корзину"}
+      />
     </Card>
   );
 };
