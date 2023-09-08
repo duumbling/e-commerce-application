@@ -77,7 +77,7 @@ export const addProductToCart = async (
   return body;
 };
 
-export const removeLineItemFromCart = async (
+export const removeProductFromCart = async (
   lineItemId: string,
 ): Promise<Cart> => {
   const api = getApiRoot();
@@ -104,7 +104,7 @@ export const removeLineItemFromCart = async (
   return body;
 };
 
-export const removeCart = async (): Promise<Cart> => {
+export const removeAllCartProducts = async (): Promise<Cart> => {
   const { id, version } = await getActiveCart();
 
   const api = getApiRoot();
