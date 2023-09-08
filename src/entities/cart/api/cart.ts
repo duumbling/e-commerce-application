@@ -78,10 +78,12 @@ export const addProductToCart = async (
 };
 
 export const removeProductFromCart = async (
-  lineItemId: string,
+  productId: string,
 ): Promise<Cart> => {
-  const { id, version } = await getActiveCart();
   const api = getApiRoot();
+  const { id, version, lineItems } = await getActiveCart();
+  const lineItemId = lineItems.filter((item) => item.productId === productId)[0]
+    .id;
 
   const { body } = await api()
     .me()

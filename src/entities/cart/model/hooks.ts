@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
-import { addProductToCart } from "../api/cart";
+import { addProductToCart, removeProductFromCart } from "../api/cart";
 import { cartSlice } from "./slice";
 
 interface Attributes {
@@ -16,14 +16,13 @@ interface CartHookResult {
     variantId: number,
     attributes: Attributes,
   ) => Promise<void>;
+  removeProduct: (productId: string) => Promise<void>;
 }
 
 export function useCart(): CartHookResult {
   const [isLoading, setIsLoading] = useState(false);
   const cartState = useAppSelector((state) => state.cartReducer);
-
   const { updateItemsIds } = cartSlice.actions;
-
   const dispatch = useAppDispatch();
 
   const isProductAdded = (productId: string): boolean =>
@@ -37,7 +36,15 @@ export function useCart(): CartHookResult {
     setIsLoading(true);
 
     await addProductToCart(productId, variantId, attributes);
+    dispatch(updateItemsIds(productId));
 
+    setIsLoading(false);
+  };
+
+  const removeProduct = async (productId: string): Promise<void> => {
+    setIsLoading(true);
+
+    await removeProductFromCart(productId);
     dispatch(updateItemsIds(productId));
 
     setIsLoading(false);
@@ -47,5 +54,6 @@ export function useCart(): CartHookResult {
     isLoading,
     isProductAdded,
     addProduct,
+    removeProduct,
   };
 }
