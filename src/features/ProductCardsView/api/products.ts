@@ -5,6 +5,7 @@ import {
 } from "@commercetools/platform-sdk";
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { type ProductData } from "../model/types";
+import { getVariantData } from "../../../shared/api/product";
 
 const PRODUCTS_LIMIT = 30;
 
@@ -49,6 +50,7 @@ const getProductData = ({
     description: description !== undefined ? description["ru-RU"] : undefined,
     images: matchingVariant.images?.map((img) => img.url) ?? [],
     allVariants: [masterVariant, ...variants],
+    currentVariant: getVariantData(matchingVariant),
   };
 };
 
