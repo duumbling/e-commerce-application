@@ -45,7 +45,7 @@ export const ProductCard = ({
   discountPrice,
 }: ProductCardProps) => {
   const { isProductAdded, addProduct, isLoading } = useCart();
-  const [isExpanded, setExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [currentSize, setCurrentSize] = useState(0);
   const [isAdded, setIsAdded] = useState(isProductAdded(id));
   const navigate = useNavigate();
@@ -68,10 +68,10 @@ export const ProductCard = ({
     <Card
       sx={rootStyle}
       onMouseEnter={() => {
-        setExpanded(true);
+        setIsExpanded(true);
       }}
       onMouseLeave={() => {
-        setExpanded(false);
+        setIsExpanded(false);
       }}
     >
       <CardActionArea sx={cardActionsStyle}>
