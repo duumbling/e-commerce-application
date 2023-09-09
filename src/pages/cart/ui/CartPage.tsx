@@ -12,7 +12,6 @@ export function CartPage() {
       <Box marginTop={5}>
         <OrderSummary />
       </Box>
-      <CartProductsList />
     </div>
   );
 }
