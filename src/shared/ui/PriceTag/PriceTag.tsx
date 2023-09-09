@@ -13,7 +13,7 @@ export function PriceTag({
   price,
   discountPrice,
   currency = "Р",
-  divider = 100,
+  divider = 1,
 }: PriceTagProps) {
   const hasDiscount = discountPrice !== undefined;
   const currentPrice = discountPrice ?? price;
