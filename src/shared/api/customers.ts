@@ -38,14 +38,11 @@ export const loginCustomer = async (
       },
     })
     .execute();
-  console.log(response);
   return response;
 };
 
 export const getCustomerData = async () => {
-  const data = await customerDataApiRoot().me().get().execute();
-  console.log(data);
-  return data;
+  return await customerDataApiRoot().me().get().execute();
 };
 
 export const addAddress = async (
