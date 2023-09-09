@@ -59,7 +59,6 @@ export function useCart(): CartHookResult {
 
   const applyDiscountCode = async (code: string): Promise<boolean> => {
     setIsLoading(true);
-
     const isCodeExists = await isDiscountCodeExists(code);
 
     if (isCodeExists) {
@@ -69,7 +68,6 @@ export function useCart(): CartHookResult {
     }
 
     setIsLoading(false);
-
     return isCodeExists;
   };
 
