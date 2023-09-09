@@ -2,6 +2,7 @@ import type { Cart, FieldContainer } from "@commercetools/platform-sdk";
 import { isUserAuthenticated } from "../../../shared/api";
 import {
   anonymousApiRoot,
+  apiRoot,
   customerDataApiRoot,
 } from "../../../shared/api/apiRoot";
 import type { ByProjectKeyRequestBuilder } from "@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder";
@@ -149,4 +150,38 @@ export const changeCartProductQuantity = async (
     .execute();
 
   return body;
+};
+
+export const addDiscountCode = async (code: string): Promise<Cart> => {
+  const { id, version } = await getActiveCart();
+  const api = getApiRoot();
+
+  const { body } = await api()
+    .me()
+    .carts()
+    .withId({ ID: id })
+    .post({
+      body: {
+        actions: [
+          {
+            action: "addDiscountCode",
+            code,
+          },
+        ],
+        version,
+      },
+    })
+    .execute();
+
+  return body;
+};
+
+export const isDiscountCodeExists = async (code: string): Promise<boolean> => {
+  const {
+    body: { results },
+  } = await apiRoot().discountCodes().get().execute();
+
+  return (
+    results.find((discountCode) => discountCode.code === code) !== undefined
+  );
 };
