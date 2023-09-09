@@ -11,14 +11,7 @@ import {
   CircularProgress,
   Backdrop,
 } from "@mui/material";
-import {
-  rootStyle,
-  titleStyle,
-  priceStyle,
-  imageStyle,
-  priceWithDiscountStyle,
-  cardActionsStyle,
-} from "./style";
+import { rootStyle, titleStyle, imageStyle, cardActionsStyle } from "./style";
 import { ThemeColors } from "../../../shared/constants/colors";
 import { Paths } from "../../../shared/constants/paths";
 import { Link } from "../../../shared/ui/Link";
@@ -27,6 +20,7 @@ import { useCart } from "../../cart";
 import type { ProductVariant } from "../../../shared/types/product";
 import { useNavigate } from "react-router-dom";
 import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
+import { PriceTag } from "../../../shared/ui/PriceTag";
 
 interface ProductCardProps {
   id: string;
@@ -94,33 +88,7 @@ export const ProductCard = ({
             sx={imageStyle}
           />
           <CardContent>
-            {discountPrice !== undefined ? (
-              <Grid
-                container
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Grid item marginLeft={2}>
-                  <Typography variant="h4" component="div" sx={priceStyle}>
-                    {discountPrice} Р
-                  </Typography>
-                </Grid>
-                <Grid item marginRight={6}>
-                  <Typography
-                    variant="h4"
-                    component="div"
-                    sx={priceWithDiscountStyle}
-                    color={ThemeColors.GREY}
-                  >
-                    {price} Р
-                  </Typography>
-                </Grid>
-              </Grid>
-            ) : (
-              <Typography variant="h4" component="div" sx={priceStyle}>
-                {price} Р
-              </Typography>
-            )}
+            <PriceTag price={price} discountPrice={discountPrice} />
 
             <Typography sx={titleStyle} color={ThemeColors.BLACK}>
               {title}
