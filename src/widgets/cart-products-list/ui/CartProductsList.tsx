@@ -1,17 +1,17 @@
 import React from "react";
 import { Backdrop, CircularProgress, Stack } from "@mui/material";
-import { useFetchCartItems } from "../model/hooks";
-import { CartItemView } from "../../../features/CartItemView";
+import { useFetchCartProducts } from "../model/hooks";
+import { CartProductView } from "../../../features/CartProductView";
 import { ThemeColors } from "../../../shared/constants/colors";
 
-export function CartItemsList() {
-  const { isLoading, items } = useFetchCartItems();
+export function CartProductsList() {
+  const { isLoading, cartProducts } = useFetchCartProducts();
 
   return (
     <>
       <Stack spacing={2}>
-        {items.map((item) => (
-          <CartItemView key={item.id} itemData={item} />
+        {cartProducts.map((product) => (
+          <CartProductView key={product.id} data={product} />
         ))}
       </Stack>
       <Backdrop

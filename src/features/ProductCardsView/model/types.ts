@@ -1,11 +1,13 @@
-import { type ProductVariant } from "@commercetools/platform-sdk";
+import { type ProductVariant as SdkVariant } from "@commercetools/platform-sdk";
+import type { ProductVariant } from "../../../shared/types/product";
 
 export interface ProductData {
   id: string;
   title: string;
   images: string[];
   price: number;
-  allVariants: ProductVariant[];
+  allVariants: SdkVariant[];
+  currentVariant: ProductVariant;
   description?: string;
   discountPrice?: number;
 }

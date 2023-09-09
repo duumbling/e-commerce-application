@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { getCurrentCart } from "../../../entities/cart/api/cart";
 import { getCartProductData } from "../lib/helpers";
-import type { CartItemData } from "../../../features/CartItemView";
 import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
 import { cartSlice } from "../../../entities/cart";
 import { getPriceValue } from "../../../shared/api/product";
+import type { CartProductData } from "../../../features/CartProductView";
 
-export function useFetchCartItems() {
+export function useFetchCartProducts() {
   const [isLoading, setIsLoading] = useState(false);
-
-  const [carItems, setProducts] = useState<CartItemData[]>([]);
-
+  const [cartProducts, setCartProducts] = useState<CartProductData[]>([]);
   const cartState = useAppSelector((state) => state.cartReducer);
 
   const { updateTotalPrice } = cartSlice.actions;
@@ -21,21 +19,19 @@ export function useFetchCartItems() {
     void (async () => {
       setIsLoading(true);
 
-      try {
-        const cart = await getCurrentCart();
-        const items = cart.lineItems.map(getCartProductData);
-        setProducts(items);
-        dispatch(updateTotalPrice(getPriceValue(cart.totalPrice)));
-      } catch {
-        // do nothing
-      }
+      const cart = await getCurrentCart();
+      const products = cart.lineItems.map(getCartProductData);
+      const totalPriceValue = getPriceValue(cart.totalPrice);
 
+      dispatch(updateTotalPrice(totalPriceValue));
+
+      setCartProducts(products);
       setIsLoading(false);
     })();
   }, [cartState]);
 
   return {
     isLoading,
-    items: carItems,
+    cartProducts,
   };
 }
