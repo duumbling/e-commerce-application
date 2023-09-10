@@ -23,12 +23,15 @@ import { getErrorMessage } from "../lib/helpers";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "../model/schema";
+import { useAppDispatch } from "../../../shared/model/hooks";
+import { loadCartData } from "../../../entities/cart";
 
 export const LoginForm = () => {
   const [isLoading, setLoading] = useState(false);
   const [isLoginSuccess, setSuccess] = useState(false);
   const [isMessageVisible, setMessageVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,
@@ -49,6 +52,7 @@ export const LoginForm = () => {
     setLoading(true);
     try {
       await loginCustomer(data);
+      void dispatch(loadCartData());
       setSuccess(true);
       reset({ email: "", password: "" });
       setTimeout(() => {
