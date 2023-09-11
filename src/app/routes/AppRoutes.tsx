@@ -11,6 +11,8 @@ import { DetailedProductPage } from "../../pages/detailedProduct";
 import { ProfilePage } from "../../pages/profile";
 import { CartPage } from "../../pages/cart";
 import { AboutPage } from "../../pages/about";
+import { loadCartData } from "../../entities/cart";
+import { useAppDispatch } from "../../shared/model/hooks";
 
 const shoesTypePaths: RouteObject[] = [
   {
@@ -28,6 +30,10 @@ const shoesTypePaths: RouteObject[] = [
 ];
 
 export function AppRoutes() {
+  const dispatch = useAppDispatch();
+
+  void dispatch(loadCartData());
+
   return (
     <Routes>
       <Route path={Paths.Main} element={<Layout />}>

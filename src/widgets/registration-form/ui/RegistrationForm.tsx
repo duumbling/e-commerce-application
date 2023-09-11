@@ -37,7 +37,8 @@ import { CustomSwitch } from "../../../shared/ui/CustomSwitch/CustomSwitch";
 import { registerCustomer } from "../api/registration";
 import { Paths } from "../../../shared/constants/paths";
 import { loginCustomer } from "../../../shared/api";
-import { getCurrentCart } from "../../../entities/cart";
+import { useAppDispatch } from "../../../shared/model/hooks";
+import { loadCartData, getCurrentCart } from "../../../entities/cart";
 
 export const RegistrationForm = () => {
   const methods = useForm<RegistrationFormValues>({
@@ -53,19 +54,17 @@ export const RegistrationForm = () => {
   } = methods;
 
   const [isCommonAddressChecked, setCommonAddressChecked] = useState(false);
-
   const [isDefaultShippingAddressChecked, setDefaultShippingAddressChecked] =
     useState(false);
   const [isDefaultBillingAddressChecked, setDefaultBillingAddressChecked] =
     useState(false);
-
   const [isLoading, setLoading] = useState(false);
   const [isRegistrationSuccess, setSuccess] = useState(false);
   const [isMessageVisible, setMessageVisible] = useState(false);
-
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<RegistrationFormValues> = async (data) => {
     setLoading(true);
@@ -83,6 +82,7 @@ export const RegistrationForm = () => {
         },
         cart.id,
       );
+      void dispatch(loadCartData());
       setSuccess(true);
       const timeout = 1000;
       setTimeout(() => {
