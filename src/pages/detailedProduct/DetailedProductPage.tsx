@@ -6,7 +6,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Backdrop,
-  Box,
   CircularProgress,
   Divider,
   FormControlLabel,
@@ -54,12 +53,16 @@ export function DetailedProductPage() {
   };
 
   return (
-    <Box>
+    <>
       <Header />
-      <Grid container spacing={2} m={2} component={"main"}>
+      <Grid container spacing={2} m={1} component={"main"}>
         <Grid item xs={12} md={6}>
           <ProductImageSlider
+            containerProps={{ sx: { width: "100%" } }}
             imageUrls={currentVariant?.images?.map(({ url }) => url) ?? []}
+            mainSwiperProps={{
+              width: "100%",
+            }}
           />
         </Grid>
 
@@ -166,6 +169,6 @@ export function DetailedProductPage() {
           isAdded ? "Товар добавлен в корзину" : "Товар удален из корзины"
         }
       />
-    </Box>
+    </>
   );
 }
