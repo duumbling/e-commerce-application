@@ -6,28 +6,26 @@ import { OrderSummaryItem } from "./OrderSummaryItem/OrderSummaryItem";
 import { useAppSelector } from "../../../shared/model/hooks";
 
 export function OrderSummary() {
-  const { totalPrice, discountPrice } = useAppSelector(
-    (state) => state.cartReducer,
-  );
+  const cartState = useAppSelector((state) => state.cartReducer);
 
   return (
     <Paper variant="outlined" sx={rootStyle}>
       <Stack spacing={2}>
         <Typography {...titleProps}>Заказ</Typography>
         <OrderSummaryItem
-          title="2 товара на сумму"
-          value={totalPrice}
+          title={`${cartState.itemsCount} товаров на сумму`}
+          value={cartState.totalPrice}
           typographyProps={priceProps}
         />
         <OrderSummaryItem
           title="Скидка"
-          value={discountPrice}
+          value={cartState.totalPrice - cartState.discountPrice}
           typographyProps={priceProps}
         />
         <Divider />
         <OrderSummaryItem
           title="ИТОГО:"
-          value={totalPrice - discountPrice}
+          value={cartState.discountPrice}
           typographyProps={titleProps}
           marginTop={3}
         />
