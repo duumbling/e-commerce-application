@@ -11,7 +11,7 @@ import type { CartState } from "./types";
 const initialState: CartState = {
   totalPrice: 0,
   discountPrice: 0,
-  itemsCount: 0,
+  count: 0,
   ids: [],
 };
 

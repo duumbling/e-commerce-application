@@ -31,7 +31,7 @@ export const getCartState = (cart: Cart): CartState => {
     ids: cart.lineItems.map(({ productId }) => productId),
     totalPrice: getCartTotalPrice(cart),
     discountPrice: getCartDiscountPrice(cart),
-    itemsCount: cart.lineItems.reduce((acc, curr) => acc + curr.quantity, 0),
+    count: cart.lineItems.reduce((acc, curr) => acc + curr.quantity, 0),
   };
 };
 

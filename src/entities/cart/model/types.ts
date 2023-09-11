@@ -1,6 +1,6 @@
 export interface CartState {
   totalPrice: number;
   discountPrice: number;
-  itemsCount: number;
+  count: number;
   ids: string[];
 }

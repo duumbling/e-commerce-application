@@ -6,7 +6,7 @@ import { OrderSummaryItem } from "./OrderSummaryItem/OrderSummaryItem";
 import { useAppSelector } from "../../../shared/model/hooks";
 
 export function OrderSummary() {
-  const { totalPrice, discountPrice, itemsCount } = useAppSelector(
+  const { totalPrice, discountPrice, count } = useAppSelector(
     (state) => state.cartReducer,
   );
 
@@ -15,7 +15,7 @@ export function OrderSummary() {
       <Stack spacing={2}>
         <Typography {...titleProps}>Заказ</Typography>
         <OrderSummaryItem
-          title={`${itemsCount} товаров на сумму`}
+          title={`${count} товаров на сумму`}
           value={totalPrice}
           typographyProps={priceProps}
         />

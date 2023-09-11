@@ -9,7 +9,7 @@ import { useAppSelector } from "../../../../shared/model/hooks";
 export function HeaderCartButton({ onClick, ...buttonProps }: IconButtonProps) {
   const navigate = useNavigate();
 
-  const { ids } = useAppSelector((state) => state.cartReducer);
+  const { count } = useAppSelector((state) => state.cartReducer);
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -22,7 +22,7 @@ export function HeaderCartButton({ onClick, ...buttonProps }: IconButtonProps) {
 
   return (
     <IconButton size="large" {...buttonProps} onClick={handleClick}>
-      <Badge badgeContent={ids.length} color={ThemeColors.PRIMARY}>
+      <Badge badgeContent={count} color={ThemeColors.PRIMARY}>
         <ShoppingCartOutlinedIcon />
       </Badge>
     </IconButton>
