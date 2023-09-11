@@ -15,12 +15,17 @@ export const getCartTotalPrice = (cart: Cart): number => {
 
 export const getCartDiscountPrice = (cart: Cart): number => {
   return cart.lineItems.reduce((acc, curr) => {
-    const discountedPrice =
+    const discountPrice =
       curr.discountedPricePerQuantity.length > 0
         ? getPriceValue(
             curr.discountedPricePerQuantity[0].discountedPrice.value,
           )
-        : getDiscountPrice(curr.price);
-    return acc + (discountedPrice ?? 0) * curr.quantity;
+        : getDiscountPrice(curr.price) ?? 0;
+
+    if (discountPrice === 0) {
+      return discountPrice;
+    }
+    const price = getPriceValue(curr.price.value);
+    return acc + (price - discountPrice) * curr.quantity;
   }, 0);
 };
