@@ -3,7 +3,7 @@ import { getDiscountPrice, getPriceValue } from "../../../shared/api/product";
 import type { CartProductData } from "../../../features/CartProductView";
 
 export const getCartProductData = ({
-  id,
+  productId,
   name,
   price,
   variant,
@@ -12,7 +12,7 @@ export const getCartProductData = ({
   totalPrice,
 }: LineItem): CartProductData => {
   return {
-    id,
+    id: productId,
     title: name["ru-RU"],
     image: variant.images !== undefined ? variant.images[0].url : "",
     price: getPriceValue(price.value),

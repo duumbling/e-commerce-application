@@ -123,11 +123,11 @@ export const removeAllCartProducts = async (): Promise<Cart> => {
 };
 
 export const changeCartProductQuantity = async (
-  lineItemId: string,
+  productId: string,
   action: "add" | "remove",
 ): Promise<Cart> => {
   const { id, version, lineItems } = await getActiveCart();
-  const { quantity } = getCurrentLineItem(lineItems, lineItemId);
+  const { quantity, id: lineItemId } = getCurrentLineItem(lineItems, productId);
   const api = getApiRoot();
 
   const { body } = await api()

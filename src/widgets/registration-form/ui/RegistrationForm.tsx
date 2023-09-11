@@ -38,7 +38,7 @@ import { registerCustomer } from "../api/registration";
 import { Paths } from "../../../shared/constants/paths";
 import { loginCustomer } from "../../../shared/api";
 import { useAppDispatch } from "../../../shared/model/hooks";
-import { loadCartData } from "../../../entities/cart";
+import { loadCartData, getCurrentCart } from "../../../entities/cart";
 
 export const RegistrationForm = () => {
   const methods = useForm<RegistrationFormValues>({
@@ -74,10 +74,14 @@ export const RegistrationForm = () => {
         isDefaultShippingAddressChecked,
         isDefaultBillingAddressChecked,
       );
-      await loginCustomer({
-        email: data.email,
-        password: data.password,
-      });
+      const cart = await getCurrentCart();
+      await loginCustomer(
+        {
+          email: data.email,
+          password: data.password,
+        },
+        cart.id,
+      );
       void dispatch(loadCartData());
       setSuccess(true);
       const timeout = 1000;

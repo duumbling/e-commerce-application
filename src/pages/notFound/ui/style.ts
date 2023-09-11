@@ -4,23 +4,7 @@ import {
 } from "../../../shared/constants/colors";
 import { MOBILE_MEDIA } from "../../../shared/constants/mediaQuery";
 import { CONTAINED_BUTTON_PADDINGS } from "../../../shared/constants/sizes";
-import GirlImage from "../../../shared/assets/images/girl_1240.png";
 
-export const backgroundImageStyle = {
-  height: {
-    xs: "50vh",
-    sm: "60vh",
-    md: "80vh ",
-  },
-  backgroundImage: `url("${GirlImage}")`,
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "right 100%",
-  backgroundSize: {
-    xs: "200px 300px",
-    sm: "300px 400px",
-    md: "450px 600px",
-  },
-};
 export const gridContainerProps = {
   container: true,
   rowSpacing: { xs: "20%", sm: "10%", md: "10%" },

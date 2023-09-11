@@ -8,11 +8,13 @@ import { getPriceValue } from "../../../shared/api/product";
 
 interface CartState {
   totalPrice: number;
+  discountPrice: number;
   ids: string[];
 }
 
 const initialState: CartState = {
   totalPrice: 0,
+  discountPrice: 0,
   ids: [],
 };
 
@@ -23,6 +25,7 @@ export const loadCartData = createAsyncThunk(
     const productIds = cart.lineItems.map((item) => item.productId);
     return {
       totalPrice: getPriceValue(cart.totalPrice),
+      discountPrice: 0,
       ids: productIds,
     };
   },
@@ -32,7 +35,11 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    updateItemsIds(state, { payload }: PayloadAction<string>) {
+    updateProductsIds(state, { payload }: PayloadAction<string | string[]>) {
+      if (Array.isArray(payload)) {
+        state.ids = payload;
+        return;
+      }
       if (state.ids.includes(payload)) {
         state.ids = state.ids.filter((id) => id !== payload);
       } else {
@@ -41,6 +48,9 @@ export const cartSlice = createSlice({
     },
     updateTotalPrice(state, { payload }: PayloadAction<number>) {
       state.totalPrice = payload;
+    },
+    updateDiscountPrice(state, { payload }: PayloadAction<number>) {
+      state.discountPrice = payload;
     },
   },
   extraReducers: (builder) => {

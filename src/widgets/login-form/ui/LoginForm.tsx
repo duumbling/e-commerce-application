@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "../model/schema";
 import { useAppDispatch } from "../../../shared/model/hooks";
-import { loadCartData } from "../../../entities/cart";
+import { loadCartData, getCurrentCart } from "../../../entities/cart";
 
 export const LoginForm = () => {
   const [isLoading, setLoading] = useState(false);
@@ -51,7 +51,8 @@ export const LoginForm = () => {
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     setLoading(true);
     try {
-      await loginCustomer(data);
+      const cart = await getCurrentCart();
+      await loginCustomer(data, cart.id);
       void dispatch(loadCartData());
       setSuccess(true);
       reset({ email: "", password: "" });
