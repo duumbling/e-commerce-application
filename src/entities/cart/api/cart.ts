@@ -17,7 +17,7 @@ const getActiveCart = async (): Promise<Cart> => {
   return body;
 };
 
-const createCart = async (): Promise<Cart> => {
+export const createCart = async (): Promise<Cart> => {
   const api = getApiRoot();
 
   const { body } = await api()
