@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
-import { addProductToCart, removeProductFromCart } from "../api/cart";
+import {
+  addDiscountCode,
+  addProductToCart,
+  isDiscountCodeExists,
+  removeProductFromCart,
+} from "../api/cart";
 import { cartSlice } from "./slice";
+import { getPriceValue } from "../../../shared/api/product";
 
 interface Attributes {
   color: string;
@@ -17,12 +23,13 @@ interface CartHookResult {
     attributes: Attributes,
   ) => Promise<void>;
   removeProduct: (productId: string) => Promise<void>;
+  applyDiscountCode: (code: string) => Promise<boolean>;
 }
 
 export function useCart(): CartHookResult {
   const [isLoading, setIsLoading] = useState(false);
   const cartState = useAppSelector((state) => state.cartReducer);
-  const { updateProductsIds } = cartSlice.actions;
+  const { updateProductsIds, updateTotalPrice } = cartSlice.actions;
   const dispatch = useAppDispatch();
 
   const isProductAdded = (productId: string): boolean =>
@@ -50,10 +57,25 @@ export function useCart(): CartHookResult {
     setIsLoading(false);
   };
 
+  const applyDiscountCode = async (code: string): Promise<boolean> => {
+    setIsLoading(true);
+    const isCodeExists = await isDiscountCodeExists(code);
+
+    if (isCodeExists) {
+      const cart = await addDiscountCode(code);
+      const totalPriceValue = getPriceValue(cart.totalPrice);
+      dispatch(updateTotalPrice(totalPriceValue));
+    }
+
+    setIsLoading(false);
+    return isCodeExists;
+  };
+
   return {
     isLoading,
     isProductAdded,
     addProduct,
     removeProduct,
+    applyDiscountCode,
   };
 }
