@@ -3,12 +3,14 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 interface CartState {
   itemsCount: number;
   totalPrice: number;
+  discountPrice: number;
   ids: string[];
 }
 
 const initialState: CartState = {
   itemsCount: 0,
   totalPrice: 0,
+  discountPrice: 0,
   ids: [],
 };
 
@@ -29,6 +31,9 @@ export const cartSlice = createSlice({
     },
     updateTotalPrice(state, { payload }: PayloadAction<number>) {
       state.totalPrice = payload;
+    },
+    updateDiscountPrice(state, { payload }: PayloadAction<number>) {
+      state.discountPrice = payload;
     },
   },
 });
