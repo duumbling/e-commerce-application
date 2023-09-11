@@ -1,15 +1,21 @@
 import React, { useState } from "react";
-import { Dialog, DialogActions, DialogTitle } from "@mui/material";
+import {
+  Backdrop,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+} from "@mui/material";
 import {
   CustomButton,
   type CustomButtonProps,
 } from "../../../shared/ui/CustomButton";
-import { removeAllCartProducts } from "../../../entities/cart";
-import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
+import { useCart } from "../../../entities/cart";
+import { ThemeColors } from "../../../shared/constants/colors";
 
 export function CartClearButton({ onClick, ...otherProps }: CustomButtonProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isMessageVisible, setIsMessageVisible] = useState(false);
+  const { removeAllProducts, isLoading } = useCart();
 
   const openDialog = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -27,11 +33,7 @@ export function CartClearButton({ onClick, ...otherProps }: CustomButtonProps) {
   const clearCart = () => {
     closeDialog();
     void (async () => {
-      await removeAllCartProducts();
-      setIsMessageVisible(true);
-      /* TODO: 08.09.23 update cart state,
-        when there will be necessary data in state cartReducer
-        */
+      await removeAllProducts();
     })();
   };
 
@@ -51,16 +53,12 @@ export function CartClearButton({ onClick, ...otherProps }: CustomButtonProps) {
           </CustomButton>
         </DialogActions>
       </Dialog>
-      <CustomSnackBar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        severity="success"
-        autoHideDuration={500}
-        open={isMessageVisible}
-        onClose={() => {
-          setIsMessageVisible(false);
-        }}
-        message="Все товары удалены"
-      />
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color={ThemeColors.PRIMARY} />
+      </Backdrop>
     </>
   );
 }
