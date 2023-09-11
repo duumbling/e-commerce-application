@@ -1,6 +1,7 @@
 import { customerDataApiRoot, loginApiRoot } from "../../../shared/api/apiRoot";
 import { loginCustomer } from "../../../shared/api";
 import { resetCustomerTokenCache } from "../../../shared/api/tokens/helpers";
+import { getCurrentCart } from "../../../entities/cart";
 
 export const changeCustomerPassword = async (
   currentPassword: string,
@@ -24,5 +25,7 @@ export const changeCustomerPassword = async (
 
   resetCustomerTokenCache();
 
-  return await loginCustomer({ email, password: newPassword });
+  const cart = await getCurrentCart();
+
+  return await loginCustomer({ email, password: newPassword }, cart.id);
 };

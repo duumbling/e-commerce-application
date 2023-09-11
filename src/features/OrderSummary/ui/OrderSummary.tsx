@@ -1,28 +1,33 @@
-import { Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
+import { Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import { CustomButton } from "../../../shared/ui/CustomButton";
 import { buttonStyle, priceProps, rootStyle, titleProps } from "./style";
 import { OrderSummaryItem } from "./OrderSummaryItem/OrderSummaryItem";
+import { useAppSelector } from "../../../shared/model/hooks";
 
 export function OrderSummary() {
+  const { totalPrice, discountPrice } = useAppSelector(
+    (state) => state.cartReducer,
+  );
+
   return (
     <Paper variant="outlined" sx={rootStyle}>
       <Stack spacing={2}>
         <Typography {...titleProps}>Заказ</Typography>
         <OrderSummaryItem
           title="2 товара на сумму"
-          value={13918}
+          value={totalPrice}
           typographyProps={priceProps}
         />
         <OrderSummaryItem
           title="Скидка"
-          value={0}
+          value={discountPrice}
           typographyProps={priceProps}
         />
         <Divider />
         <OrderSummaryItem
           title="ИТОГО:"
-          value={13918}
+          value={totalPrice - discountPrice}
           typographyProps={titleProps}
           marginTop={3}
         />
