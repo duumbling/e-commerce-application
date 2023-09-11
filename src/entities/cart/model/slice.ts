@@ -5,14 +5,8 @@ import {
 } from "@reduxjs/toolkit";
 import { getCurrentCart } from "../api/cart";
 import type { Cart } from "@commercetools/platform-sdk";
-import { getCartDiscountPrice, getCartTotalPrice } from "../lib/helpers";
-
-interface CartState {
-  totalPrice: number;
-  discountPrice: number;
-  itemsCount: number;
-  ids: string[];
-}
+import { getCartState } from "../lib/helpers";
+import type { CartState } from "./types";
 
 const initialState: CartState = {
   totalPrice: 0,
@@ -33,25 +27,13 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    updateCartState(state, { payload }: PayloadAction<Cart>) {
-      state.ids = payload.lineItems.map(({ productId }) => productId);
-      state.totalPrice = getCartTotalPrice(payload);
-      state.discountPrice = getCartDiscountPrice(payload);
-      state.itemsCount = payload.lineItems.reduce(
-        (acc, curr) => acc + curr.quantity,
-        0,
-      );
+    updateCartState(_, { payload }: PayloadAction<Cart>) {
+      return getCartState(payload);
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadCartData.fulfilled, (state, { payload }) => {
-      state.ids = payload.lineItems.map(({ productId }) => productId);
-      state.totalPrice = getCartTotalPrice(payload);
-      state.discountPrice = getCartDiscountPrice(payload);
-      state.itemsCount = payload.lineItems.reduce(
-        (acc, curr) => acc + curr.quantity,
-        0,
-      );
+    builder.addCase(loadCartData.fulfilled, (_, { payload }) => {
+      return getCartState(payload);
     });
   },
 });
