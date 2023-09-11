@@ -52,7 +52,7 @@ export function CartProductView({
   const [totalPriceValue, setTotalPriceValue] = useState(totalPrice);
   const [counter, setCounter] = useState(quantity);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const { updateTotalPrice, updateProductsIds } = cartSlice.actions;
+  const { updateCartState } = cartSlice.actions;
   const { removeProduct } = useCart();
   const dispatch = useAppDispatch();
 
@@ -62,9 +62,8 @@ export function CartProductView({
 
       const cart = await changeCartProductQuantity(id, action);
       const currentLineItem = getCurrentLineItem(cart.lineItems, id);
-      const cartTotalPrice = getPriceValue(cart.totalPrice);
 
-      dispatch(updateTotalPrice(cartTotalPrice));
+      dispatch(updateCartState(cart));
 
       setCounter(currentLineItem.quantity);
       setTotalPriceValue(getPriceValue(currentLineItem.totalPrice));
@@ -75,7 +74,6 @@ export function CartProductView({
   const deleteItem = () => {
     void (async () => {
       await removeProduct(id);
-      dispatch(updateProductsIds(id));
     })();
   };
 

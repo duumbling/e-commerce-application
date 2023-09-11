@@ -4,30 +4,22 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import { getCurrentCart } from "../api/cart";
-import { getPriceValue } from "../../../shared/api/product";
-
-interface CartState {
-  totalPrice: number;
-  discountPrice: number;
-  ids: string[];
-}
+import type { Cart } from "@commercetools/platform-sdk";
+import { getCartState } from "../lib/helpers";
+import type { CartState } from "./types";
 
 const initialState: CartState = {
   totalPrice: 0,
   discountPrice: 0,
+  count: 0,
   ids: [],
 };
 
 export const loadCartData = createAsyncThunk(
   "cart",
-  async (): Promise<CartState> => {
+  async (): Promise<Cart> => {
     const cart = await getCurrentCart();
-    const productIds = cart.lineItems.map((item) => item.productId);
-    return {
-      totalPrice: getPriceValue(cart.totalPrice),
-      discountPrice: 0,
-      ids: productIds,
-    };
+    return cart;
   },
 );
 
@@ -35,28 +27,13 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    updateProductsIds(state, { payload }: PayloadAction<string | string[]>) {
-      if (Array.isArray(payload)) {
-        state.ids = payload;
-        return;
-      }
-      if (state.ids.includes(payload)) {
-        state.ids = state.ids.filter((id) => id !== payload);
-      } else {
-        state.ids.push(payload);
-      }
-    },
-    updateTotalPrice(state, { payload }: PayloadAction<number>) {
-      state.totalPrice = payload;
-    },
-    updateDiscountPrice(state, { payload }: PayloadAction<number>) {
-      state.discountPrice = payload;
+    updateCartState(_, { payload }: PayloadAction<Cart>) {
+      return getCartState(payload);
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadCartData.fulfilled, (state, { payload }) => {
-      state.ids = payload.ids;
-      state.totalPrice = payload.totalPrice;
+    builder.addCase(loadCartData.fulfilled, (_, { payload }) => {
+      return getCartState(payload);
     });
   },
 });
