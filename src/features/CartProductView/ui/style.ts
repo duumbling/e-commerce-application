@@ -3,6 +3,11 @@ import {
   TABLET_MEDIA,
 } from "../../../shared/constants/mediaQuery";
 
+export const containerStyle = {
+  position: "relative",
+  paddingRight: "3rem",
+};
+
 export const titleStyle = {
   fontSize: 25,
   fontWeight: 700,
@@ -20,11 +25,6 @@ export const deleteIconButtonStyle = {
   position: "absolute",
   right: 0,
   top: 0,
-
-  "@media (max-width: 650px)": {
-    top: "auto",
-    bottom: 0,
-  },
 };
 
 export const counterStyle = {

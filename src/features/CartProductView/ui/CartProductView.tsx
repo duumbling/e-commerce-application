@@ -17,6 +17,7 @@ import {
   attributeStyle,
   counterStyle,
   titleStyle,
+  containerStyle,
 } from "./style";
 import { ThemeColors } from "../../../shared/constants/colors";
 import type { CartProductData } from "../model/types";
@@ -28,6 +29,7 @@ import {
 } from "../../../entities/cart";
 import { getPriceValue } from "../../../shared/api/product";
 import { useAppDispatch } from "../../../shared/model/hooks";
+import { resolveSx } from "../../../shared/lib/helpers/styles";
 
 export type CartProductViewProps = PaperProps & {
   data: CartProductData;
@@ -82,7 +84,7 @@ export function CartProductView({
   return (
     <Paper
       variant="outlined"
-      sx={{ position: "relative", ...sx }}
+      sx={resolveSx(containerStyle, sx)}
       {...paperProps}
     >
       <Grid container columnSpacing={{ xs: 2 }} marginTop={1}>
@@ -101,7 +103,7 @@ export function CartProductView({
         <Grid item>
           <Stack spacing={2}>
             <Typography sx={titleStyle}>{title}</Typography>
-            <PriceTag price={price} discountPrice={discountPrice} divider={1} />
+            <PriceTag price={price} discountPrice={discountPrice} />
             <Typography sx={attributeStyle} color={ThemeColors.GREY}>
               Цвет: {color}
             </Typography>
@@ -137,8 +139,8 @@ export function CartProductView({
             </IconButton>
           </Stack>
         </Grid>
-        <Grid item marginRight={7}>
-          <PriceTag price={totalPriceValue} divider={1} />
+        <Grid item>
+          <PriceTag price={totalPriceValue} />
         </Grid>
       </Grid>
 
