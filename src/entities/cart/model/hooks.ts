@@ -7,7 +7,6 @@ import {
   removeProductFromCart,
 } from "../api/cart";
 import { cartSlice } from "./slice";
-import { getPriceValue } from "../../../shared/api/product";
 
 interface Attributes {
   color: string;
@@ -28,12 +27,12 @@ interface CartHookResult {
 
 export function useCart(): CartHookResult {
   const [isLoading, setIsLoading] = useState(false);
-  const cartState = useAppSelector((state) => state.cartReducer);
-  const { updateProductsIds, updateTotalPrice } = cartSlice.actions;
+  const { ids } = useAppSelector((state) => state.cartReducer);
+  const { updateCartState } = cartSlice.actions;
   const dispatch = useAppDispatch();
 
   const isProductAdded = (productId: string): boolean =>
-    cartState.ids.filter((id) => id === productId).length > 0;
+    ids.filter((id) => id === productId).length > 0;
 
   const addProduct = async (
     productId: string,
@@ -42,8 +41,8 @@ export function useCart(): CartHookResult {
   ): Promise<void> => {
     setIsLoading(true);
 
-    await addProductToCart(productId, variantId, attributes);
-    dispatch(updateProductsIds(productId));
+    const cart = await addProductToCart(productId, variantId, attributes);
+    dispatch(updateCartState(cart));
 
     setIsLoading(false);
   };
@@ -51,8 +50,8 @@ export function useCart(): CartHookResult {
   const removeProduct = async (productId: string): Promise<void> => {
     setIsLoading(true);
 
-    await removeProductFromCart(productId);
-    dispatch(updateProductsIds(productId));
+    const cart = await removeProductFromCart(productId);
+    dispatch(updateCartState(cart));
 
     setIsLoading(false);
   };
@@ -63,8 +62,7 @@ export function useCart(): CartHookResult {
 
     if (isCodeExists) {
       const cart = await addDiscountCode(code);
-      const totalPriceValue = getPriceValue(cart.totalPrice);
-      dispatch(updateTotalPrice(totalPriceValue));
+      dispatch(updateCartState(cart));
     }
 
     setIsLoading(false);

@@ -4,30 +4,28 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import { getCurrentCart } from "../api/cart";
-import { getPriceValue } from "../../../shared/api/product";
+import type { Cart } from "@commercetools/platform-sdk";
+import { getCartDiscountPrice, getCartTotalPrice } from "../lib/helpers";
 
 interface CartState {
   totalPrice: number;
   discountPrice: number;
+  itemsCount: number;
   ids: string[];
 }
 
 const initialState: CartState = {
   totalPrice: 0,
   discountPrice: 0,
+  itemsCount: 0,
   ids: [],
 };
 
 export const loadCartData = createAsyncThunk(
   "cart",
-  async (): Promise<CartState> => {
+  async (): Promise<Cart> => {
     const cart = await getCurrentCart();
-    const productIds = cart.lineItems.map((item) => item.productId);
-    return {
-      totalPrice: getPriceValue(cart.totalPrice),
-      discountPrice: 0,
-      ids: productIds,
-    };
+    return cart;
   },
 );
 
@@ -35,28 +33,25 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    updateProductsIds(state, { payload }: PayloadAction<string | string[]>) {
-      if (Array.isArray(payload)) {
-        state.ids = payload;
-        return;
-      }
-      if (state.ids.includes(payload)) {
-        state.ids = state.ids.filter((id) => id !== payload);
-      } else {
-        state.ids.push(payload);
-      }
-    },
-    updateTotalPrice(state, { payload }: PayloadAction<number>) {
-      state.totalPrice = payload;
-    },
-    updateDiscountPrice(state, { payload }: PayloadAction<number>) {
-      state.discountPrice = payload;
+    updateCartState(state, { payload }: PayloadAction<Cart>) {
+      state.ids = payload.lineItems.map(({ productId }) => productId);
+      state.totalPrice = getCartTotalPrice(payload);
+      state.discountPrice = getCartDiscountPrice(payload);
+      state.itemsCount = payload.lineItems.reduce(
+        (acc, curr) => acc + curr.quantity,
+        0,
+      );
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loadCartData.fulfilled, (state, { payload }) => {
-      state.ids = payload.ids;
-      state.totalPrice = payload.totalPrice;
+      state.ids = payload.lineItems.map(({ productId }) => productId);
+      state.totalPrice = getCartTotalPrice(payload);
+      state.discountPrice = getCartDiscountPrice(payload);
+      state.itemsCount = payload.lineItems.reduce(
+        (acc, curr) => acc + curr.quantity,
+        0,
+      );
     });
   },
 });
