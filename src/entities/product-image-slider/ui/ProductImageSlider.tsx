@@ -5,19 +5,24 @@ import {
   Grid,
   IconButton,
   useMediaQuery,
+  Box,
+  type BoxProps,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   CustomSwiper,
   type CustomSwiperProps,
 } from "../../../shared/ui/CustomSwiper";
-import { modalSwiperSizeStyle, iconButtonStyle } from "./style";
+import { modalSwiperSizeStyle, iconButtonStyle, slideStyle } from "./style";
+
+type SubCustomWiper = Omit<CustomSwiperProps, "images">;
 
 export interface ImageSliderProps {
   imageUrls: string[];
-  mainSwiperProps?: CustomSwiperProps;
-  modalSwiperProps?: CustomSwiperProps;
+  mainSwiperProps?: SubCustomWiper;
+  modalSwiperProps?: SubCustomWiper;
   modalDialogProps?: DialogProps;
+  containerProps: BoxProps;
 }
 
 export function ProductImageSlider({
@@ -25,10 +30,11 @@ export function ProductImageSlider({
   mainSwiperProps,
   modalDialogProps,
   modalSwiperProps,
+  containerProps,
 }: ImageSliderProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const isMobileWidth = useMediaQuery("(max-width: 600px)");
+  const isMobileWidth = useMediaQuery("(pointer: none)");
 
   const handleSliderClick = () => {
     if (!isMobileWidth) {
@@ -41,13 +47,14 @@ export function ProductImageSlider({
   };
 
   return (
-    <>
+    <Box {...containerProps}>
       <CustomSwiper
         images={imageUrls}
         swiperProps={{ onClick: handleSliderClick }}
         slideProps={{
           style: {
             cursor: isMobileWidth ? "default" : "pointer",
+            ...slideStyle,
           },
         }}
         withNavigation
@@ -74,6 +81,6 @@ export function ProductImageSlider({
           </Grid>
         </Grid>
       </Dialog>
-    </>
+    </Box>
   );
 }
