@@ -12,6 +12,7 @@ export function AboutUsItem({ image, bio, link }: AboutUsItemProps) {
   const words = bio.split(" ");
   const firstWord = words[0];
   const otherWords = words.slice(1).join(" ");
+
   return (
     <Box sx={rootStyle}>
       <Grid>
