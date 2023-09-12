@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
 import {
   addDiscountCode,
   addProductToCart,
-  createCart,
   isDiscountCodeExists,
   removeAllCartProducts,
   removeProductFromCart,
@@ -75,9 +74,8 @@ export function useCart(): CartHookResult {
   const removeAllProducts = async (): Promise<void> => {
     setIsLoading(true);
 
-    await removeAllCartProducts();
-    const newCart = await createCart();
-    dispatch(updateCartState(newCart));
+    const cart = await removeAllCartProducts();
+    dispatch(updateCartState(cart));
 
     setIsLoading(false);
   };
