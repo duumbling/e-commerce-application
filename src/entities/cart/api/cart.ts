@@ -1,4 +1,8 @@
-import type { Cart, FieldContainer } from "@commercetools/platform-sdk";
+import type {
+  Cart,
+  FieldContainer,
+  MyCartUpdateAction,
+} from "@commercetools/platform-sdk";
 import { isUserAuthenticated } from "../../../shared/api";
 import {
   anonymousApiRoot,
@@ -107,15 +111,20 @@ export const removeProductFromCart = async (
 };
 
 export const removeAllCartProducts = async (): Promise<Cart> => {
-  const { id, version } = await getActiveCart();
+  const { id, version, lineItems } = await getActiveCart();
   const api = getApiRoot();
+  const actions: MyCartUpdateAction[] = lineItems.map((item) => ({
+    action: "removeLineItem",
+    lineItemId: item.id,
+  }));
 
   const { body } = await api()
     .me()
     .carts()
     .withId({ ID: id })
-    .delete({
-      queryArgs: {
+    .post({
+      body: {
+        actions,
         version,
       },
     })

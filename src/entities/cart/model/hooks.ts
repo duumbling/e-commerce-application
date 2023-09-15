@@ -4,6 +4,7 @@ import {
   addDiscountCode,
   addProductToCart,
   isDiscountCodeExists,
+  removeAllCartProducts,
   removeProductFromCart,
 } from "../api/cart";
 import { cartSlice } from "./slice";
@@ -22,6 +23,7 @@ interface CartHookResult {
     attributes: Attributes,
   ) => Promise<void>;
   removeProduct: (productId: string) => Promise<void>;
+  removeAllProducts: () => Promise<void>;
   applyDiscountCode: (code: string) => Promise<boolean>;
 }
 
@@ -69,11 +71,21 @@ export function useCart(): CartHookResult {
     return isCodeExists;
   };
 
+  const removeAllProducts = async (): Promise<void> => {
+    setIsLoading(true);
+
+    const cart = await removeAllCartProducts();
+    dispatch(updateCartState(cart));
+
+    setIsLoading(false);
+  };
+
   return {
     isLoading,
     isProductAdded,
     addProduct,
     removeProduct,
     applyDiscountCode,
+    removeAllProducts,
   };
 }

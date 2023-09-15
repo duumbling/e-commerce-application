@@ -7,6 +7,7 @@ import { DiscountCodeField } from "../../../features/DiscountCodeField";
 import { useAppSelector } from "../../../shared/model/hooks";
 import { ThemeColors } from "../../../shared/constants/colors";
 import { Paths } from "../../../shared/constants/paths";
+import { CartClearButton } from "../../../features/CartClearButton";
 
 export function CartPage() {
   const { ids } = useAppSelector((state) => state.cartReducer);
@@ -42,7 +43,14 @@ export function CartPage() {
       )}
       {ids.length > 0 && (
         <>
-          <CartProductsList />
+          <Grid container justifyContent="right" marginTop={2}>
+            <Grid item>
+              <CartClearButton />
+            </Grid>
+          </Grid>
+          <Box marginTop={3}>
+            <CartProductsList />
+          </Box>
           <DiscountCodeField marginTop={3} />
           <Box marginTop={5}>
             <OrderSummary />
