@@ -31,24 +31,19 @@ export function DetailedProductPage() {
   const { product, isFetching, currentVariant, setCurrentVariant } =
     useFetchProduct();
   const { addProduct, removeProduct, isLoading, isProductAdded } = useCart();
-  const [isAdded, setIsAdded] = useState(isProductAdded(product.id));
+  const isAdded = isProductAdded(product.id);
 
   const handleCartButtonClick = () => {
     void (async () => {
-      try {
-        if (!isAdded) {
-          await addProduct(product.id, currentVariant?.id ?? 1, {
-            color: currentVariant?.attributes.color.label ?? "",
-            size: currentSize,
-          });
-        } else {
-          await removeProduct(product.id);
-        }
-        setIsAdded(!isAdded);
-        setIsMessageVisible(true);
-      } catch (error) {
-        console.error(error);
+      if (!isAdded) {
+        await addProduct(product.id, currentVariant?.id ?? 1, {
+          color: currentVariant?.attributes.color.label ?? "",
+          size: currentSize,
+        });
+      } else {
+        await removeProduct(product.id);
       }
+      setIsMessageVisible(true);
     })();
   };
 
