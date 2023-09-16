@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FavoriteButton } from "../../shared/ui/FavoriteButton";
 import { CustomButton } from "../../shared/ui/CustomButton";
 import {
@@ -24,6 +24,7 @@ import { Header } from "../../widgets/Header";
 import { useCart } from "../../entities/cart";
 import { PRIMARY_COLOR } from "../../shared/constants/colors";
 import { CustomSnackBar } from "../../shared/ui/CustomSnackBar";
+import { useAppSelector } from "../../shared/model/hooks";
 
 export function DetailedProductPage() {
   const [isMessageVisible, setIsMessageVisible] = useState(false);
@@ -31,7 +32,8 @@ export function DetailedProductPage() {
   const { product, isFetching, currentVariant, setCurrentVariant } =
     useFetchProduct();
   const { addProduct, removeProduct, isLoading, isProductAdded } = useCart();
-  const isAdded = isProductAdded(product.id);
+  const { ids } = useAppSelector((state) => state.cartReducer);
+  const isAdded = useMemo(() => isProductAdded(product.id), [ids, product]);
 
   const handleCartButtonClick = () => {
     void (async () => {
