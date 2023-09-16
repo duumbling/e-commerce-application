@@ -33,11 +33,14 @@ export function DetailedProductPage() {
     useFetchProduct();
   const { addProduct, removeProduct, isLoading, isProductAdded } = useCart();
   const { ids } = useAppSelector((state) => state.cartReducer);
-  const isAdded = useMemo(() => isProductAdded(product.id), [ids, product]);
+  const isAddedToCart = useMemo(
+    () => isProductAdded(product.id),
+    [ids, product],
+  );
 
   const handleCartButtonClick = () => {
     void (async () => {
-      if (!isAdded) {
+      if (!isAddedToCart) {
         await addProduct(product.id, currentVariant?.id ?? 1, {
           color: currentVariant?.attributes.color.label ?? "",
           size: currentSize,
@@ -140,9 +143,9 @@ export function DetailedProductPage() {
           <Stack justifyContent={"center"} direction={"row"} gap={2} useFlexGap>
             <CustomButton
               onClick={handleCartButtonClick}
-              disabled={!isAdded && currentSize === 0}
+              disabled={!isAddedToCart && currentSize === 0}
             >
-              {!isAdded ? "Добавить в корзину" : "Удалить из корзины"}
+              {!isAddedToCart ? "Добавить в корзину" : "Удалить из корзины"}
             </CustomButton>
             <FavoriteButton />
           </Stack>
@@ -163,7 +166,7 @@ export function DetailedProductPage() {
           setIsMessageVisible(false);
         }}
         message={
-          isAdded ? "Товар добавлен в корзину" : "Товар удален из корзины"
+          isAddedToCart ? "Товар добавлен в корзину" : "Товар удален из корзины"
         }
       />
     </>
