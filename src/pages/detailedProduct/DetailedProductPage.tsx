@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FavoriteButton } from "../../shared/ui/FavoriteButton";
 import { CustomButton } from "../../shared/ui/CustomButton";
 import {
@@ -24,6 +24,7 @@ import { Header } from "../../widgets/Header";
 import { useCart } from "../../entities/cart";
 import { PRIMARY_COLOR } from "../../shared/constants/colors";
 import { CustomSnackBar } from "../../shared/ui/CustomSnackBar";
+import { useAppSelector } from "../../shared/model/hooks";
 
 export function DetailedProductPage() {
   const [isMessageVisible, setIsMessageVisible] = useState(false);
@@ -31,24 +32,23 @@ export function DetailedProductPage() {
   const { product, isFetching, currentVariant, setCurrentVariant } =
     useFetchProduct();
   const { addProduct, removeProduct, isLoading, isProductAdded } = useCart();
-  const [isAdded, setIsAdded] = useState(isProductAdded(product.id));
+  const { ids } = useAppSelector((state) => state.cartReducer);
+  const isAddedToCart = useMemo(
+    () => isProductAdded(product.id),
+    [ids, product],
+  );
 
   const handleCartButtonClick = () => {
     void (async () => {
-      try {
-        if (!isAdded) {
-          await addProduct(product.id, currentVariant?.id ?? 1, {
-            color: currentVariant?.attributes.color.label ?? "",
-            size: currentSize,
-          });
-        } else {
-          await removeProduct(product.id);
-        }
-        setIsAdded(!isAdded);
-        setIsMessageVisible(true);
-      } catch (error) {
-        console.error(error);
+      if (!isAddedToCart) {
+        await addProduct(product.id, currentVariant?.id ?? 1, {
+          color: currentVariant?.attributes.color.label ?? "",
+          size: currentSize,
+        });
+      } else {
+        await removeProduct(product.id);
       }
+      setIsMessageVisible(true);
     })();
   };
 
@@ -143,9 +143,9 @@ export function DetailedProductPage() {
           <Stack justifyContent={"center"} direction={"row"} gap={2} useFlexGap>
             <CustomButton
               onClick={handleCartButtonClick}
-              disabled={!isAdded && currentSize === 0}
+              disabled={!isAddedToCart && currentSize === 0}
             >
-              {!isAdded ? "Добавить в корзину" : "Удалить из корзины"}
+              {!isAddedToCart ? "Добавить в корзину" : "Удалить из корзины"}
             </CustomButton>
             <FavoriteButton />
           </Stack>
@@ -166,7 +166,7 @@ export function DetailedProductPage() {
           setIsMessageVisible(false);
         }}
         message={
-          isAdded ? "Товар добавлен в корзину" : "Товар удален из корзины"
+          isAddedToCart ? "Товар добавлен в корзину" : "Товар удален из корзины"
         }
       />
     </>
