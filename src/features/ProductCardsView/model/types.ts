@@ -15,6 +15,8 @@ export interface ProductData {
 export interface ProductsFetchResult {
   isFetching: boolean;
   pagesCount: number;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   data: ProductData[];
   error: Error | null;
 }

@@ -6,8 +6,10 @@ import {
 import { apiRoot } from "../../../shared/api/apiRoot";
 import { type ProductData } from "../model/types";
 import { getVariantData } from "../../../shared/api/product";
+import { getCategoryFilter } from "../lib/helpers";
 
 const PRODUCTS_LIMIT = 30;
+export const PAGE_LIMIT = 4;
 
 const getPriceValue = (price: TypedMoney): number => {
   const priceStr = price.centAmount.toString();
@@ -67,13 +69,33 @@ export const searchByWord = async (word: string) => {
     .execute();
 };
 
-export const getFilteredProducts = async (
-  filters: string[],
-  searchValue: string,
-  sort?: string,
+export const getProductsByCategoryId = async (
+  categoryId: string,
 ): Promise<ProductData[]> => {
   const {
     body: { results },
+  } = await apiRoot()
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        filter: [getCategoryFilter(categoryId)],
+        limit: PRODUCTS_LIMIT,
+        markMatchingVariants: true,
+      },
+    })
+    .execute();
+  return results.map(getProductData);
+};
+
+export const getFilteredProducts = async (
+  filters: string[],
+  searchValue: string,
+  pageNumber: number,
+  sort?: string,
+): Promise<{ data: ProductData[]; total?: number }> => {
+  const {
+    body: { results, total },
   } = await apiRoot()
     .productProjections()
     .search()
@@ -83,9 +105,14 @@ export const getFilteredProducts = async (
         sort,
         markMatchingVariants: true,
         "text.ru-RU": searchValue,
-        limit: PRODUCTS_LIMIT,
+        limit: PAGE_LIMIT,
+        offset: (pageNumber - 1) * PAGE_LIMIT,
+        withTotal: true,
       },
     })
     .execute();
-  return results.map(getProductData);
+  return {
+    data: results.map(getProductData),
+    total,
+  };
 };
