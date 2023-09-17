@@ -4,6 +4,7 @@ import { ThemeColors } from "../../../constants/colors";
 export const cardActionAreaStyleProps: ButtonProps = {
   color: "success",
   sx: {
+    minWidth: "unset",
     position: "relative",
     p: 0,
   },
