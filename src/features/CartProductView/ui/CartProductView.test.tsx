@@ -11,7 +11,7 @@ const store = configureStore({
   },
 });
 
-describe("CartClearButton component", () => {
+describe("CartProductView component", () => {
   test("Render", () => {
     const size = 40;
     const color = "Черный";
