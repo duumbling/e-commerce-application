@@ -4,17 +4,16 @@ import {
   useAppSelector,
   useCustomSearchParams,
 } from "../../../shared/model/hooks";
-import { getFilteredProducts } from "../api/products";
+import { PAGE_LIMIT, getFilteredProducts } from "../api/products";
 import { getFiltersArray, getSearchKeyword } from "../lib/helpers";
 import { SortOptions } from "../../../entities/products-sort-select";
-
-export const PAGE_LIMIT = 4;
 
 export function useFetchProducts(): ProductsFetchResult {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
   const [pagesCount, setPagesCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { searchParams } = useCustomSearchParams();
 
@@ -22,9 +21,7 @@ export function useFetchProducts(): ProductsFetchResult {
     (state) => state.searchKeywordsReducer,
   );
 
-  const { currentCategory } = useAppSelector(
-    (state) => state.categoriesReducer,
-  );
+  const categoryState = useAppSelector((state) => state.categoriesReducer);
 
   useEffect(() => {
     void (async () => {
@@ -35,15 +32,20 @@ export function useFetchProducts(): ProductsFetchResult {
           searchParams.get("text")?.toLowerCase() ?? "",
         );
 
-        const productsData = await getFilteredProducts(
-          getFiltersArray(currentCategory?.id ?? "", searchParams),
+        const { data, total } = await getFilteredProducts(
+          getFiltersArray(
+            categoryState.currentCategory?.id ?? "",
+            searchParams,
+          ),
           searchValue,
+          currentPage,
           searchParams.get("sort") ?? SortOptions.PRICE_ASC,
         );
 
-        setPagesCount(Math.ceil(productsData.length / PAGE_LIMIT));
-
-        setProducts(productsData);
+        setProducts(data);
+        if (total !== undefined) {
+          setPagesCount(Math.ceil(total / PAGE_LIMIT));
+        }
       } catch (error) {
         if (!(error instanceof Error)) {
           throw error;
@@ -52,12 +54,14 @@ export function useFetchProducts(): ProductsFetchResult {
       }
       setIsFetching(false);
     })();
-  }, [currentCategory, searchParams]);
+  }, [categoryState, searchParams, currentPage]);
 
   return {
     isFetching,
     data: products,
     pagesCount,
+    currentPage,
+    setCurrentPage,
     error,
   };
 }

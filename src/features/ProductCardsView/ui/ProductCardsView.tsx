@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   type GridProps,
   Grid,
@@ -9,56 +9,45 @@ import {
 } from "@mui/material";
 import { ProductCard } from "../../../entities/product-card";
 import { productsContainerProps } from "./style";
-import { PAGE_LIMIT, useFetchProducts } from "../model/hooks";
+import { useFetchProducts } from "../model/hooks";
+import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
+import { PRIMARY_COLOR, ThemeColors } from "../../../shared/constants/colors";
 import { useAppDispatch, useAppSelector } from "../../../shared/model/hooks";
-import { updateAvailableFilterValues } from "../../../entities/products-filter";
+import { getProductsByCategoryId } from "../api/products";
 import {
   getAvailableBrands,
   getAvailableColors,
   getAvailableSizes,
   getMinAndMaxPrices,
 } from "../lib/helpers";
-import { CustomSnackBar } from "../../../shared/ui/CustomSnackBar";
-import { PRIMARY_COLOR, ThemeColors } from "../../../shared/constants/colors";
+import { updateAvailableFilterValues } from "../../../entities/products-filter";
 
 type ProductsCardsViewProps = Pick<GridProps, "sx">;
 
 export function ProductCardsView({ sx }: ProductsCardsViewProps) {
-  const { isFetching, data, pagesCount, error } = useFetchProducts();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [offset, setOffset] = useState(0);
-
-  const handleChangePage = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
+  const { isFetching, data, setCurrentPage, currentPage, pagesCount, error } =
+    useFetchProducts();
+  const handleChangePage = (_: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value);
-    setOffset((value - 1) * PAGE_LIMIT);
   };
-
-  const { isUpdated } = useAppSelector((state) => state.categoriesReducer);
-
+  const { currentCategory } = useAppSelector(
+    (state) => state.categoriesReducer,
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isFetching) {
-      return;
-    }
-
-    setCurrentPage(1);
-    setOffset(0);
-
-    if (isUpdated) {
+    void (async () => {
+      const products = await getProductsByCategoryId(currentCategory?.id ?? "");
       dispatch(
         updateAvailableFilterValues({
-          brands: getAvailableBrands(data),
-          colors: getAvailableColors(data),
-          sizes: getAvailableSizes(data),
-          prices: getMinAndMaxPrices(data),
+          brands: getAvailableBrands(products),
+          colors: getAvailableColors(products),
+          sizes: getAvailableSizes(products),
+          prices: getMinAndMaxPrices(products),
         }),
       );
-    }
-  }, [isFetching]);
+    })();
+  }, [currentCategory]);
 
   return (
     <React.Fragment>
@@ -69,7 +58,7 @@ export function ProductCardsView({ sx }: ProductsCardsViewProps) {
       ) : (
         <>
           <Grid {...productsContainerProps} sx={sx}>
-            {data.slice(offset, offset + PAGE_LIMIT).map((product) => {
+            {data.map((product) => {
               return (
                 <Grid key={product.id} item>
                   <ProductCard
