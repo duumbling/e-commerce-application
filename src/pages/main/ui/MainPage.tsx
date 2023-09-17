@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import { Header } from "../../../widgets/Header";
 import {
   bannerStyleProps,
@@ -8,6 +8,8 @@ import {
   titleStackStyleProps,
   titleTextStyleProps,
   bannerButtonStyleProps,
+  sectionTitleStyleProps,
+  mainStackStyleProps,
 } from "./style";
 import { Link } from "../../../shared/ui/Link";
 import { Paths } from "../../../shared/constants/paths";
@@ -17,7 +19,7 @@ export function MainPage() {
   return (
     <>
       <Header />
-      <main>
+      <Stack component="main" {...mainStackStyleProps}>
         <Box {...bannerContainerStyleProps}>
           <Link href={Paths.Catalog} {...bannerStyleProps}>
             <Box {...titleContainerStyleProps}>
@@ -35,8 +37,13 @@ export function MainPage() {
           </Link>
         </Box>
 
-        <DiscountCodeList />
-      </main>
+        <Box>
+          <Divider>
+            <Typography {...sectionTitleStyleProps}>Промо-коды</Typography>
+          </Divider>
+          <DiscountCodeList />
+        </Box>
+      </Stack>
     </>
   );
 }
