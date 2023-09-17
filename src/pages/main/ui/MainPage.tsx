@@ -11,6 +11,7 @@ import {
 } from "./style";
 import { Link } from "../../../shared/ui/Link";
 import { Paths } from "../../../shared/constants/paths";
+import { DiscountCodeList } from "../../../widgets/DiscountCodeList";
 
 export function MainPage() {
   return (
@@ -33,6 +34,8 @@ export function MainPage() {
             <Box {...bannerButtonStyleProps}>КАТАЛОГ</Box>
           </Link>
         </Box>
+
+        <DiscountCodeList />
       </main>
     </>
   );
