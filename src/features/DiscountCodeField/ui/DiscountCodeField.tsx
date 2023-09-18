@@ -4,6 +4,7 @@ import {
   Backdrop,
   CircularProgress,
   Grid,
+  Typography,
   type GridProps,
 } from "@mui/material";
 import { CustomButton } from "../../../shared/ui/CustomButton";
@@ -31,6 +32,7 @@ export function DiscountCodeField(props: GridProps) {
         container
         spacing={1}
         justifyContent={{ xs: "center", sm: "start" }}
+        alignItems="center"
         {...props}
       >
         <Grid item>
@@ -50,6 +52,15 @@ export function DiscountCodeField(props: GridProps) {
           >
             Применить
           </CustomButton>
+        </Grid>
+        <Grid item>
+          <Typography
+            fontSize={{ md: 20, sm: 16 }}
+            color={ThemeColors.GREY_LIGHT}
+            fontWeight={700}
+          >
+            (Промокод действует только на товары без скидки)
+          </Typography>
         </Grid>
       </Grid>
       <Backdrop
