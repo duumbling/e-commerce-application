@@ -4,7 +4,7 @@ import { getDiscountCodes } from "../../../shared/api/discountCodes";
 
 export const useFetchDiscountCodes = () => {
   const [isFetching, setIsFetching] = useState(true);
-  const [discountCodes, setDiscountCodes] = useState<DiscountCode[]>();
+  const [discountCodes, setDiscountCodes] = useState<DiscountCode[]>([]);
 
   useEffect(() => {
     void (async () => {
@@ -18,7 +18,7 @@ export const useFetchDiscountCodes = () => {
 
       setIsFetching(false);
     })();
-  });
+  }, []);
 
   return { isFetching, discountCodes };
 };
