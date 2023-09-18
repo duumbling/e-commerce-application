@@ -8,6 +8,10 @@ import { mainBackgroundImageUrl } from "../../../shared/assets/images";
 import { ThemeColors } from "../../../shared/constants/colors";
 import { type LinkProps } from "../../../shared/ui/Link";
 
+export const mainStackStyleProps: StackProps = {
+  rowGap: "2rem",
+};
+
 export const bannerContainerStyleProps: BoxProps = {
   bgcolor: ThemeColors.BLACK,
   width: "100%",
@@ -74,4 +78,11 @@ export const bannerStyleProps: LinkProps = {
 
 export const bannerButtonStyleProps: BoxProps = {
   paddingY: "1rem",
+};
+
+export const sectionTitleStyleProps: TypographyProps = {
+  variant: "h3",
+  textTransform: "uppercase",
+  fontWeight: "900",
+  color: ThemeColors.GREY_DARK,
 };
