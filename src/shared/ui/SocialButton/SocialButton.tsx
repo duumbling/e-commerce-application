@@ -21,6 +21,7 @@ export function SocialButton({
       variant="outlined"
       sx={resolveSx(style, backgroundIcon(icon), sx)}
       {...otherProps}
+      aria-label="social-button"
     />
   );
 }
