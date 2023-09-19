@@ -41,6 +41,10 @@ export const titleContainerStyleProps: BoxProps = {
 export const bannerTextStyleProps = {
   color: "primary",
   fontWeight: "bold",
+
+  sx: {
+    fontSize: "min(8rem, 22vmin)",
+  },
 };
 
 export const titleStackItemStyleProps: BoxProps["sx"] = {
@@ -66,9 +70,6 @@ export const titleTextStyleProps: TypographyProps = {
   whiteSpace: "pre-wrap",
   position: "relative",
   align: "center",
-  sx: {
-    fontSize: "min(8rem, 22vmin)",
-  },
 };
 
 export const bannerStyleProps: LinkProps = {
@@ -80,6 +81,9 @@ export const bannerStyleProps: LinkProps = {
 
 export const bannerButtonStyleProps: BoxProps = {
   paddingY: "1rem",
+  sx: {
+    fontSize: "min(6rem, 15vmin)",
+  },
 };
 
 export const sectionTitleStyleProps: TypographyProps = {
