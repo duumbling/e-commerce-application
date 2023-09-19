@@ -40,7 +40,6 @@ export const titleContainerStyleProps: BoxProps = {
 
 export const bannerTextStyleProps = {
   color: "primary",
-  fontSize: "8rem",
   fontWeight: "bold",
 };
 
@@ -67,6 +66,9 @@ export const titleTextStyleProps: TypographyProps = {
   whiteSpace: "pre-wrap",
   position: "relative",
   align: "center",
+  sx: {
+    fontSize: "min(8rem, 22vmin)",
+  },
 };
 
 export const bannerStyleProps: LinkProps = {
@@ -85,4 +87,7 @@ export const sectionTitleStyleProps: TypographyProps = {
   textTransform: "uppercase",
   fontWeight: "900",
   color: ThemeColors.GREY_DARK,
+  sx: {
+    fontSize: "2rem",
+  },
 };

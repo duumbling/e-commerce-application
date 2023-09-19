@@ -13,7 +13,8 @@ export const cardActionAreaStyleProps: ButtonProps = {
 export const textStyleProps: TypographyProps = {
   p: "2rem 3rem",
   fontWeight: "bold",
-  fontSize: "3rem",
+  fontSize: "2.5rem",
+  noWrap: true,
   sx: (theme) => ({
     transition: theme.transitions.create("all", {
       duration: theme.transitions.duration.short,
