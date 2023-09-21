@@ -8,3 +8,8 @@ export const iconButtonStyle = {
   top: 0,
   zIndex: 100,
 };
+
+export const slideStyle = {
+  display: "flex",
+  justifyContent: "center",
+};

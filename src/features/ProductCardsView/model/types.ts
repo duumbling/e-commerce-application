@@ -1,26 +1,22 @@
-import { type ProductVariant } from "@commercetools/platform-sdk";
-import { type PriceValue } from "../../../entities/products-filter";
+import { type ProductVariant as SdkVariant } from "@commercetools/platform-sdk";
+import type { ProductVariant } from "../../../shared/types/product";
 
 export interface ProductData {
   id: string;
   title: string;
   images: string[];
   price: number;
-  allVariants: ProductVariant[];
+  allVariants: SdkVariant[];
+  currentVariant: ProductVariant;
   description?: string;
   discountPrice?: number;
 }
 
-export interface Filters {
-  brand: string[];
-  color: string[];
-  size: string[];
-  price: PriceValue;
-}
-
 export interface ProductsFetchResult {
-  isCategoryUpdated: boolean;
   isFetching: boolean;
+  pagesCount: number;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   data: ProductData[];
   error: Error | null;
 }

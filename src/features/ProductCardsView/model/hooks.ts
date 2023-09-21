@@ -4,16 +4,16 @@ import {
   useAppSelector,
   useCustomSearchParams,
 } from "../../../shared/model/hooks";
-import { getAllProductsByCategoryId } from "../api/products";
-import { getSearchKeyword } from "../lib/helpers";
-import { FilterParamNames } from "../../../entities/products-filter/model/types";
+import { PAGE_LIMIT, getFilteredProducts } from "../api/products";
+import { getFiltersArray, getSearchKeyword } from "../lib/helpers";
 import { SortOptions } from "../../../entities/products-sort-select";
 
 export function useFetchProducts(): ProductsFetchResult {
-  const [isCategoryUpdated, setIsCategoryUpdated] = useState(true);
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
+  const [pagesCount, setPagesCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { searchParams } = useCustomSearchParams();
 
@@ -21,9 +21,7 @@ export function useFetchProducts(): ProductsFetchResult {
     (state) => state.searchKeywordsReducer,
   );
 
-  const { currentCategory, isUpdated } = useAppSelector(
-    (state) => state.categoriesReducer,
-  );
+  const categoryState = useAppSelector((state) => state.categoriesReducer);
 
   useEffect(() => {
     void (async () => {
@@ -34,43 +32,36 @@ export function useFetchProducts(): ProductsFetchResult {
           searchParams.get("text")?.toLowerCase() ?? "",
         );
 
-        const productsData = await getAllProductsByCategoryId(
-          currentCategory?.id ?? "",
-          {
-            brand: searchParams.getAll(FilterParamNames.BRAND),
-            color: searchParams.getAll(FilterParamNames.COLOR),
-            size: searchParams.getAll(FilterParamNames.SIZE),
-            price: {
-              min: Number(searchParams.get(FilterParamNames.PRICE_MIN)),
-              max: Number(searchParams.get(FilterParamNames.PRICE_MAX)),
-            },
-          },
+        const { data, total } = await getFilteredProducts(
+          getFiltersArray(
+            categoryState.currentCategory?.id ?? "",
+            searchParams,
+          ),
           searchValue,
+          currentPage,
           searchParams.get("sort") ?? SortOptions.PRICE_ASC,
         );
-        setProducts(productsData);
+
+        setProducts(data);
+        if (total !== undefined) {
+          setPagesCount(Math.ceil(total / PAGE_LIMIT));
+        }
       } catch (error) {
         if (!(error instanceof Error)) {
           throw error;
         }
         setError(error);
       }
-      setIsCategoryUpdated(false);
       setIsFetching(false);
     })();
-  }, [currentCategory, searchParams]);
-
-  useEffect(() => {
-    if (isFetching) {
-      return;
-    }
-    setIsCategoryUpdated(isUpdated);
-  }, [isFetching, isUpdated]);
+  }, [categoryState, searchParams, currentPage]);
 
   return {
     isFetching,
-    isCategoryUpdated,
     data: products,
+    pagesCount,
+    currentPage,
+    setCurrentPage,
     error,
   };
 }

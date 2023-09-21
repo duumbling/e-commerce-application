@@ -1,8 +1,9 @@
-import {
-  type TypedMoney,
-  type ProductProjection,
-  type ProductVariant as SdkProductVariant,
-  type Attribute,
+import type {
+  TypedMoney,
+  ProductProjection,
+  ProductVariant as SdkProductVariant,
+  Attribute,
+  Price,
 } from "@commercetools/platform-sdk";
 import { apiRoot } from "./apiRoot";
 import type {
@@ -17,6 +18,11 @@ export const getPriceValue = (price: TypedMoney): number => {
   const fractionDigits = price.fractionDigits;
   return Number(priceStr.substring(0, priceStr.length - fractionDigits));
 };
+
+export const getDiscountPrice = (price: Price): number | undefined =>
+  price.discounted !== undefined
+    ? getPriceValue(price.discounted.value)
+    : undefined;
 
 export const getVariantData = ({
   attributes,
@@ -72,10 +78,7 @@ export const getProductData = ({
   return {
     id,
     price: getPriceValue(masterVariant.prices[0].value),
-    discountPrice:
-      masterVariant.prices[0]?.discounted !== undefined
-        ? getPriceValue(masterVariant.prices[0].discounted.value)
-        : undefined,
+    discountPrice: getDiscountPrice(masterVariant.prices[0]),
     title: name["ru-RU"],
     description: description !== undefined ? description["ru-RU"] : undefined,
     images: masterVariant.images?.map((img) => img.url) ?? [],
